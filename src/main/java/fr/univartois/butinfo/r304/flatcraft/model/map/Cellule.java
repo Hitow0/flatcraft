@@ -17,8 +17,14 @@ public class Cellule extends AbstractCell {
         super(resource);
     }
 
+    /* pas sûr de cette fonction */
     @Override
     public boolean move(IMovable movable) {
+        if (this.getResource()==null) {
+            movable.setX(this.getColumn()*this.getSprite().getWidth());
+            movable.setY(this.getRow()*this.getSprite().getHeight());
+            return true;
+        }
         return false;
     }
 
