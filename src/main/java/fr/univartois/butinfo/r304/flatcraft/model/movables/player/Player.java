@@ -20,4 +20,51 @@ public class Player extends AbstractMovable {
         this.xp = xp;
         this.inventaire = FXCollections.observableHashMap();
     }
+
+    public int getPv() {
+        return pv.get();
+    }
+
+    public IntegerProperty pvProperty() {
+        return pv;
+    }
+
+    public void setPv(int pv) {
+        this.pv.set(pv);
+    }
+
+    public int getXp() {
+        return xp.get();
+    }
+
+    public IntegerProperty xpProperty() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp.set(xp);
+    }
+
+    public ObservableMap<Resource, Integer> getInventaire() {
+        return inventaire;
+    }
+
+    public void setInventaire(ObservableMap<Resource, Integer> inventaire) {
+        this.inventaire = inventaire;
+    }
+
+    /*
+    SI IL Y A UN PB DANS L'INVENTAIRE C'EST MA FAUTE
+     */
+
+    public void addObject(Resource k){
+        Integer v = this.inventaire.get(k);
+        this.inventaire.replace(k,v+1);
+    }
+
+    public void removeResource(Resource k){
+        Integer v = this.inventaire.get(k);
+        this.inventaire.replace(k,v-1);
+        this.inventaire.remove(k,0);
+    }
 }
