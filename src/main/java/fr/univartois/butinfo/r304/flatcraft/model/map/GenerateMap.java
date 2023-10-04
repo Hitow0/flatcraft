@@ -5,5 +5,6 @@ import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
 public class GenerateMap {
 
     public void genMap(int height, int width, CellFactory cell){
+        SimpleGameMap map = new SimpleGameMap(height, width, height / 2);
     }
 }
