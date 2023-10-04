@@ -35,7 +35,7 @@ public class Cellule extends AbstractCell {
             if (this.getResource().getHardness()!=0) {
                 this.getResource().dig();
             } else {
-                (Player)player.addObjet(this.getResource().digBlock());
+                ((Player)player).addObject(this.getResource().digBlock());
                 return true;
             }
         }
