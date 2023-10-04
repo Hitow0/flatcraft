@@ -14,3 +14,4 @@ bin
 
 # Divers.
 .DS_Store
+.idea
