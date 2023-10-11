@@ -2,10 +2,15 @@ package fr.univartois.butinfo.r304.flatcraft.model.map;
 
 import fr.univartois.butinfo.r304.flatcraft.model.Cell;
 import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.ToolType;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 import javafx.scene.image.Image;
+
+import java.time.format.ResolverStyle;
+import java.util.Random;
 
 import java.awt.*;
 
@@ -25,21 +30,58 @@ public class FactoryCellule implements CellFactory {
 
     @Override
     public Cell createSoilSurface() {
-        return null;
+        Random r = new Random();
+        int n = r.nextInt(5);
+        if (n<=3) {
+            Sprite sprite = spriteStore.getSprite("grass");
+            Resource resource = new Resource("grass", sprite, ToolType.NO_TOOL, 5);
+            return new Cellule(resource);
+        }
+        Sprite sprite = spriteStore.getSprite("water");
+        Resource resource = new Resource("water", sprite, null, 1);
+        return new Cellule(resource);
     }
 
     @Override
     public Cell createSubSoil() {
-        return null;
+        Random r = new Random();
+        int n = r.nextInt(100);
+        if (n<2) {
+            Sprite sprite = spriteStore.getSprite("dirt");
+            Resource resource = new Resource("dirt", sprite, ToolType.NO_TOOL, 5);
+            return new Cellule(resource);
+        }
+        if (n<8) {
+            Sprite sprite = spriteStore.getSprite("mineral_coal");
+            Resource resource = new Resource("mineral_coal", sprite, ToolType.MEDIUM_TOOL, 10);
+            return new Cellule(resource);
+        }
+        if (n<12) {
+            Sprite sprite = spriteStore.getSprite("mineral_iron");
+            Resource resource = new Resource("mineral_iron", sprite, ToolType.MEDIUM_TOOL, 20);
+            return new Cellule(resource);
+        }
+        if (n<15) {
+            Sprite sprite = spriteStore.getSprite("mineral_diamond");
+            Resource resource = new Resource("mineral_diamond", sprite, ToolType.NO_TOOL, 25);
+            return new Cellule(resource);
+        }
+        Sprite sprite = spriteStore.getSprite("stone");
+        Resource resource = new Resource("stone", sprite, ToolType.MEDIUM_TOOL, 7);
+        return new Cellule(resource);
     }
 
     @Override
     public Cell createTrunk() {
-        return null;
+        Sprite sprite = spriteStore.getSprite("pine_tree");
+        Resource resource = new Resource("pine_tree", sprite, ToolType.NO_TOOL, 7);
+        return new Cellule(resource);
     }
 
     @Override
     public Cell createLeaves() {
-        return null;
+        Sprite sprite = spriteStore.getSprite("pine_needles");
+        Resource resource = new Resource("pine_needles", sprite, ToolType.NO_TOOL, 2);
+        return new Cellule(resource);
     }
 }
