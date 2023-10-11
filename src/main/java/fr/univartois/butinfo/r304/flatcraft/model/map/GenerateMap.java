@@ -8,11 +8,11 @@ public class GenerateMap {
         SimpleGameMap map = new SimpleGameMap(height, width, height / 2);
         for(int i=0;i<height;i++){
             for(int j=0;j<width;j++){
-                if(i>map.getSoilHeight())
+                if(i<map.getSoilHeight())
                     map.setAt(i,j,cell.createSky());
                 if(i==map.getSoilHeight())
                     map.setAt(i,j, cell.createSoilSurface());
-                if(i< map.getSoilHeight())
+                if(i> map.getSoilHeight())
                     map.setAt(i,j,cell.createSubSoil());
             }
         }
