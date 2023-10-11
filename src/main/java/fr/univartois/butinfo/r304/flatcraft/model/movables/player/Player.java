@@ -14,10 +14,10 @@ public class Player extends AbstractMovable {
     private IntegerProperty xp;
     private ObservableMap<Resource, Integer> inventaire;
 
-    public Player(FlatcraftGame game, double xPosition, double yPosition, Sprite sprite, IntegerProperty pv, IntegerProperty xp) {
+    public Player(FlatcraftGame game, double xPosition, double yPosition, Sprite sprite, int pv, int xp) {
         super(game, xPosition, yPosition, sprite);
-        this.pv = pv;
-        this.xp = xp;
+        this.pv.set(pv);
+        this.xp.set(xp);
         this.inventaire = FXCollections.observableHashMap();
     }
 
