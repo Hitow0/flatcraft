@@ -186,7 +186,7 @@ public final class FlatcraftGame {
      * Fait se déplacer le joueur vers la gauche.
      */
     public void moveLeft() {
-        player.setHorizontalSpeed(-(4.317*16));
+        player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
         move(player);
     }
 
@@ -194,7 +194,7 @@ public final class FlatcraftGame {
      * Fait se déplacer le joueur vers la droite.
      */
     public void moveRight() {
-        player.setHorizontalSpeed(4.317*16);
+        player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
         move(player);
     }
 
