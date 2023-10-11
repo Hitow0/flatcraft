@@ -19,6 +19,7 @@ package fr.univartois.butinfo.r304.flatcraft.model;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import fr.univartois.butinfo.r304.flatcraft.model.map.FactoryCellule;
 import fr.univartois.butinfo.r304.flatcraft.model.map.GenerateMap;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
@@ -158,8 +159,6 @@ public final class FlatcraftGame {
     private GameMap createMap() {
         GenerateMap generateMap = new GenerateMap();
         return generateMap.genMap(height/spriteStore.getSpriteSize(),width/ spriteStore.getSpriteSize(),cellFactory);
-        // TODO Implémentez cette méthode.
-
     }
 
     /**
@@ -188,7 +187,7 @@ public final class FlatcraftGame {
      * Fait se déplacer le joueur vers la gauche.
      */
     public void moveLeft() {
-        player.setHorizontalSpeed(-(4.317*16));
+        player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
         move(player);
     }
 
@@ -196,7 +195,7 @@ public final class FlatcraftGame {
      * Fait se déplacer le joueur vers la droite.
      */
     public void moveRight() {
-        player.setHorizontalSpeed(4.317*16);
+        player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
         move(player);
     }
 
@@ -242,7 +241,7 @@ public final class FlatcraftGame {
     public void digDown() {
         Cell cell = getCellOf(player);
         Cell cellToDig = map.getAt(cell.getRow(), cell.getColumn()-1); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
-        if(cellToDig != null){
+        if(cellToDig.getResource() != null){
             dig(cellToDig);
             move(player);
         }
@@ -252,14 +251,22 @@ public final class FlatcraftGame {
      * Fait creuser le joueur vers la gauche.
      */
     public void digLeft() {
-        // TODO Implémentez cette méthode.
+        Cell cell = getCellOf(player);
+        Cell cellToDig = map.getAt(cell.getRow()-1, cell.getColumn()); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
+        if(cellToDig.getResource() != null){
+            dig(cellToDig);
+        }
     }
 
     /**
      * Fait creuser le joueur vers la droite.
      */
     public void digRight() {
-        // TODO Implémentez cette méthode.
+        Cell cell = getCellOf(player);
+        Cell cellToDig = map.getAt(cell.getRow()+1, cell.getColumn()); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
+        if(cellToDig.getResource() != null){
+            dig(cellToDig);
+        }
     }
 
     /**
@@ -268,7 +275,10 @@ public final class FlatcraftGame {
      * @param toDig La cellule sur laquelle creuser.
      */
     private void dig(Cell toDig) {
-        // TODO Implémentez cette méthode.
+        FactoryCellule cellFac = new FactoryCellule();
+        if(toDig.dig(player)){
+            toDig = cellFac.createSky();
+        }
     }
 
     /**
