@@ -185,14 +185,16 @@ public final class FlatcraftGame {
      * Fait se déplacer le joueur vers la gauche.
      */
     public void moveLeft() {
-        // TODO Implémentez cette méthode.
+        player.setHorizontalSpeed(-(4.317*16));
+        move(player);
     }
 
     /**
      * Fait se déplacer le joueur vers la droite.
      */
     public void moveRight() {
-        // TODO Implémentez cette méthode.
+        player.setHorizontalSpeed(4.317*16);
+        move(player);
     }
 
     /**
@@ -214,7 +216,7 @@ public final class FlatcraftGame {
      * Interrompt le déplacement du joueur.
      */
     public void stopMoving() {
-        // TODO Implémentez cette méthode.
+        player.setHorizontalSpeed(0);
     }
 
     /**
@@ -235,7 +237,12 @@ public final class FlatcraftGame {
      * Fait creuser le joueur vers le bas.
      */
     public void digDown() {
-        // TODO Implémentez cette méthode.
+        Cell cell = getCellOf(player);
+        Cell cellToDig = map.getAt(cell.getRow(), cell.getColumn()-1); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
+        if(cellToDig != null){
+            dig(cellToDig);
+            move(player);
+        }
     }
 
     /**
