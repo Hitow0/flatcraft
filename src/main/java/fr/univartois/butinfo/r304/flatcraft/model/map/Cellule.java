@@ -31,6 +31,7 @@ public class Cellule extends AbstractCell {
 
     @Override
     public boolean dig(IMovable player) {
+        System.out.println(this.getResource());
         if (this.getResource()!=null) {
             if (this.getResource().getHardness()!=0) {
                 this.getResource().dig();

@@ -36,11 +36,11 @@ public class FactoryCellule implements CellFactory {
         int n = r.nextInt(5);
         if (n<=3) {
             Sprite sprite = spriteStore.getSprite("grass");
-            Resource resource = new Resource("grass", sprite, ToolType.NO_TOOL, 5);
+            Resource resource = new Resource("grass", sprite, ToolType.NO_TOOL, 1);
             return new Cellule(resource);
         }
         Sprite sprite = spriteStore.getSprite("water");
-        Resource resource = new Resource("water", sprite, null, 1);
+        Resource resource = new Resource("water", sprite, ToolType.NO_TOOL, 1);
         return new Cellule(resource);
     }
 

@@ -147,6 +147,7 @@ public final class FlatcraftGame {
         // TODO On crée le joueur, qui se trouve sur le sol à gauche de la carte.
         player = new Player(this,0,map.getSoilHeight(), spriteStore.getSprite("tool_steelpick"));
         movableObjects.add(player);
+        controller.addMovable(player);
         // TODO On fait le lien entre les différentes propriétés et leur affichage.
         controller.bindHealth(player.pvProperty());
         controller.bindXP(player.xpProperty());
@@ -245,8 +246,9 @@ public final class FlatcraftGame {
      */
     public void digDown() {
         Cell cell = getCellOf(player);
-        Cell cellToDig = map.getAt(cell.getRow(), cell.getColumn()-1); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
-        if(cellToDig.getResource() != null){
+        Cell cellToDig = map.getAt(cell.getRow()-1, cell.getColumn()); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
+        System.out.println(cellToDig);
+        if(cellToDig.getResourceProperty() != null){
             dig(cellToDig);
             move(player);
         }
@@ -257,7 +259,7 @@ public final class FlatcraftGame {
      */
     public void digLeft() {
         Cell cell = getCellOf(player);
-        Cell cellToDig = map.getAt(cell.getRow()-1, cell.getColumn()); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
+        Cell cellToDig = map.getAt(cell.getRow(), cell.getColumn()-1); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
         if(cellToDig.getResource() != null){
             dig(cellToDig);
         }
@@ -268,7 +270,7 @@ public final class FlatcraftGame {
      */
     public void digRight() {
         Cell cell = getCellOf(player);
-        Cell cellToDig = map.getAt(cell.getRow()+1, cell.getColumn()); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
+        Cell cellToDig = map.getAt(cell.getRow(), cell.getColumn()+1); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
         if(cellToDig.getResource() != null){
             dig(cellToDig);
         }
@@ -280,9 +282,10 @@ public final class FlatcraftGame {
      * @param toDig La cellule sur laquelle creuser.
      */
     private void dig(Cell toDig) {
-        FactoryCellule cellFac = new FactoryCellule();
+        System.out.println("test1");
         if(toDig.dig(player)){
-            toDig = cellFac.createSky();
+            System.out.println("test2");
+            toDig.replaceBy(cellFactory.createSky());
         }
     }
 
