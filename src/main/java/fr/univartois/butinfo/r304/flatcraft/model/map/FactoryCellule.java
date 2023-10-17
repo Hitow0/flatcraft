@@ -73,7 +73,7 @@ public class FactoryCellule implements CellFactory {
 //        return new Cellule(resource);
         Sprite sprite = spriteStore.getSprite("dirt");
         Resource resource = new Resource("dirt", sprite, ToolType.NO_TOOL, 5);
-        return new Cellule(sprite);
+        return new Cellule(resource);
     }
 
     @Override
@@ -90,3 +90,4 @@ public class FactoryCellule implements CellFactory {
         return new Cellule(resource);
     }
 }
+
