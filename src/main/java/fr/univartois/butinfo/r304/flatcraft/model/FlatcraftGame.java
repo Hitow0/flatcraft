@@ -247,8 +247,7 @@ public final class FlatcraftGame {
     public void digDown() {
         Cell cell = getCellOf(player);
         Cell cellToDig = map.getAt(cell.getRow()+1, cell.getColumn());
-        System.out.println(cellToDig);
-        if(cellToDig.getResourceProperty() != null){
+        if(cellToDig.getResource() != null){
             dig(cellToDig);
             move(player);
         }
