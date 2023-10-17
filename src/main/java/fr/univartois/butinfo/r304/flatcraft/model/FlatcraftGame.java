@@ -246,7 +246,7 @@ public final class FlatcraftGame {
      */
     public void digDown() {
         Cell cell = getCellOf(player);
-        Cell cellToDig = map.getAt(cell.getRow()-1, cell.getColumn()); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
+        Cell cellToDig = map.getAt(cell.getRow()+1, cell.getColumn());
         System.out.println(cellToDig);
         if(cellToDig.getResourceProperty() != null){
             dig(cellToDig);
@@ -282,9 +282,7 @@ public final class FlatcraftGame {
      * @param toDig La cellule sur laquelle creuser.
      */
     private void dig(Cell toDig) {
-        System.out.println("test1");
         if(toDig.dig(player)){
-            System.out.println("test2");
             toDig.replaceBy(cellFactory.createSky());
         }
     }

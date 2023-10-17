@@ -31,11 +31,12 @@ public class Cellule extends AbstractCell {
 
     @Override
     public boolean dig(IMovable player) {
-        if (this.getResource()!=null) {
-            if (this.getResource().getHardness()!=0) {
-                this.getResource().dig();
+        Resource resource = getResource();
+        if (resource!=null) {
+            if (resource.getHardness()!=0) {
+                resource.dig();
             } else {
-                ((Player)player).addObject(this.getResource().digBlock());
+                ((Player) player).addObject(this.getResource().digBlock());
                 return true;
             }
         }
