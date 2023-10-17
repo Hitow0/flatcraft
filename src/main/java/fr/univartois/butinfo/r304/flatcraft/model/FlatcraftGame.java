@@ -193,16 +193,28 @@ public final class FlatcraftGame {
      * Fait se déplacer le joueur vers la gauche.
      */
     public void moveLeft() {
-        player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
-        move(player);
+        Cell cell = getCellOf(player);
+        Cell cellToTravel = map.getAt(cell.getRow(), cell.getColumn()-1);
+        if(cellToTravel.getResource() == null) {
+            player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
+            move(player);
+        } else {
+            player.setHorizontalSpeed(0);
+        }
     }
 
     /**
      * Fait se déplacer le joueur vers la droite.
      */
     public void moveRight() {
-        player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
-        move(player);
+        Cell cell = getCellOf(player);
+        Cell cellToTravel = map.getAt(cell.getRow(), cell.getColumn()+1);
+        if(cellToTravel.getResource()==null) {
+            player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
+            move(player);
+        } else {
+            player.setHorizontalSpeed(0);
+        }
     }
 
     /**
