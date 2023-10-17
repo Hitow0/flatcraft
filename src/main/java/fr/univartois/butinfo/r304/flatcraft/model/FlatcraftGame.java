@@ -194,8 +194,11 @@ public final class FlatcraftGame {
      */
     public void moveLeft() {
         Cell cell = getCellOf(player);
-        Cell cellToTravel = map.getAt(cell.getRow(), cell.getColumn()-1);
-        if(cellToTravel.getResource() == null) {
+        Cell cellToTravel = null;
+        if(!(cell.getColumn()-1 < 0)) {
+            cellToTravel = map.getAt(cell.getRow(), cell.getColumn() - 1);
+        }
+        if(cellToTravel != null && (cellToTravel.getResource()==null)) {
             player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
             move(player);
         } else {
@@ -208,8 +211,11 @@ public final class FlatcraftGame {
      */
     public void moveRight() {
         Cell cell = getCellOf(player);
-        Cell cellToTravel = map.getAt(cell.getRow(), cell.getColumn()+1);
-        if(cellToTravel.getResource()==null) {
+        Cell cellToTravel = null;
+        if(!(cell.getColumn()+1 >= map.getWidth())) {
+            cellToTravel = map.getAt(cell.getRow(), cell.getColumn() + 1);
+        }
+        if(cellToTravel != null && (cellToTravel.getResource()==null)) {
             player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
             move(player);
         } else {
