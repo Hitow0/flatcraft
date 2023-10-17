@@ -168,9 +168,11 @@ public final class FlatcraftController implements IFlatcraftController {
         // L'appui sur une flèche permet au joueur de se déplacer ou de creuser.
         stage.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             KeyCode code = e.getCode();
+            if(e.isControlDown()){
+                game.stopMoving();
+            }
             if (code.isArrowKey() && e.isControlDown()) {
                 dig(code);
-
             } else if (code.isArrowKey()) {
                 move(code);
             }
