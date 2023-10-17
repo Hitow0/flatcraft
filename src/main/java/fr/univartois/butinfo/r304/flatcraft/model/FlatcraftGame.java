@@ -264,8 +264,11 @@ public final class FlatcraftGame {
      */
     public void digDown() {
         Cell cell = getCellOf(player);
-        Cell cellToDig = map.getAt(cell.getRow()+1, cell.getColumn());
-        if(cellToDig.getResource() != null){
+        Cell cellToDig = null;
+        if(!(cell.getRow()+1 >= map.getHeight())) {
+            cellToDig = map.getAt(cell.getRow()+1, cell.getColumn());
+        }
+        if(cellToDig != null && cellToDig.getResource() != null){
             dig(cellToDig);
             move(player);
         }
@@ -276,8 +279,11 @@ public final class FlatcraftGame {
      */
     public void digLeft() {
         Cell cell = getCellOf(player);
-        Cell cellToDig = map.getAt(cell.getRow(), cell.getColumn()-1); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
-        if(cellToDig.getResource() != null){
+        Cell cellToDig = null;
+        if(!(cell.getColumn()-1 < 0)) {
+            cellToDig = map.getAt(cell.getRow(), cell.getColumn() - 1);
+        }
+        if(cellToDig != null && cellToDig.getResource() != null){
             dig(cellToDig);
         }
     }
@@ -287,8 +293,11 @@ public final class FlatcraftGame {
      */
     public void digRight() {
         Cell cell = getCellOf(player);
-        Cell cellToDig = map.getAt(cell.getRow(), cell.getColumn()+1); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
-        if(cellToDig.getResource() != null){
+        Cell cellToDig = null;
+        if(!(cell.getColumn()+1 >= map.getWidth())) {
+            cellToDig = map.getAt(cell.getRow(), cell.getColumn() + 1);
+        }
+        if(cellToDig != null && cellToDig.getResource() != null){
             dig(cellToDig);
         }
     }
