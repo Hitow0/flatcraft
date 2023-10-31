@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.GenMapStrat1;
+import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
@@ -66,6 +67,11 @@ public final class FlatcraftGame {
     private GameMap map;
 
     /**
+     * L'instance de {@link IGenMapStrat} utilisée pour créer la carte du jeu.
+     */
+    private IGenMapStrat genMapStrat;
+
+    /**
      * Le temps écoulé depuis le début de la partie.
      */
     private IntegerProperty time = new SimpleIntegerProperty(12);
@@ -106,6 +112,13 @@ public final class FlatcraftGame {
         this.cellFactory = factory;
         this.cellFactory.setSpriteStore(spriteStore);
     }
+
+    /**
+     * Associe à cette partie la classe gérant la création de la carte.
+     *
+     * @param genMapStrat La classe gérant la création de la carte.
+     */
+    public void setIGenMapStrat(IGenMapStrat genMapStrat){this.genMapStrat=genMapStrat;}
 
     /**
      * Donne la largeur de la carte du jeu affichée (en pixels).
@@ -161,7 +174,7 @@ public final class FlatcraftGame {
      * @return La carte du jeu créée.
      */
     private GameMap createMap() {
-        GenMapStrat1 generateMap = new GenMapStrat1();
+        IGenMapStrat generateMap = this.genMapStrat;
         return generateMap.genMap(height/spriteStore.getSpriteSize(),width/ spriteStore.getSpriteSize(),cellFactory);
     }
 
