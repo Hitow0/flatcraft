@@ -19,12 +19,10 @@ package fr.univartois.butinfo.r304.flatcraft.model;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import fr.univartois.butinfo.r304.flatcraft.model.map.FactoryCellule;
-import fr.univartois.butinfo.r304.flatcraft.model.map.GenerateMap;
+import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.GenMapStrat1;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
-import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -163,7 +161,7 @@ public final class FlatcraftGame {
      * @return La carte du jeu créée.
      */
     private GameMap createMap() {
-        GenerateMap generateMap = new GenerateMap();
+        GenMapStrat1 generateMap = new GenMapStrat1();
         return generateMap.genMap(height/spriteStore.getSpriteSize(),width/ spriteStore.getSpriteSize(),cellFactory);
     }
 

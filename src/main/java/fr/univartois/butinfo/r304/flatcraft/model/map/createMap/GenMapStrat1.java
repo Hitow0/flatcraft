@@ -1,8 +1,9 @@
-package fr.univartois.butinfo.r304.flatcraft.model.map;
+package fr.univartois.butinfo.r304.flatcraft.model.map.createMap;
 
 import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
+import fr.univartois.butinfo.r304.flatcraft.model.map.SimpleGameMap;
 
-public class GenerateMap {
+public class GenMapStrat1 implements IGenMapStrat{
 
     public SimpleGameMap genMap(int height, int width, CellFactory cell){
         SimpleGameMap map = new SimpleGameMap(height, width, height / 2);
