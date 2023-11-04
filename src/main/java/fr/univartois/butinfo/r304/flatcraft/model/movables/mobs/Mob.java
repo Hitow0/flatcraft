@@ -6,6 +6,7 @@ import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 
 public class Mob extends AbstractMovable {
 
+    private IMobStrategy movement;
 
     /**
      * Crée une nouvelle instance de Mob.
@@ -15,7 +16,16 @@ public class Mob extends AbstractMovable {
      * @param yPosition La position en y initiale de le mob.
      * @param sprite    L'instance de {@link Sprite} représentant le mob.
      */
-    protected Mob(FlatcraftGame game, double xPosition, double yPosition, Sprite sprite) {
+    public Mob(FlatcraftGame game, double xPosition, double yPosition, Sprite sprite, IMobStrategy movement) {
         super(game, xPosition, yPosition, sprite);
+        this.movement = movement;
+    }
+
+    public boolean move(long delta){
+        int limitMaxX = game.getWidth() - getWidth();
+        double newX = movement.mobMovement(xPosition.get(), horizontalSpeed,delta, this);
+        xPosition.set(newX);
+        return (newX <= limitMaxX);
+
     }
 }
