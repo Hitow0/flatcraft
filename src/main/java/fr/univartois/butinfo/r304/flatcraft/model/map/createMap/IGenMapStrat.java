@@ -4,5 +4,6 @@ import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.SimpleGameMap;
 
 public interface IGenMapStrat {
-    public SimpleGameMap genMap(int height, int width, CellFactory cell);
+    public void genMap(int height, int width, CellFactory cell);
+    public SimpleGameMap getMap();
 }
