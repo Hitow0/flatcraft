@@ -22,6 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.GenMapStrat1;
 import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
 import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoSlagHeap;
+import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoTree;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
@@ -179,7 +180,9 @@ public final class FlatcraftGame {
         IGenMapStrat map = this.genMapStrat;
         map.genMap(height/spriteStore.getSpriteSize(),width/ spriteStore.getSpriteSize(),cellFactory);
         DecoSlagHeap slagHeap=new DecoSlagHeap(map);
+        DecoTree tree=new DecoTree(map);
         slagHeap.genSlagHeap(cellFactory);
+        tree.genTree(cellFactory);
         return map.getMap();
     }
 

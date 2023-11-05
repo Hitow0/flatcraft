@@ -43,7 +43,7 @@ public class DecoSlagHeap extends DecoratorMap{
                                 getMap().setAt(getMap().getSoilHeight(), posX,cell.createSubSoil());
 
                             }
-                            System.out.println(j+","+slagHeapWhith);
+
 
                             for(int l=0;l<slagHeapWhith;l++){
                                 if (posX-l >= 0) {
