@@ -23,7 +23,7 @@ public class Mob extends AbstractMovable {
 
     public boolean move(long delta){
         int limitMaxX = game.getWidth() - getWidth();
-        double newX = movement.mobMovement(xPosition.get(), horizontalSpeed,delta, this);
+        double newX = movement.mobMovement(xPosition.get(), horizontalSpeed,delta, this,0,limitMaxX);
         xPosition.set(newX);
         return (newX <= limitMaxX);
 
