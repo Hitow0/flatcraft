@@ -4,9 +4,11 @@ import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.AbstractMovable;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 
+import java.util.Random;
+
 public class Mob extends AbstractMovable {
 
-    private IMobStrategy movement;
+    private final IMobStrategy movement;
 
     /**
      * Crée une nouvelle instance de Mob.
@@ -23,9 +25,10 @@ public class Mob extends AbstractMovable {
 
     public boolean move(long delta){
         int limitMaxX = game.getWidth() - getWidth();
-        double newX = movement.mobMovement(xPosition.get(), horizontalSpeed,delta, this,0,limitMaxX);
+        double newX = movement.mobMovement(xPosition.get(), horizontalSpeed, delta, this, 0, limitMaxX);
         xPosition.set(newX);
-        return (newX <= limitMaxX);
+
+        return (newX != 0) && (newX != limitMaxX);
 
     }
 }

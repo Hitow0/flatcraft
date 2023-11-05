@@ -21,8 +21,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.univartois.butinfo.r304.flatcraft.model.map.FactoryCellule;
 import fr.univartois.butinfo.r304.flatcraft.model.map.GenerateMap;
+import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.EndermanMovement;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.LinearMovement;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.Mob;
+import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.RandomMovement;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
@@ -148,13 +150,14 @@ public final class FlatcraftGame {
 
         // TODO On crée le joueur, qui se trouve sur le sol à gauche de la carte.
         player = new Player(this,0,(map.getSoilHeight()-1)*16, spriteStore.getSprite("tool_steelpick"));
-        System.out.println(player.getX() + " , " + player.getY());
-        System.out.println(map.getSoilHeight());
         movableObjects.add(player);
         controller.addMovable(player);
 
         // TODO On crée un mob de test qui se déplace de manière linéraire
-        Mob goomba = new Mob(this,50*16, (map.getSoilHeight()-1)*16, spriteStore.getSprite("snowball"), new LinearMovement());
+        Mob goomba = new Mob(this,50*16, (map.getSoilHeight()-1)*16, spriteStore.getSprite("snowball"), new RandomMovement());
+        Mob enderman = new Mob(this,20*16, (map.getSoilHeight()-1)*16, spriteStore.getSprite("obsidian_shard"), new EndermanMovement());
+        movableObjects.add(enderman);
+        controller.addMovable(enderman);
         movableObjects.add(goomba);
         controller.addMovable(goomba);
 
@@ -214,7 +217,6 @@ public final class FlatcraftGame {
         } else {
             player.setHorizontalSpeed(0);
         }
-        System.out.println(player.getX() + " , " + player.getY());
     }
 
     /**
@@ -232,7 +234,6 @@ public final class FlatcraftGame {
         } else {
             player.setHorizontalSpeed(0);
         }
-        System.out.println(player.getX() + " , " + player.getY());
     }
 
     /**

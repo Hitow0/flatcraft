@@ -2,8 +2,6 @@ package fr.univartois.butinfo.r304.flatcraft.model.movables.mobs;
 
 public class LinearMovement implements IMobStrategy{
 
-
-
     @Override
     public double mobMovement(double current, double speed, long delta, Mob mob, int limitMin, int limitMax) {
         mob.setHorizontalSpeed(-3*16);
