@@ -6,11 +6,10 @@ import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.ToolType;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
-import javafx.scene.image.Image;
 
 import java.util.Random;
 
-public class FactoryCellule implements CellFactory {
+public class OverworldFactory implements CellFactory {
     private ISpriteStore spriteStore;
 
     @Override
