@@ -262,3 +262,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+.idea/*
+
+!.idea/codeStyles
+!.idea/runConfigurations
+
+# End of https://www.toptal.com/developers/gitignore/api/intellij+all
