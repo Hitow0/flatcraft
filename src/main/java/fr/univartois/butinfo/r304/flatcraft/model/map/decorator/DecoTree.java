@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class DecoTree extends DecoratorMap{
-    private int NB_TREE=3;
-    private int MAX_TREE_HEIGHT=4;
+    private int NB_TREE=6;
+    private int MAX_TREE_HEIGHT=5;
 
     private int nbTree;
 
