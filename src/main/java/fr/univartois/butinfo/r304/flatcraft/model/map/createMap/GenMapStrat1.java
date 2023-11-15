@@ -4,8 +4,16 @@ import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.SimpleGameMap;
 
 public class GenMapStrat1 implements IGenMapStrat{
-
+    private static GenMapStrat1 instance;
     private SimpleGameMap map;
+
+    private GenMapStrat1() {}
+
+    public static GenMapStrat1 getInstance() {
+        if (instance == null)
+            instance = new GenMapStrat1();
+        return instance;
+    }
 
     public void genMap(int height, int width, CellFactory cell){
         if(map==null) {

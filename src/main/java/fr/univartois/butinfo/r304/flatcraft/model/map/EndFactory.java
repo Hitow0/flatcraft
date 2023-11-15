@@ -9,6 +9,19 @@ import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 
 public class EndFactory implements CellFactory {
     private ISpriteStore spriteStore;
+    private static EndFactory instance;
+
+    private EndFactory(){
+
+    }
+
+    public static EndFactory getInstance(){
+        if (instance == null){
+            instance = new EndFactory();
+        }
+        return instance;
+    }
+
     @Override
     public void setSpriteStore(ISpriteStore spriteStore) {
         this.spriteStore=spriteStore;

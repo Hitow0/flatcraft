@@ -12,6 +12,20 @@ import java.util.Random;
 public class OverworldFactory implements CellFactory {
     private ISpriteStore spriteStore;
 
+    private static OverworldFactory instance;
+
+
+    private OverworldFactory(){
+
+    }
+
+    public static OverworldFactory getInstance(){
+        if (instance == null){
+            instance = new OverworldFactory();
+        }
+        return instance;
+    }
+
     @Override
     public void setSpriteStore(ISpriteStore spriteStore) {
         this.spriteStore = spriteStore;

@@ -33,6 +33,8 @@ import javafx.scene.image.Image;
  */
 public final class SpriteStore implements ISpriteStore {
 
+    private static SpriteStore instance;
+
     /**
      * La {@link Map} permettant de conserver en cache les différentes instances de
      * {@link Sprite} déjà chargées.
@@ -79,4 +81,11 @@ public final class SpriteStore implements ISpriteStore {
         }
     }
 
+    public static SpriteStore getInstance() {
+        if (instance == null)
+            instance = new SpriteStore();
+        return instance;
+    }
+
+    private SpriteStore() {}
 }
