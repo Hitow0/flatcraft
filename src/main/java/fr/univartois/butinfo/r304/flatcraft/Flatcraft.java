@@ -67,7 +67,7 @@ public final class Flatcraft extends Application {
         FlatcraftGame game = new FlatcraftGame(GAME_WIDTH, GAME_HEIGHT, new SpriteStore(), new OverworldFactory());
         controller.setGame(game);
         game.setController(controller);
-        game.setIGenMapStrat(new GenMapStrat1());
+        game.setIGenMapStrat(GenMapStrat1.getInstance());
         game.prepare();
 
         // On peut maintenant afficher la scène et la fenêtre.
