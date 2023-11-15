@@ -34,7 +34,9 @@ public final class Resource {
     /**
      * Le nom unique identifiant le type de cette ressource.
      */
-    private final String name;
+    private String name;
+
+    private IStateResource state;
 
     /**
      * Le sprite représentant cette ressource.
@@ -72,6 +74,15 @@ public final class Resource {
         this.sprite = sprite;
         this.toolType = toolType;
         this.hardness = hardness;
+        state = new MineralState();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
     }
 
     /**
@@ -133,7 +144,8 @@ public final class Resource {
      * @return La ressource obtenue après son extraction.
      */
     public Resource digBlock() {
-        return this;
+        this.state = new InventoryState();
+        return state.changeState(this);
     }
 
     /*

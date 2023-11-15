@@ -364,6 +364,7 @@ public final class FlatcraftGame {
      */
     private void dig(Cell toDig) {
         if(toDig.dig(player)){
+
             toDig.replaceBy(cellFactory.createSky());
         }
     }
