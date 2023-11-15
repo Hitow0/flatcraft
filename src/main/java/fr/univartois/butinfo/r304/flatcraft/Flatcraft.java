@@ -64,10 +64,10 @@ public final class Flatcraft extends Application {
         controller.setStage(stage);
 
         // On crée ensuite le jeu, que l'on lie au contrôleur.
-        FlatcraftGame game = new FlatcraftGame(GAME_WIDTH, GAME_HEIGHT, new SpriteStore(), OverworldFactory.getInstance());
+        FlatcraftGame game = FlatcraftGame.getInstance(GAME_WIDTH, GAME_HEIGHT, SpriteStore.getInstance(),OverworldFactory.getInstance());
         controller.setGame(game);
         game.setController(controller);
-        game.setIGenMapStrat(new GenMapStrat1());
+        game.setIGenMapStrat(GenMapStrat1.getInstance());
         game.prepare();
 
         // On peut maintenant afficher la scène et la fenêtre.

@@ -104,7 +104,12 @@ public final class FlatcraftGame {
     private FlatcraftAnimation animation = new FlatcraftAnimation(this, movableObjects);
 
     /**
-     * Crée une nouvelle instance de FlatcraftGame.
+     * Instance de FlatcraftGame
+     */
+    private static FlatcraftGame instance;
+
+    /**
+     * Instance unique de FlatcraftGame.
      *
      * @param width La largeur de la carte du jeu (en pixels).
      * @param height La hauteur de la carte du jeu (en pixels).
@@ -112,12 +117,29 @@ public final class FlatcraftGame {
      *        {@link Sprite} du jeu.
      * @param factory La fabrique permettant de créer les cellules du jeux.
      */
-    public FlatcraftGame(int width, int height, ISpriteStore spriteStore, CellFactory factory) {
+    private FlatcraftGame(int width, int height, ISpriteStore spriteStore, CellFactory factory) {
         this.width = width;
         this.height = height;
         this.spriteStore = spriteStore;
         this.cellFactory = factory;
         this.cellFactory.setSpriteStore(spriteStore);
+    }
+
+    /**
+     * Méthode permettant de récuperer l'instance de FlatcraftGame
+     *
+     * @param width La largeur de la carte du jeu (en pixels).
+     * @param height La hauteur de la carte du jeu (en pixels).
+     * @param spriteStore L'instance de {@link ISpriteStore} permettant de créer les
+     *        {@link Sprite} du jeu.
+     * @param factory La fabrique permettant de créer les cellules du jeux.
+     * @return instance de FlatcraftGame
+     */
+    public static FlatcraftGame getInstance(int width, int height, ISpriteStore spriteStore, CellFactory factory) {
+        if (instance == null) {
+            instance = new FlatcraftGame(width, height, spriteStore, factory);
+        }
+        return instance;
     }
 
     /**
