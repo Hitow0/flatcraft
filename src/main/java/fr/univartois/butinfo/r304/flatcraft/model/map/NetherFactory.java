@@ -12,6 +12,19 @@ import java.util.Random;
 public class NetherFactory implements CellFactory {
     private ISpriteStore spriteStore;
 
+    private static NetherFactory instance;
+
+    private NetherFactory(){
+
+    }
+
+    public static NetherFactory getInstance(){
+        if (instance == null){
+            instance = new NetherFactory();
+        }
+        return instance;
+    }
+
     @Override
     public void setSpriteStore(ISpriteStore spriteStore) {
         this.spriteStore=spriteStore;
