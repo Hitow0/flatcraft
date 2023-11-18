@@ -74,7 +74,10 @@ public final class Resource {
         this.sprite = sprite;
         this.toolType = toolType;
         this.hardness = hardness;
-        state = new MineralState();
+        if (name.contains("mineral"))
+            state = new MineralState();
+        else
+            state = new FinalState();
     }
 
     public void setName(String name) {
@@ -144,8 +147,8 @@ public final class Resource {
      * @return La ressource obtenue après son extraction.
      */
     public Resource digBlock() {
-        this.state = new InventoryState();
-        return state.changeState(this);
+        state = state.changeState(this);
+        return this;
     }
 
     /*
