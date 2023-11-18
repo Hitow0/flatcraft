@@ -74,7 +74,10 @@ public final class Resource {
         this.sprite = sprite;
         this.toolType = toolType;
         this.hardness = hardness;
-        state = new MineralState();
+        if (name.contains("mineral"))
+            state = new MineralState();
+        else
+            state = new FinalState();
     }
 
     public void setName(String name) {
