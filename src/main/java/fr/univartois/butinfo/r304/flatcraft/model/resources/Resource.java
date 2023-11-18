@@ -144,8 +144,8 @@ public final class Resource {
      * @return La ressource obtenue après son extraction.
      */
     public Resource digBlock() {
-        this.state = new InventoryState();
-        return state.changeState(this);
+        state = state.changeState(this);
+        return this;
     }
 
     /*
