@@ -16,17 +16,17 @@
 
 package fr.univartois.butinfo.r304.flatcraft.model.resources;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 
+import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.BasicState;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.IBreakingState;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.mineralstate.FinalState;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.mineralstate.IStateResource;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.mineralstate.MineralState;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
-
-import javax.imageio.ImageIO;
 
 /**
  * Une ressource est un élément de la carte avec lequel le joueur peut interagir.
@@ -44,7 +44,15 @@ public final class Resource {
      */
     private String name;
 
+    /**
+     * L'état de la ressource
+     */
     private IStateResource state;
+
+    /**
+     * L'état du cassage
+     */
+    private IBreakingState breakingState;
 
     /**
      * Le sprite représentant cette ressource.
@@ -86,6 +94,7 @@ public final class Resource {
             state = new MineralState();
         else
             state = new FinalState();
+        this.breakingState = new BasicState();
     }
 
     public void setName(String name) {

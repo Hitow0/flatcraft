@@ -92,12 +92,10 @@ public interface Cell {
     boolean move(IMovable movable);
 
     /**
-     * Essaye d'extraire la ressource contenue dans cette cellule.
+     * Mine et extrait la ressource d'une cellule.
      *
-     * @param player Le joueur qui souhaite extraire la ressource.
-     *
-     * @return Si une ressource a été extraite.
+     * @param player Le joueur qui mine et extrait la ressource.
      */
-    boolean dig(IMovable player);
+    void dig(IMovable player);
 
 }

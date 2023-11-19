@@ -30,6 +30,8 @@ import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.RandomMovement;
 
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.BasicState;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.IBreakingState;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 import javafx.beans.property.IntegerProperty;
@@ -67,7 +69,7 @@ public final class FlatcraftGame {
     /**
      * L'instance de {@link CellFactory} utilisée pour créer les cellules du jeu.
      */
-    private CellFactory cellFactory;
+    private static CellFactory cellFactory;
 
     /**
      * La carte du jeu, sur laquelle le joueur évolue.
@@ -122,8 +124,8 @@ public final class FlatcraftGame {
         this.width = width;
         this.height = height;
         this.spriteStore = spriteStore;
-        this.cellFactory = factory;
-        this.cellFactory.setSpriteStore(spriteStore);
+        cellFactory = factory;
+        cellFactory.setSpriteStore(spriteStore);
     }
 
     /**
@@ -141,6 +143,14 @@ public final class FlatcraftGame {
             instance = new FlatcraftGame(width, height, spriteStore, factory);
         }
         return instance;
+    }
+
+    /**
+     * Méthode pour récupérer la cellFactory
+     * @return la cellfactory
+     */
+    public static CellFactory getCellFactory() {
+        return cellFactory;
     }
 
     /**
@@ -336,7 +346,7 @@ public final class FlatcraftGame {
             cellToDig = map.getAt(cell.getRow()+1, cell.getColumn());
         }
         if(cellToDig != null && cellToDig.getResource() != null){
-            dig(cellToDig);
+            cellToDig.dig(player);
             move(player);
         }
     }
@@ -351,7 +361,7 @@ public final class FlatcraftGame {
             cellToDig = map.getAt(cell.getRow(), cell.getColumn() - 1);
         }
         if(cellToDig != null && cellToDig.getResource() != null){
-            dig(cellToDig);
+            cellToDig.dig(player);
         }
     }
 
@@ -365,20 +375,7 @@ public final class FlatcraftGame {
             cellToDig = map.getAt(cell.getRow(), cell.getColumn() + 1);
         }
         if(cellToDig != null && cellToDig.getResource() != null){
-            dig(cellToDig);
-        }
-    }
-
-    /**
-     * Creuse la cellule donnée pour en extraire une ressource.
-     *
-     * @param toDig La cellule sur laquelle creuser.
-     */
-    private void dig(Cell toDig) {
-        if(toDig.dig(player)){
-            toDig.replaceBy(cellFactory.createSky());
-        } else {
-            toDig.replaceBy(cellFactory.changeBreakingLevel(toDig, 5));
+            cellToDig.dig(player);
         }
     }
 
