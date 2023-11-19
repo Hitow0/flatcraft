@@ -184,15 +184,26 @@ public final class FlatcraftGame {
         // On crée la carte du jeu.
         map = createMap();
         controller.prepare(map);
-
+        int i=0;
+        while(map.getAt(i,0).getResource() == null){
+            i++;
+        }
         // On crée le joueur, qui se trouve sur le sol à gauche de la carte.
-        player = new Player(this,0,(map.getSoilHeight()-1)*16, spriteStore.getSprite("hemery"));
+        player = new Player(this,0,(i-1)*16, spriteStore.getSprite("hemery"));
         movableObjects.add(player);
         controller.addMovable(player);
 
+        i=0;
+        while(map.getAt(i,50).getResource() == null){
+            i++;
+        }
         // On crée un mob de test qui se déplace de manière linéraire
-        Mob goomba = new Mob(this,50*16, (map.getSoilHeight()-1)*16, spriteStore.getSprite("chmeiss"), new RandomMovement());
-        Mob enderman = new Mob(this,20*16, (map.getSoilHeight()-1)*16, spriteStore.getSprite("enderman"), new EndermanMovement());
+        Mob goomba = new Mob(this,50*16, (i-1)*16, spriteStore.getSprite("chmeiss"), new RandomMovement());
+        i=0;
+        while(map.getAt(i,20).getResource() == null){
+            i++;
+        }
+        Mob enderman = new Mob(this,20*16, (i-1)*16, spriteStore.getSprite("enderman"), new EndermanMovement());
         movableObjects.add(enderman);
         controller.addMovable(enderman);
         movableObjects.add(goomba);
