@@ -59,4 +59,11 @@ public class EndFactory implements CellFactory {
         Sprite sprite = spriteStore.getSprite("coal_block");
         return new Cellule(sprite);
     }
+
+    @Override
+    public Cell changeBreakingLevel(Cell toDig, int breakingLevel) {
+        Sprite ressource = Resource.fusionSprite(toDig.getSprite(), Resource.obtenirNiveauCassage(breakingLevel));
+        Resource resource = new Resource(toDig.getResource().getName(), ressource, toDig.getResource().getToolType(), toDig.getResource().getHardness());
+        return new Cellule(resource);
+    }
 }

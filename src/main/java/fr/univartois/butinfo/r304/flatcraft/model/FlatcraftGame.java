@@ -29,6 +29,7 @@ import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.Mob;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.RandomMovement;
 
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 import javafx.beans.property.IntegerProperty;
@@ -184,12 +185,12 @@ public final class FlatcraftGame {
         map = createMap();
         controller.prepare(map);
 
-        // TODO On crée le joueur, qui se trouve sur le sol à gauche de la carte.
+        // On crée le joueur, qui se trouve sur le sol à gauche de la carte.
         player = new Player(this,0,(map.getSoilHeight()-1)*16, spriteStore.getSprite("hemery"));
         movableObjects.add(player);
         controller.addMovable(player);
 
-        // TODO On crée un mob de test qui se déplace de manière linéraire
+        // On crée un mob de test qui se déplace de manière linéraire
         Mob goomba = new Mob(this,50*16, (map.getSoilHeight()-1)*16, spriteStore.getSprite("chmeiss"), new RandomMovement());
         Mob enderman = new Mob(this,20*16, (map.getSoilHeight()-1)*16, spriteStore.getSprite("enderman"), new EndermanMovement());
         movableObjects.add(enderman);
@@ -197,7 +198,7 @@ public final class FlatcraftGame {
         movableObjects.add(goomba);
         controller.addMovable(goomba);
 
-        // TODO On fait le lien entre les différentes propriétés et leur affichage.
+        // On fait le lien entre les différentes propriétés et leur affichage.
         controller.bindHealth(player.pvProperty());
         controller.bindXP(player.xpProperty());
         controller.bindTime(this.time);
@@ -364,8 +365,9 @@ public final class FlatcraftGame {
      */
     private void dig(Cell toDig) {
         if(toDig.dig(player)){
-
             toDig.replaceBy(cellFactory.createSky());
+        } else {
+            toDig.replaceBy(cellFactory.changeBreakingLevel(toDig, 5));
         }
     }
 

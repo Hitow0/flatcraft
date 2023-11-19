@@ -16,13 +16,17 @@
 
 package fr.univartois.butinfo.r304.flatcraft.model.resources;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
+import javafx.scene.image.*;
+
+import javax.imageio.ImageIO;
 
 /**
  * Une ressource est un élément de la carte avec lequel le joueur peut interagir.
@@ -145,6 +149,26 @@ public final class Resource {
     }
 
     /**
+     * Cette fonction permet de récupérer le Sprite du niveau de cassage souhaité.
+     * @param niveau : niveau de cassage
+     * @return un nouveau Sprite comportant le niveau de cassage
+     */
+    public static Sprite obtenirNiveauCassage(int niveau) {
+        Image patronImage = new Image("/fr/univartois/butinfo/r304/flatcraft/view/images/default_crackLevel.png");
+
+        // Taille d'un niveau de cassage (16 pixels de hauteur)
+        int hauteurNiveau = 16;
+
+        // Calculer les coordonnées de début et de fin pour le niveau spécifié
+        int startY = (niveau-1) * hauteurNiveau;
+        int endY = startY + hauteurNiveau;
+
+        // Créer une nouvelle image avec seulement la partie désirée
+        return new Sprite(new WritableImage(patronImage.getPixelReader(),
+                0, startY, (int) patronImage.getWidth(), hauteurNiveau));
+    }
+
+    /**
      * Donne la ressource obtenue lorsque cette ressource est extraite de la carte.
      * Par défaut, la ressource obtenue ne change pas.
      *
@@ -178,9 +202,15 @@ public final class Resource {
         return false;
     }
 
-    public void fusionSprite(Sprite spriteToFusion){
+    /**
+     * Cette fonction permet de fusionner deux sprites.
+     * @param image : le sprite du block
+     * @param spriteToFusion : le sprite à fusionner
+     * @return le sprite fusionné
+     */
+    public static Sprite fusionSprite(Sprite image, Sprite spriteToFusion){
         Image image2 = spriteToFusion.getImage();
-        Image image1 = this.sprite.getImage();
+        Image image1 = image.getImage();
         double width = Math.max(image1.getWidth(), image2.getWidth());
         double height = Math.max(image1.getHeight(), image2.getHeight());
 
@@ -189,10 +219,10 @@ public final class Resource {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Dessiner la première image
-        gc.drawImage(image2, 0, 0);
         gc.drawImage(image1, 0, 0);
+        gc.drawImage(image2, 0, 0);
 
         // Convertir le canevas en image
-        this.sprite = new Sprite(canvas.snapshot(null, null));
+        return new Sprite(canvas.snapshot(null, null));
     }
 }
