@@ -19,6 +19,10 @@ package fr.univartois.butinfo.r304.flatcraft.model.resources;
 import java.util.Objects;
 
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 
 /**
  * Une ressource est un élément de la carte avec lequel le joueur peut interagir.
@@ -174,4 +178,21 @@ public final class Resource {
         return false;
     }
 
+    public void fusionSprite(Sprite spriteToFusion){
+        Image image2 = spriteToFusion.getImage();
+        Image image1 = this.sprite.getImage();
+        double width = Math.max(image1.getWidth(), image2.getWidth());
+        double height = Math.max(image1.getHeight(), image2.getHeight());
+
+        // Créer un nouveau canevas
+        Canvas canvas = new Canvas(width, height);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        // Dessiner la première image
+        gc.drawImage(image2, 0, 0);
+        gc.drawImage(image1, 0, 0);
+
+        // Convertir le canevas en image
+        this.sprite = new Sprite(canvas.snapshot(null, null));
+    }
 }
