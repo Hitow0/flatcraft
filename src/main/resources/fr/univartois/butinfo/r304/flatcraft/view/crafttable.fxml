@@ -50,7 +50,7 @@
     <bottom>
         <HBox alignment="TOP_CENTER" BorderPane.alignment="CENTER" spacing="25.0">
             <children>
-                <Button text="CRAFT" onAction="#craft" mnemonicParsing="false" disable="true">
+                <Button fx:id="craftButton" text="CRAFT" onAction="#craft" mnemonicParsing="false" disable="true">
                     <font>
                         <Font name="Monospaced Regular" size="10.0" />
                     </font>
