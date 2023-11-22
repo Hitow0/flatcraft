@@ -9,9 +9,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
-
 public class Player extends AbstractMovable {
 
     private IntegerProperty pv;
@@ -78,15 +75,5 @@ public class Player extends AbstractMovable {
                 inventaire.remove(r,1);
             }
         }
-    }
-
-    public Optional<Resource> getInventoryResourceByName(String name){
-        AtomicReference<Optional<Resource>> result = new AtomicReference<>(Optional.empty());
-        inventaire.forEach((resource, integer) -> {
-            if(resource.getName().equals(name)){
-                result.set(Optional.of(resource));
-            }
-        });
-        return result.get();
     }
 }
