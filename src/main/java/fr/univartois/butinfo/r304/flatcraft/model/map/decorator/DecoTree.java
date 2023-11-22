@@ -2,8 +2,10 @@ package fr.univartois.butinfo.r304.flatcraft.model.map.decorator;
 
 import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
+import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class DecoTree extends DecoratorMap{
@@ -31,7 +33,7 @@ public class DecoTree extends DecoratorMap{
 
 
             while (!found){
-                if(getMap().getAt(getMap().getSoilHeight(),posX).getResource().getName()!="water"){
+                if(!Objects.equals(getMap().getAt(getMap().getSoilHeight(), posX).getSprite(), SpriteStore.getInstance().getSprite("water"))){
                     if(getMap().getAt(getMap().getSoilHeight()+1,posX).getResource()!=null){
                         int l= getMap().getSoilHeight()+1;
                         while (getMap().getAt(l,posX).getResource()!=null){
