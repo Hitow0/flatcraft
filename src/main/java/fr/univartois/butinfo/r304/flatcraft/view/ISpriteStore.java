@@ -19,8 +19,8 @@ package fr.univartois.butinfo.r304.flatcraft.view;
 import java.util.NoSuchElementException;
 
 /**
- * L'interface {@link ISpriteStore} fournit une méthode permettant de créer des instances
- * de {@link Sprite} à partir de leur identifiant.
+ * L'interface {@link ISpriteStore} permet de créer des instances de {@link Sprite} à
+ * partir de leur identifiant.
  * Typiquement, cet identifiant permet d'associer l'image d'un élément du jeu à l'instance
  * de {@link Sprite} qui sera créée.
  *

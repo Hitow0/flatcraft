@@ -83,16 +83,19 @@ public interface Cell {
     void replaceBy(Cell cell);
 
     /**
-     * Indique si cette cellule a déplacé la position d'un objet mobile du jeu.
+     * Déplace un objet mobile du jeu si cette cellule le permet.
+     * Par exemple, si une cellule ne contient pas de ressource, l'objet peut "passer à
+     * travers" cette cellule.
      *
-     * @param movable L'objet mobile.
+     * @param movable L'objet mobile à déplacer.
      *
-     * @return Si l'objet a été déplacé.
+     * @return Si l'objet mobile a été déplacé.
      */
     boolean move(IMovable movable);
 
     /**
-     * Mine et extrait la ressource d'une cellule.
+     * Essaye d'extraire la ressource contenue dans cette cellule.
+     * Si l'extraction réussit, la ressource est ajoutée à l'inventaire du joueur.
      *
      * @param player Le joueur qui mine et extrait la ressource.
      */

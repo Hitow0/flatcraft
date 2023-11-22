@@ -147,8 +147,8 @@ public final class Resource {
      * Donne un coup sur cette ressource pour l'extraire de la carte.
      * Cela réduit sa dureté.
      *
-     * @throws IllegalStateException Si la dureté de la ressource est déjà égale à
-     *         {@code 0}.
+     * @throws IllegalStateException Si la dureté de la ressource est déjà égale
+     *         à {@code 0}.
      */
     public void dig() {
         if (hardness <= 0) {

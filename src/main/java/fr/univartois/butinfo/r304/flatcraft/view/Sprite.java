@@ -34,7 +34,7 @@ public final class Sprite {
     /**
      * L'image associée à cette instance de {@link Sprite}.
      */
-    private Image image;
+    private final Image image;
 
     /**
      * Crée une nouvelle instance de {@link Sprite}.

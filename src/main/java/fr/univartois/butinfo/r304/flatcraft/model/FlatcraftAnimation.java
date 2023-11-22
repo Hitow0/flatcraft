@@ -32,7 +32,7 @@ final class FlatcraftAnimation extends AnimationTimer {
 
     /**
      * Le temps "humain" représentant une heure dans le jeu.
-     * On considère ici qu'une minute équivant à une heure dans le jeu.
+     * On considère ici qu'une minute équivaut à une heure dans le jeu.
      */
     private static final long ONE_HOUR = 60_000;
 

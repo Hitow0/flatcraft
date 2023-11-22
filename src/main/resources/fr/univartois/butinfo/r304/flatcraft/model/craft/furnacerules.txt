@@ -1,0 +1,3 @@
+gold_lump=gold_lingot
+iron_lump=steel_lingot
+copper_lump=copper_lingot

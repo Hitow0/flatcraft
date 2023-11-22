@@ -14,8 +14,8 @@
 <?import javafx.scene.text.Font?>
 
 <StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-    minHeight="-Infinity" maxHeight="-Infinity" minWidth="-Infinity" maxWidth="-Infinity"
-    fx:controller="fr.univartois.butinfo.r304.flatcraft.controller.FlatcraftController">
+           minHeight="-Infinity" maxHeight="-Infinity" minWidth="-Infinity" maxWidth="-Infinity"
+           fx:controller="fr.univartois.butinfo.r304.flatcraft.controller.FlatcraftController">
     <children>
         <Pane fx:id="background" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
         <Pane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
@@ -93,7 +93,7 @@
                     </left>
                     <center>
                         <HBox fx:id="inventory" BorderPane.alignment="CENTER"
-                            maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                              maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     </center>
                     <right>
                         <Button text="FURNACE" onAction="#showFurnace" BorderPane.alignment="CENTER">
