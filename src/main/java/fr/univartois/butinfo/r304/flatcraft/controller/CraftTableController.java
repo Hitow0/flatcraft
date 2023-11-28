@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.view.ResourceInInventory;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -161,10 +162,14 @@ public final class CraftTableController {
                     craftButton.setDisable(false);
                     clearButton.setDisable(false);
                     success = true;
+                    imageView.setDisable(true);
                 }
             }
-
             event.setDropCompleted(success);
+            if(event.isDropCompleted()) {
+                Optional<Resource> resource = game.getPlayer().getInventoryResourceByName(event.getDragboard().getString());
+                resource.ifPresent(value -> game.getPlayer().removeResource(value));
+            }
             event.consume();
         });
 
@@ -180,10 +185,14 @@ public final class CraftTableController {
         });
 
         // Lorsque la ressource est déposée, elle est retirée de l'inventaire du joueur.
-        imageView.setOnDragDone(event -> {
-            // TODO Retirez de l'inventaire du joueur la ressource ayant été déposée.
+        /*imageView.setOnDragDone(event -> {
+            if(event.isDropCompleted()) {
+                Optional<Resource> resource = game.getPlayer().getInventoryResourceByName(event.getDragboard().getString());
+                resource.ifPresent(value -> game.getPlayer().removeResource(value));
+            }
             event.consume();
-        });
+        });*/
+        // FIXME setOnDragDone() n'est jamais appélé, donc en correction j'ai mis le code dans le "setOnDragDropped", qui fonctionne
     }
 
     /**
@@ -216,7 +225,7 @@ public final class CraftTableController {
      */
     @FXML
     private void addToInventory() {
-        // TODO Ajoutez un l'inventaire du joueur la ressource "product" ayant été produite.
+        game.getPlayer().addObject(product);
     }
 
     /**
@@ -227,9 +236,12 @@ public final class CraftTableController {
         // On retire toutes les ressources déposées sur la table de craft.
         for (int i = 0; i < resources.length; i++) {
             for (int j = 0; j < resources[i].length; j++) {
-                // TODO Remettez les ressources non null dans l'inventaire du joueur.
+                if(resources[i][j] != null) {
+                    game.getPlayer().addObject(resources[i][j]);
+                }
                 resources[i][j] = null;
                 resourceViews[i][j].setImage(null);
+                resourceViews[i][j].setDisable(false);
             }
         }
 
