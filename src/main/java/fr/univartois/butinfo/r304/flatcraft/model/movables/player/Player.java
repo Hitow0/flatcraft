@@ -63,7 +63,7 @@ public class Player extends AbstractMovable {
 
     public void addObject(Resource r){
         if(inventaire.containsKey(r)){
-            inventaire.replace(r,inventaire.get(r));
+            inventaire.replace(r,inventaire.get(r)+1);
         }
         else {
             inventaire.put(r,1);
@@ -72,10 +72,10 @@ public class Player extends AbstractMovable {
 
     public void removeResource(Resource r){
         if(inventaire.containsKey(r)) {
-            if(inventaire.get(r)==1){
+            if(inventaire.get(r)==0){
                 inventaire.remove(r);
             } else {
-                inventaire.remove(r,1);
+                inventaire.replace(r,inventaire.get(r)-1);
             }
         }
     }
