@@ -183,16 +183,6 @@ public final class CraftTableController {
             imageView.setOpacity(1);
             event.consume();
         });
-
-        // Lorsque la ressource est déposée, elle est retirée de l'inventaire du joueur.
-        /*imageView.setOnDragDone(event -> {
-            if(event.isDropCompleted()) {
-                Optional<Resource> resource = game.getPlayer().getInventoryResourceByName(event.getDragboard().getString());
-                resource.ifPresent(value -> game.getPlayer().removeResource(value));
-            }
-            event.consume();
-        });*/
-        // FIXME setOnDragDone() n'est jamais appélé, donc en correction j'ai mis le code dans le "setOnDragDropped", qui fonctionne
     }
 
     /**
