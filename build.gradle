@@ -9,14 +9,14 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
+// La version du langage Java utilisée dans le projet.
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
 // Les dépôts d'où les dépendances doivent être téléchargées.
 repositories {
     mavenCentral()
 }
-
-// La version du langage Java utilisée dans le projet.
-sourceCompatibility = '17'
-targetCompatibility = '17'
 
 // Le nom de la classe contenant la méthode "main".
 application {

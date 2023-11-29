@@ -16,18 +16,35 @@
 
 package fr.univartois.butinfo.r304.flatcraft.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.univartois.butinfo.r304.flatcraft.model.Cell;
 import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
 import fr.univartois.butinfo.r304.flatcraft.model.GameMap;
 import fr.univartois.butinfo.r304.flatcraft.model.IFlatcraftController;
 import fr.univartois.butinfo.r304.flatcraft.model.IMovable;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.view.ResourceInInventory;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -95,6 +112,11 @@ public final class FlatcraftController implements IFlatcraftController {
     private HBox inventory;
 
     /**
+     * Les composants affichant les ressources actuellement dans l'inventaire du joueur.
+     */
+    private Map<Resource, ResourceInInventory> resourcesInInventory = new HashMap<>();
+
+    /**
      * Associe à ce contrôleur la fenêtre dans laquelle se déroule le jeu.
      *
      * @param stage La fenêtre dans laquelle se déroule le jeu.
@@ -127,7 +149,7 @@ public final class FlatcraftController implements IFlatcraftController {
     }
 
     /**
-     * Crée l'arrière plan du jeu.
+     * Crée l'arrière-plan du jeu.
      *
      * @param map La carte du jeu à partir de laquelle créer l'arrière-plan.
      */
@@ -168,9 +190,11 @@ public final class FlatcraftController implements IFlatcraftController {
         // L'appui sur une flèche permet au joueur de se déplacer ou de creuser.
         stage.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             KeyCode code = e.getCode();
-            if (code.isArrowKey() && e.isAltDown()) {
+            if(e.isControlDown()){
+                game.stopMoving();
+            }
+            if (code.isArrowKey() && e.isControlDown()) {
                 dig(code);
-
             } else if (code.isArrowKey()) {
                 move(code);
             }
@@ -234,6 +258,31 @@ public final class FlatcraftController implements IFlatcraftController {
     /*
      * (non-Javadoc)
      *
+     * @see fr.univartois.butinfo.r304.flatcraft.model.IFlatcraftController#bindInventory(
+     * javafx.collections.ObservableMap)
+     */
+    @Override
+    public void bindInventory(ObservableMap<Resource, Integer> playerInventory) {
+        playerInventory.addListener((MapChangeListener<Resource, Integer>) change -> {
+            if (change.wasAdded() && !resourcesInInventory.containsKey(change.getKey())) {
+                // Il faut ajouter la ressource à l'affichage.
+                ResourceInInventory resource = new ResourceInInventory(change.getKey());
+                resource.bind(Bindings.valueAt(playerInventory, change.getKey()));
+                resourcesInInventory.put(change.getKey(), resource);
+                dragResource(resource);
+                inventory.getChildren().add(resource.getNode());
+
+            } else if (change.wasRemoved() && (change.getValueRemoved() == 0)) {
+                // La ressource doit être retirée de l'affichage.
+                ResourceInInventory resource = resourcesInInventory.remove(change.getKey());
+                inventory.getChildren().remove(resource.getNode());
+            }
+        });
+    }
+
+    /*
+     * (non-Javadoc)
+     *
      * @see fr.univartois.butinfo.r304.flatcraft.model.IFlatcraftController#addMovable(fr.
      * univartois.butinfo.r304.flatcraft.model.IMovable)
      */
@@ -281,18 +330,77 @@ public final class FlatcraftController implements IFlatcraftController {
 
     /**
      * Affiche la table de craft.
+     *
+     * @throws IOException Si une erreur se produit lors du chargement de la vue.
      */
     @FXML
-    void showCraftTable() {
-        // TODO Cette méthode vous sera fournie ultérieurement.
+    private void showCraftTable() throws IOException {
+        // On charge la vue et son contrôleur.
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/crafttable.fxml"));
+        Parent viewContent = fxmlLoader.load();
+        CraftTableController controller = fxmlLoader.getController();
+
+        // On initialise le contrôleur.
+        controller.setGame(game);
+
+        // On affche la fenêtre.
+        Stage crafttableStage = new Stage();
+        crafttableStage.initOwner(stage);
+        crafttableStage.setScene(new Scene(viewContent));
+        crafttableStage.show();
     }
 
     /**
-     * Affiche le four.
+     * Affiche le fourneau.
+     *
+     * @throws IOException Si une erreur se produit lors du chargement de la vue.
      */
     @FXML
-    void showFurnace() {
-        // TODO Cette méthode vous sera fournie ultérieurement.
+    private void showFurnace() throws IOException {
+        // On charge la vue et son contrôleur.
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/furnace.fxml"));
+        Parent viewContent = fxmlLoader.load();
+        FurnaceController controller = fxmlLoader.getController();
+
+        // On initialise le contrôleur.
+        controller.setGame(game);
+
+        // On affche la fenêtre.
+        Stage furnaceStage = new Stage();
+        furnaceStage.setScene(new Scene(viewContent));
+        furnaceStage.show();
+    }
+
+    /**
+     * Gère le déplacement d'une ressource en utilisant un glisser-déposer.
+     *
+     * @param resource La ressource sur laquelle le glisser-déposer a été initié.
+     */
+    private void dragResource(ResourceInInventory resource) {
+        resource.getNode().setOnDragDetected(event -> {
+            Dragboard dragboard = resource.getNode().startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(resource.getResource().getName());
+            content.putImage(resource.getResource().getSprite().getImage());
+            dragboard.setContent(content);
+            event.consume();
+        });
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * fr.univartois.butinfo.r304.flatcraft.model.IFlatcraftController#displayError(java.
+     * lang.String)
+     */
+    @Override
+    public void displayError(String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }

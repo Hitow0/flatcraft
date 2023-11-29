@@ -18,7 +18,7 @@ package fr.univartois.butinfo.r304.flatcraft.model.resources;
 
 /**
  * L'énumération {@link ToolType} permet de préciser le type d'outils nécessaire pour
- * récupérer un élément depuis la carte du jeu.
+ * récupérer une ressource depuis la carte du jeu.
  *
  * @author Daniel Le Berre
  * @author Romain Wallon

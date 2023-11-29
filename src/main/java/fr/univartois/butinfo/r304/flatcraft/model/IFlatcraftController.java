@@ -16,7 +16,9 @@
 
 package fr.univartois.butinfo.r304.flatcraft.model;
 
+import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
 import javafx.beans.property.IntegerProperty;
+import javafx.collections.ObservableMap;
 
 /**
  * L'interface {@link IFlatcraftController} définit le contrat à remplir par tout
@@ -71,10 +73,24 @@ public interface IFlatcraftController {
     void bindLevel(IntegerProperty levelProperty);
 
     /**
+     * Lie l'inventaire du joueur à son affichage dans la vue.
+     *
+     * @param playerInventory L'inventaire du joueur.
+     */
+    void bindInventory(ObservableMap<Resource, Integer> playerInventory);
+
+    /**
      * Ajoute un objet mobile à l'affichage du jeu.
      *
      * @param movable L'objet à afficher.
      */
     void addMovable(IMovable movable);
+
+    /**
+     * Affiche un message d'erreur sur l'interface utilisateur.
+     *
+     * @param message Le message d'erreur à afficher.
+     */
+    void displayError(String message);
 
 }

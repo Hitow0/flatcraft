@@ -75,4 +75,11 @@ public interface CellFactory {
      */
     Cell createLeaves();
 
+    /**
+     * Créer une nouvelle cellule comportant le niveau de cassure.
+     * @param toDig : la cellule qui est minée
+     * @param breakingLevel : le niveau de cassage de cette cellule.
+     * @return La cellule créée.
+     */
+    Cell changeBreakingLevel(Cell toDig, int breakingLevel);
 }

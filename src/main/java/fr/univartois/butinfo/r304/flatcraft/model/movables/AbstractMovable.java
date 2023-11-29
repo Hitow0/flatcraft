@@ -309,8 +309,7 @@ public abstract class AbstractMovable implements IMovable {
      */
     @Override
     public int hashCode() {
-        // L'égalité est déterminée sur la base de l'identité entre le self() de deux
-        // objets.
+        // L'égalité est déterminée par l'identité entre le self() de deux objets.
         // Il faut donc conserver l'adresse mémoire comme valeur de hachage.
         return super.hashCode();
     }

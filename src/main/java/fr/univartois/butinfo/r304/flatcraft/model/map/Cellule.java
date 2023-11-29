@@ -1,24 +1,35 @@
 package fr.univartois.butinfo.r304.flatcraft.model.map;
 
+import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
+import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
 import fr.univartois.butinfo.r304.flatcraft.model.IMovable;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.BasicState;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.BreakState;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.FirstBreakingState;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.IBreakingState;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 
 public class Cellule extends AbstractCell {
-    protected Cellule(int row, int column) {
+
+    IBreakingState breakingState;
+
+    public Cellule(int row, int column) {
         super(row, column);
+        this.breakingState = new FirstBreakingState();
     }
 
-    protected Cellule(Sprite sprite) {
+    public Cellule(Sprite sprite) {
         super(sprite);
+        this.breakingState = new BreakState();
     }
 
-    protected Cellule(Resource resource) {
+    public Cellule(Resource resource) {
         super(resource);
+        this.breakingState = new BasicState();
     }
 
-    /* pas sûr de cette fonction */
     @Override
     public boolean move(IMovable movable) {
         if (this.getResource()==null) {
@@ -30,16 +41,16 @@ public class Cellule extends AbstractCell {
     }
 
     @Override
-    public boolean dig(IMovable player) {
-        System.out.println(this.getResource());
-        if (this.getResource()!=null) {
-            if (this.getResource().getHardness()!=0) {
-                this.getResource().dig();
+    public void dig(IMovable player) {
+        Resource resource = getResource();
+        if (resource!=null) {
+            if (resource.getHardness()!=0) {
+                resource.dig();
             } else {
-                ((Player)player).addObject(this.getResource().digBlock());
-                return true;
+                ((Player) player).addObject(this.getResource().digBlock());
+                this.breakingState = new BreakState();
             }
+            this.breakingState = breakingState.changeState(this, FlatcraftGame.getCellFactory());
         }
-        return false;
     }
 }

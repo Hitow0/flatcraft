@@ -19,12 +19,22 @@ package fr.univartois.butinfo.r304.flatcraft.model;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import fr.univartois.butinfo.r304.flatcraft.model.map.FactoryCellule;
-import fr.univartois.butinfo.r304.flatcraft.model.map.GenerateMap;
+import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
+import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoSlagHeap;
+import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoTree;
+
+
+import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.EndermanMovement;
+import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.Mob;
+import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.RandomMovement;
+
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.BasicState;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.IBreakingState;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
-import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -60,12 +70,17 @@ public final class FlatcraftGame {
     /**
      * L'instance de {@link CellFactory} utilisée pour créer les cellules du jeu.
      */
-    private CellFactory cellFactory;
+    private static CellFactory cellFactory;
 
     /**
      * La carte du jeu, sur laquelle le joueur évolue.
      */
     private GameMap map;
+
+    /**
+     * L'instance de {@link IGenMapStrat} utilisée pour créer la carte du jeu.
+     */
+    private IGenMapStrat genMapStrat;
 
     /**
      * Le temps écoulé depuis le début de la partie.
@@ -93,7 +108,12 @@ public final class FlatcraftGame {
     private FlatcraftAnimation animation = new FlatcraftAnimation(this, movableObjects);
 
     /**
-     * Crée une nouvelle instance de FlatcraftGame.
+     * Instance de FlatcraftGame
+     */
+    private static FlatcraftGame instance;
+
+    /**
+     * Instance unique de FlatcraftGame.
      *
      * @param width La largeur de la carte du jeu (en pixels).
      * @param height La hauteur de la carte du jeu (en pixels).
@@ -101,13 +121,46 @@ public final class FlatcraftGame {
      *        {@link Sprite} du jeu.
      * @param factory La fabrique permettant de créer les cellules du jeux.
      */
-    public FlatcraftGame(int width, int height, ISpriteStore spriteStore, CellFactory factory) {
+    private FlatcraftGame(int width, int height, ISpriteStore spriteStore, CellFactory factory) {
         this.width = width;
         this.height = height;
         this.spriteStore = spriteStore;
-        this.cellFactory = factory;
-        this.cellFactory.setSpriteStore(spriteStore);
+        cellFactory = factory;
+        cellFactory.setSpriteStore(spriteStore);
     }
+
+    /**
+     * Méthode permettant de récuperer l'instance de FlatcraftGame
+     *
+     * @param width La largeur de la carte du jeu (en pixels).
+     * @param height La hauteur de la carte du jeu (en pixels).
+     * @param spriteStore L'instance de {@link ISpriteStore} permettant de créer les
+     *        {@link Sprite} du jeu.
+     * @param factory La fabrique permettant de créer les cellules du jeux.
+     * @return instance de FlatcraftGame
+     */
+    public static FlatcraftGame getInstance(int width, int height, ISpriteStore spriteStore, CellFactory factory) {
+        if (instance == null) {
+            instance = new FlatcraftGame(width, height, spriteStore, factory);
+        }
+        return instance;
+    }
+
+    /**
+     * Méthode pour récupérer la cellFactory
+     * @return la cellfactory
+     */
+    public static CellFactory getCellFactory() {
+        return cellFactory;
+    }
+
+    /**
+     * Associe à cette partie la classe gérant la création de la carte.
+     *
+     * @param genMapStrat La classe gérant la création de la carte.
+     */
+    public void setIGenMapStrat(IGenMapStrat genMapStrat){this.genMapStrat=genMapStrat;}
+
 
     /**
      * Donne la largeur de la carte du jeu affichée (en pixels).
@@ -143,12 +196,32 @@ public final class FlatcraftGame {
         // On crée la carte du jeu.
         map = createMap();
         controller.prepare(map);
-
-        // TODO On crée le joueur, qui se trouve sur le sol à gauche de la carte.
-        player = new Player(this,0,map.getSoilHeight(), spriteStore.getSprite("tool_steelpick"));
+        int i=0;
+        while(map.getAt(i,0).getResource() == null){
+            i++;
+        }
+        // On crée le joueur, qui se trouve sur le sol à gauche de la carte.
+        player = new Player(this,0,(i-1)*16, spriteStore.getSprite("hemery"));
         movableObjects.add(player);
         controller.addMovable(player);
-        // TODO On fait le lien entre les différentes propriétés et leur affichage.
+
+        i=0;
+        while(map.getAt(i,50).getResource() == null){
+            i++;
+        }
+        // On crée un mob de test qui se déplace de manière linéraire
+        Mob goomba = new Mob(this,50*16, (i-1)*16, spriteStore.getSprite("chmeiss"), new RandomMovement());
+        i=0;
+        while(map.getAt(i,20).getResource() == null){
+            i++;
+        }
+        Mob enderman = new Mob(this,20*16, (i-1)*16, spriteStore.getSprite("enderman"), new EndermanMovement());
+        movableObjects.add(enderman);
+        controller.addMovable(enderman);
+        movableObjects.add(goomba);
+        controller.addMovable(goomba);
+
+        // On fait le lien entre les différentes propriétés et leur affichage.
         controller.bindHealth(player.pvProperty());
         controller.bindXP(player.xpProperty());
         controller.bindTime(this.time);
@@ -163,13 +236,19 @@ public final class FlatcraftGame {
      * @return La carte du jeu créée.
      */
     private GameMap createMap() {
-        GenerateMap generateMap = new GenerateMap();
-        return generateMap.genMap(height/spriteStore.getSpriteSize(),width/ spriteStore.getSpriteSize(),cellFactory);
+
+        IGenMapStrat map = this.genMapStrat;
+        map.genMap(height/spriteStore.getSpriteSize(),width/ spriteStore.getSpriteSize(),cellFactory);
+        DecoSlagHeap slagHeap=new DecoSlagHeap(map);
+        DecoTree tree=new DecoTree(map);
+        slagHeap.genSlagHeap(cellFactory);
+        tree.genTree(cellFactory);
+        return map.getMap();
     }
 
     /**
-     * Indique à cette partie de Flatcraft qu'une nouvelle heure s'est écoulée (dans le
-     * jeu).
+     * Indique à cette partie de Flatcraft qu'une nouvelle heure s'est écoulée
+     * (dans le jeu).
      */
     void oneHour() {
         time.set((time.get() + 1) % 24);
@@ -193,16 +272,34 @@ public final class FlatcraftGame {
      * Fait se déplacer le joueur vers la gauche.
      */
     public void moveLeft() {
-        player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
-        move(player);
+        Cell cell = getCellOf(player);
+        Cell cellToTravel = null;
+        if(!(cell.getColumn()-1 < 0)) {
+            cellToTravel = map.getAt(cell.getRow(), cell.getColumn() - 1);
+        }
+        if(cellToTravel != null && (cellToTravel.getResource()==null)) {
+            player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
+            move(player);
+        } else {
+            player.setHorizontalSpeed(0);
+        }
     }
 
     /**
      * Fait se déplacer le joueur vers la droite.
      */
     public void moveRight() {
-        player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
-        move(player);
+        Cell cell = getCellOf(player);
+        Cell cellToTravel = null;
+        if(!(cell.getColumn()+1 >= map.getWidth())) {
+            cellToTravel = map.getAt(cell.getRow(), cell.getColumn() + 1);
+        }
+        if(cellToTravel != null && (cellToTravel.getResource()==null)) {
+            player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
+            move(player);
+        } else {
+            player.setHorizontalSpeed(0);
+        }
     }
 
     /**
@@ -246,10 +343,12 @@ public final class FlatcraftGame {
      */
     public void digDown() {
         Cell cell = getCellOf(player);
-        Cell cellToDig = map.getAt(cell.getRow()-1, cell.getColumn()); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
-        System.out.println(cellToDig);
-        if(cellToDig.getResourceProperty() != null){
-            dig(cellToDig);
+        Cell cellToDig = null;
+        if(!(cell.getRow()+1 >= map.getHeight())) {
+            cellToDig = map.getAt(cell.getRow()+1, cell.getColumn());
+        }
+        if(cellToDig != null && cellToDig.getResource() != null){
+            cellToDig.dig(player);
             move(player);
         }
     }
@@ -259,9 +358,12 @@ public final class FlatcraftGame {
      */
     public void digLeft() {
         Cell cell = getCellOf(player);
-        Cell cellToDig = map.getAt(cell.getRow(), cell.getColumn()-1); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
-        if(cellToDig.getResource() != null){
-            dig(cellToDig);
+        Cell cellToDig = null;
+        if(!(cell.getColumn()-1 < 0)) {
+            cellToDig = map.getAt(cell.getRow(), cell.getColumn() - 1);
+        }
+        if(cellToDig != null && cellToDig.getResource() != null){
+            cellToDig.dig(player);
         }
     }
 
@@ -270,22 +372,12 @@ public final class FlatcraftGame {
      */
     public void digRight() {
         Cell cell = getCellOf(player);
-        Cell cellToDig = map.getAt(cell.getRow(), cell.getColumn()+1); // la valeur 1 est peut être à changer, tout dépend le nombre de pixel pour une cellule.
-        if(cellToDig.getResource() != null){
-            dig(cellToDig);
+        Cell cellToDig = null;
+        if(!(cell.getColumn()+1 >= map.getWidth())) {
+            cellToDig = map.getAt(cell.getRow(), cell.getColumn() + 1);
         }
-    }
-
-    /**
-     * Creuse la cellule donnée pour en extraire une ressource.
-     *
-     * @param toDig La cellule sur laquelle creuser.
-     */
-    private void dig(Cell toDig) {
-        System.out.println("test1");
-        if(toDig.dig(player)){
-            System.out.println("test2");
-            toDig.replaceBy(cellFactory.createSky());
+        if(cellToDig != null && cellToDig.getResource() != null){
+            cellToDig.dig(player);
         }
     }
 
@@ -308,6 +400,33 @@ public final class FlatcraftGame {
 
         // On récupère enfin la cellule à cette position dans la carte.
         return map.getAt(row, column);
+    }
+
+    /**
+     * Crée une nouvelle ressource à l'aide d'un ensemble de ressources, en suivant les
+     * règles de la table de craft.
+     *
+     * @param inputResources Les ressources déposées sur la table de craft.
+     *
+     * @return La ressource produite.
+     */
+    public Resource craft(Resource[][] inputResources) {
+        // TODO Vous devez compléter cette méthode.
+        throw new UnsupportedOperationException("Pas encore implémentée !");
+    }
+
+    /**
+     * Crée une nouvelle ressource à l'aide d'un combustible et d'une ressource, en suivant les
+     * règles du fourneau.
+     *
+     * @param fuel Le matériau combustible utilisé dans le fourneau.
+     * @param resource La ressource à transformer.
+     *
+     * @return La ressource produite.
+     */
+    public Resource cook(Resource fuel, Resource resource) {
+        // TODO Vous devez compléter cette méthode.
+        throw new UnsupportedOperationException("Pas encore implémentée !");
     }
 
 }

@@ -18,7 +18,7 @@ package fr.univartois.butinfo.r304.flatcraft.model;
 
 /**
  * L'interface {@link GameMap} définit le contrat à remplir par les différentes
- * implémentations possibles d'une carte du jeu.
+ * implantations possibles d'une carte du jeu.
  *
  * @author Daniel Le Berre
  * @author Romain Wallon
@@ -42,7 +42,8 @@ public interface GameMap {
     int getWidth();
 
     /**
-     * Donne la hauteur à laquelle se situe la surface du sol dans cette map.
+     * Donne la hauteur à laquelle se situe la surface du sol dans cette map,
+     * mesurée en nombre de cellules.
      *
      * @return La hauteur du sol.
      */
