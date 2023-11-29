@@ -20,14 +20,15 @@ public class Craft {
     /**
      * La liste des crafts possibles pour le produit
      */
-    private List<List<List<Resource>>> craftList = new ArrayList<>();
+    private List<Resource> craft = new ArrayList<>();
 
     /**
      * Création d'un nouveau craft
      * @param product : produit du craft
      * @param quantity : quantité de produit
      */
-    public Craft(Resource product, int quantity) {
+    public Craft(List<Resource> craft, Resource product, int quantity) {
+        this.craft = craft;
         this.product = product;
         this.quantity = quantity;
     }
@@ -52,27 +53,7 @@ public class Craft {
      * Obtenir la liste des crafts possible pour le produit
      * @return la liste des crafts
      */
-    public List<List<List<Resource>>> getCraftList() {
-        return craftList;
-    }
-
-    /**
-     * Ajouter un craft à la liste des crafts
-     * @param craft : un craft à ajouter
-     */
-    public void ajoutCraft(List<List<Resource>> craft){
-        if(!craftList.contains(craft)) {
-            this.craftList.add(craft);
-        }
-    }
-
-    /**
-     * Retirer un craft de la liste des crafts
-     * @param craft : un craft à retirer
-     */
-    public void retirerCraft(List<List<Resource>> craft){
-        if(craftList.contains(craft)){
-            this.craftList.remove(craft);
-        }
+    public List<Resource> getCraft() {
+        return craft;
     }
 }
