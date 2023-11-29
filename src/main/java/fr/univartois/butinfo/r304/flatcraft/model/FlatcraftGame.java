@@ -226,6 +226,7 @@ public final class FlatcraftGame {
         controller.bindXP(player.xpProperty());
         controller.bindTime(this.time);
         controller.bindLevel(this.level);
+        controller.bindInventory(player.getInventaire());
         // On démarre l'animation du jeu.
         animation.start();
     }
@@ -429,4 +430,7 @@ public final class FlatcraftGame {
         throw new UnsupportedOperationException("Pas encore implémentée !");
     }
 
+    public Player getPlayer() {
+        return player;
+    }
 }

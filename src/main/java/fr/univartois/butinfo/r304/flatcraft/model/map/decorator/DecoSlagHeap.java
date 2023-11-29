@@ -2,6 +2,7 @@ package fr.univartois.butinfo.r304.flatcraft.model.map.decorator;
 
 import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
+import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 
 import java.util.Objects;
 import java.util.Random;
@@ -33,7 +34,7 @@ public class DecoSlagHeap extends DecoratorMap{
                     for(int k=0;k<this.height;k++){
                         if(slagHeapWhith==1) {
                             getMap().setAt(i, j, cell.createSoilSurface());
-                            while(Objects.equals(getMap().getAt(i, j).getResource().getName(), "water")){
+                            while(Objects.equals(getMap().getAt(i, j).getSprite(), SpriteStore.getInstance().getSprite("water"))){
                                 getMap().setAt(i, j, cell.createSoilSurface());
                             }
                         }
@@ -49,7 +50,7 @@ public class DecoSlagHeap extends DecoratorMap{
                                 if (posX-l >= 0) {
                                     if (getMap().getAt(getMap().getSoilHeight() - posI - 1, posX - l).getResource() == null) {
                                         getMap().setAt(getMap().getSoilHeight() - posI, posX - l, cell.createSoilSurface());
-                                        while (Objects.equals(getMap().getAt(getMap().getSoilHeight() - posI, posX - l).getResource().getName(), "water")) {
+                                        while (Objects.equals(getMap().getAt(getMap().getSoilHeight() - posI, posX - l).getSprite(), SpriteStore.getInstance().getSprite("water"))) {
                                             getMap().setAt(getMap().getSoilHeight() - posI, posX - l, cell.createSoilSurface());
                                         }
                                     } else
@@ -65,7 +66,7 @@ public class DecoSlagHeap extends DecoratorMap{
                                 if(posX+l<width) {
                                     if (getMap().getAt(getMap().getSoilHeight() - posI - 1, posX + l).getResource() == null) {
                                         getMap().setAt(getMap().getSoilHeight() - posI, posX + l, cell.createSoilSurface());
-                                        while (Objects.equals(getMap().getAt(getMap().getSoilHeight() - posI, posX + l).getResource().getName(), "water")) {
+                                        while (Objects.equals(getMap().getAt(getMap().getSoilHeight() - posI, posX + l).getSprite(), SpriteStore.getInstance().getSprite("water"))) {
                                             getMap().setAt(getMap().getSoilHeight() - posI, posX + l, cell.createSoilSurface());
                                         }
                                     } else
