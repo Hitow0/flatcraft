@@ -46,7 +46,7 @@ public final class FurnaceController {
     /**
      * Le combustible et la ressource déposée dans le fourneau.
      */
-    private Resource[] resources  = new Resource[2];
+    private Resource[] resources = new Resource[2];
 
     /**
      * La grille représentant le fourneau dans lequel les ressources sont déposées.

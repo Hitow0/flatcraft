@@ -25,7 +25,7 @@ public class GenMapStrat1 implements IGenMapStrat{
                     if (i == map.getSoilHeight())
                         map.setAt(i, j, cell.createSoilSurface());
                     if (i > map.getSoilHeight())
-                        map.setAt(i, j, cell.createSubSoil());
+                        map.setAt(i, j, cell.createSubSoil(map.getSoilHeight(),i));
                 }
             }
         }else {
