@@ -34,6 +34,8 @@ public final class RuleParser {
      */
     private final String fileName;
 
+    private ICraftBuilder builder;
+
     /**
      * Crée une nouvelle instance de RuleParser.
      *
@@ -41,6 +43,11 @@ public final class RuleParser {
      */
     public RuleParser(String fileName) {
         this.fileName = fileName;
+        if ("furnacerules".equals(fileName)){
+            this.builder = new BuildCook();
+        } else if ("craftrules".equals(fileName)) {
+            this.builder = new BuildCraft();
+        }
     }
 
     /**
@@ -71,7 +78,9 @@ public final class RuleParser {
      * @param quantity La quantité obtenue pour la ressource produite.
      */
     private void addRule(String rule, String product, int quantity) {
-
+        builder.buildRecette(rule);
+        builder.buildProduit(product,quantity);
+        builder.getResult();
     }
 
 }

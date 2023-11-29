@@ -32,7 +32,8 @@ public class BuildCraft implements  ICraftBuilder{
         this.quantity=quantity;
     }
 
+    @Override
     public void getResult() {
-         new Craft(recette, produit, quantity);
+        ListRecette.getInstance().getCraftList().add(new Craft(recette, produit, quantity));
     }
 }
