@@ -52,9 +52,7 @@ public class OverworldFactory implements CellFactory {
             Resource resource = new Resource("grass", sprite, ToolType.NO_TOOL, 2);
             return new Cellule(resource);
         }
-        Sprite sprite = spriteStore.getSprite("water");
-        Resource resource = new Resource("water", sprite, ToolType.NO_TOOL, 5);
-        return new Cellule(resource);
+        return new Cellule(spriteStore.getSprite("water"));
     }
 
     @Override
@@ -87,12 +85,16 @@ public class OverworldFactory implements CellFactory {
             Resource resource = new Resource("mineral_diamond", ressource, ToolType.NO_TOOL, 5);
             return new Cellule(resource);
         }
+        if (n<18) {
+            Sprite sprite = spriteStore.getSprite("stone");
+            Sprite spriteGold = spriteStore.getSprite("mineral_gold");
+            Sprite ressource = Resource.fusionSprite(sprite, spriteGold);
+            Resource resource = new Resource("mineral_gold", ressource, ToolType.NO_TOOL, 5);
+            return new Cellule(resource);
+        }
         Sprite sprite = spriteStore.getSprite("stone");
         Resource resource = new Resource("stone", sprite, ToolType.MEDIUM_TOOL, 5);
         return new Cellule(resource);
-//        Sprite sprite = spriteStore.getSprite("dirt");
-//        Resource resource = new Resource("dirt", sprite, ToolType.NO_TOOL, 5);
-//        return new Cellule(resource);
     }
 
     @Override

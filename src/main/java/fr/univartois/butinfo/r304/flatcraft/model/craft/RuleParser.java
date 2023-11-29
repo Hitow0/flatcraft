@@ -53,7 +53,12 @@ public final class RuleParser {
                 new InputStreamReader(getClass().getResourceAsStream(fileName)))) {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 String[] splitted = line.split("=");
-                addRule(splitted[0], splitted[1]);
+                String[] result = splitted[1].split(" ");
+                if (result.length == 1) {
+                    addRule(splitted[0], splitted[1], 1);
+                } else {
+                    addRule(splitted[0], splitted[1], Integer.parseInt(result[1]));
+                }
             }
         }
     }
@@ -63,8 +68,9 @@ public final class RuleParser {
      *
      * @param rule La règle à ajouter.
      * @param product Le résultat de l'application de la règle.
-     */
-    private void addRule(String rule, String product) {
+     * @param quantity La quantité obtenue pour la ressource produite.
+     * */
+    private void addRule(String rule, String product, int quantity) {
         // TODO Ajoutez ici le code propre à votre application pour gérer les règles.
     }
 

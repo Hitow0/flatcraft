@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.view.ResourceInInventory;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -155,17 +156,20 @@ public final class CraftTableController {
             boolean success = false;
 
             if (dragboard.hasString() && dragboard.hasImage()) {
-                // TODO Remplacez cette affectation par la récupération de la ressource dans l'inventaire du joueur.
-                Optional<Resource> resource = Optional.empty();
+                Optional<Resource> resource = game.getPlayer().getInventoryResourceByName(dragboard.getString());
                 if (resource.isPresent()) {
                     resources[row][column] = resource.get();
                     craftButton.setDisable(false);
                     clearButton.setDisable(false);
                     success = true;
+                    imageView.setDisable(true);
                 }
             }
-
             event.setDropCompleted(success);
+            if(event.isDropCompleted()) {
+                Optional<Resource> resource = game.getPlayer().getInventoryResourceByName(event.getDragboard().getString());
+                resource.ifPresent(value -> game.getPlayer().removeResource(value));
+            }
             event.consume();
         });
 
@@ -177,12 +181,6 @@ public final class CraftTableController {
                 imageView.setImage(resources[row][column].getSprite().getImage());
             }
             imageView.setOpacity(1);
-            event.consume();
-        });
-
-        // Lorsque la ressource est déposée, elle est retirée de l'inventaire du joueur.
-        imageView.setOnDragDone(event -> {
-            // TODO Retirez de l'inventaire du joueur la ressource ayant été déposée.
             event.consume();
         });
     }
@@ -217,7 +215,7 @@ public final class CraftTableController {
      */
     @FXML
     private void addToInventory() {
-        // TODO Ajoutez un l'inventaire du joueur la ressource "product" ayant été produite.
+        game.getPlayer().addObject(product);
     }
 
     /**
@@ -228,9 +226,12 @@ public final class CraftTableController {
         // On retire toutes les ressources déposées sur la table de craft.
         for (int i = 0; i < resources.length; i++) {
             for (int j = 0; j < resources[i].length; j++) {
-                // TODO Remettez les ressources non null dans l'inventaire du joueur.
+                if(resources[i][j] != null) {
+                    game.getPlayer().addObject(resources[i][j]);
+                }
                 resources[i][j] = null;
                 resourceViews[i][j].setImage(null);
+                resourceViews[i][j].setDisable(false);
             }
         }
 
