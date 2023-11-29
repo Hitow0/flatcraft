@@ -79,6 +79,7 @@ public abstract class AbstractCell implements Cell {
      *
      * @param resource La ressource initialement présente sur la cellule.
      */
+    
     protected AbstractCell(Resource resource) {
         this.resourceProperty.set(resource);
         this.spriteProperty.set(resource.getSprite());

@@ -39,9 +39,9 @@ public class DecoSlagHeap extends DecoratorMap{
                             }
                         }
                         else{
-                            getMap().setAt(getMap().getSoilHeight()-posI, posX,cell.createSubSoil());
+                            getMap().setAt(getMap().getSoilHeight()-posI, posX,cell.createSubSoil(getMap().getSoilHeight(), posI));
                             if(posI==1){
-                                getMap().setAt(getMap().getSoilHeight(), posX,cell.createSubSoil());
+                                getMap().setAt(getMap().getSoilHeight(), posX,cell.createSubSoil(getMap().getSoilHeight(), posI));
 
                             }
 
@@ -54,9 +54,9 @@ public class DecoSlagHeap extends DecoratorMap{
                                             getMap().setAt(getMap().getSoilHeight() - posI, posX - l, cell.createSoilSurface());
                                         }
                                     } else
-                                        getMap().setAt(getMap().getSoilHeight() - posI, posX - l, cell.createSubSoil());
+                                        getMap().setAt(getMap().getSoilHeight() - posI, posX - l, cell.createSubSoil(getMap().getSoilHeight(), posI));
                                     if (posI == 1) {
-                                        getMap().setAt(getMap().getSoilHeight(), posX - l, cell.createSubSoil());
+                                        getMap().setAt(getMap().getSoilHeight(), posX - l, cell.createSubSoil(getMap().getSoilHeight(), posI));
                                     }
                                 }
                             }
@@ -70,9 +70,9 @@ public class DecoSlagHeap extends DecoratorMap{
                                             getMap().setAt(getMap().getSoilHeight() - posI, posX + l, cell.createSoilSurface());
                                         }
                                     } else
-                                        getMap().setAt(getMap().getSoilHeight() - posI, posX + l, cell.createSubSoil());
+                                        getMap().setAt(getMap().getSoilHeight() - posI, posX + l, cell.createSubSoil(getMap().getSoilHeight(), posI));
                                     if (posI == 1) {
-                                        getMap().setAt(getMap().getSoilHeight(), posX + l, cell.createSubSoil());
+                                        getMap().setAt(getMap().getSoilHeight(), posX + l, cell.createSubSoil(getMap().getSoilHeight(), posI));
 
                                     }
                                 }
