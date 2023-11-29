@@ -50,17 +50,17 @@
     <bottom>
         <HBox alignment="TOP_CENTER" BorderPane.alignment="CENTER" spacing="25.0">
             <children>
-                <Button text="CRAFT" onAction="#craft" mnemonicParsing="false" disable="true">
+                <Button fx:id="craftButton" text="CRAFT" onMouseClicked="#craft" mnemonicParsing="false" disable="true">
                     <font>
                         <Font name="Monospaced Regular" size="10.0" />
                     </font>
                 </Button>
-                <Button fx:id="addButton" text="ADD" onAction="#addToInventory" mnemonicParsing="false" disable="true">
+                <Button fx:id="addButton" text="ADD" onMouseClicked="#addToInventory" mnemonicParsing="false" disable="true">
                     <font>
                         <Font name="Monospaced Regular" size="10.0" />
                     </font>
                 </Button>
-                <Button fx:id="clearButton" text="CLEAR" onAction="#clear" mnemonicParsing="false">
+                <Button fx:id="clearButton" text="CLEAR" onMouseClicked="#clear" mnemonicParsing="false" disable="true">
                     <font>
                         <Font name="Monospaced Regular" size="10.0" />
                     </font>
