@@ -76,18 +76,18 @@ public final class ResourceInInventory {
         // On ajoute l'image de la ressource.
         Image image = resource.getSprite().getImage();
         ImageView resourceView = new ImageView(image);
-        resourceView.minWidth(image.getWidth());
-        resourceView.maxWidth(image.getWidth());
-        resourceView.minHeight(image.getHeight());
-        resourceView.maxHeight(image.getHeight());
+        resourceView.minWidth(image.getWidth()*2);
+        resourceView.maxWidth(image.getWidth()*2);
+        resourceView.minHeight(image.getHeight()*2);
+        resourceView.maxHeight(image.getHeight()*2);
         pane.getChildren().add(resourceView);
 
         // On ajoute le nombre d'occurence.
         Label countView = new Label();
-        countView.setFont(new Font(8));
-        countView.setTextFill(Color.WHITE);
+        countView.setFont(new Font(10));
+        countView.setTextFill(Color.YELLOW);
         countView.setBackground(
-                new Background(new BackgroundFill(Color.RED, new CornerRadii(45), Insets.EMPTY)));
+                new Background(new BackgroundFill(null, new CornerRadii(45), Insets.EMPTY)));
         countView.textProperty().bind(count.asString());
         pane.getChildren().add(countView);
     }
