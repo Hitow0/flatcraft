@@ -51,7 +51,7 @@ public class NetherFactory implements CellFactory {
     }
 
     @Override
-    public Cell createSubSoil() {
+    public Cell createSubSoil(int surfaceSoilHeight, int j) {
         Random r = new Random();
         int n = r.nextInt(100);
         if (n<=95) {

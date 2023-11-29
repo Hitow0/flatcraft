@@ -41,7 +41,7 @@ public class EndFactory implements CellFactory {
     }
 
     @Override
-    public Cell createSubSoil() {
+    public Cell createSubSoil(int surfaceSoilHeight, int j) {
         Sprite sprite = spriteStore.getSprite("sandstone");
         Resource resource = new Resource("sand_stone", sprite, ToolType.NO_TOOL, 1);
         return new Cellule(resource);
