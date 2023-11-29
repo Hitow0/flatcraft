@@ -52,9 +52,7 @@ public class OverworldFactory implements CellFactory {
             Resource resource = new Resource("grass", sprite, ToolType.NO_TOOL, 2);
             return new Cellule(resource);
         }
-        Sprite sprite = spriteStore.getSprite("water");
-        Resource resource = new Resource("water", sprite, ToolType.NO_TOOL, 5);
-        return new Cellule(resource);
+        return new Cellule(spriteStore.getSprite("water"));
     }
 
 
