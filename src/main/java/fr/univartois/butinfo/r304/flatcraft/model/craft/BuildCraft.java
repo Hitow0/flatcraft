@@ -13,7 +13,7 @@ public class BuildCraft implements  ICraftBuilder{
 
     @Override
     public void buildRecette(String rule) {
-        String[] items = rule.split("_");
+        String[] items = rule.split("-");
         ArrayList<Resource> recette = new ArrayList<>();
         for (String item : items) {
             if (!"empty".equals(item)) {
