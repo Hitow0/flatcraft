@@ -19,6 +19,7 @@ package fr.univartois.butinfo.r304.flatcraft.model.craft;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 /**
  * La classe {@link RuleParser} permet de lire un fichier de règles de craft.
@@ -57,14 +58,14 @@ public final class RuleParser {
      */
     public void parse() throws IOException {
         try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(getClass().getResourceAsStream(fileName)))) {
+                new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream( fileName + ".txt"))))) {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 String[] splitted = line.split("=");
                 String[] result = splitted[1].split(" ");
                 if (result.length == 1) {
-                    addRule(splitted[0], splitted[1], 1);
+                    addRule(splitted[0], result[0], 1);
                 } else {
-                    addRule(splitted[0], splitted[1], Integer.parseInt(result[1]));
+                    addRule(splitted[0], result[0], Integer.parseInt(result[1]));
                 }
             }
         }
