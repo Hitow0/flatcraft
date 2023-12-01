@@ -57,16 +57,21 @@ public class Player extends AbstractMovable {
         this.inventaire = inventaire;
     }
 
-    /*
-    SI IL Y A UN PB DANS L'INVENTAIRE C'EST MA FAUTE
-     */
-
     public void addObject(Resource r){
         if(inventaire.containsKey(r)){
             inventaire.replace(r,inventaire.get(r)+1);
         }
         else {
             inventaire.put(r,1);
+        }
+    }
+
+    public void addObject(Resource r, Integer q){
+        if(inventaire.containsKey(r)){
+            inventaire.replace(r,inventaire.get(r)+q);
+        }
+        else {
+            inventaire.put(r,q);
         }
     }
 

@@ -16,9 +16,14 @@
 
 package fr.univartois.butinfo.r304.flatcraft.model;
 
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import fr.univartois.butinfo.r304.flatcraft.model.craft.Cook;
+import fr.univartois.butinfo.r304.flatcraft.model.craft.Craft;
+import fr.univartois.butinfo.r304.flatcraft.model.craft.ListRecette;
+import fr.univartois.butinfo.r304.flatcraft.model.craft.RuleParser;
 import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
 import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoSlagHeap;
 import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoTree;
@@ -107,6 +112,10 @@ public final class FlatcraftGame {
      */
     private FlatcraftAnimation animation = new FlatcraftAnimation(this, movableObjects);
 
+    private List<Craft> craftList;
+
+    private List<Cook> cookList;
+
     /**
      * Instance de FlatcraftGame
      */
@@ -192,7 +201,7 @@ public final class FlatcraftGame {
     /**
      * Prépare la partie de Flatcraft avant qu'elle ne démarre.
      */
-    public void prepare() {
+    public void prepare() throws IOException {
         // On crée la carte du jeu.
         map = createMap();
         controller.prepare(map);
@@ -227,6 +236,17 @@ public final class FlatcraftGame {
         controller.bindTime(this.time);
         controller.bindLevel(this.level);
         controller.bindInventory(player.getInventaire());
+
+        //On récupère les crafts possibles
+        RuleParser craftParser = new RuleParser("craftrules");
+        RuleParser furnaceParser = new RuleParser("furnacerules");
+
+        craftParser.parse();
+        furnaceParser.parse();
+
+        cookList = ListRecette.getInstance().getCookList();
+        craftList = ListRecette.getInstance().getCraftList();
+
         // On démarre l'animation du jeu.
         animation.start();
     }
@@ -411,9 +431,20 @@ public final class FlatcraftGame {
      *
      * @return La ressource produite.
      */
-    public Resource craft(Resource[][] inputResources) {
-        // TODO Vous devez compléter cette méthode.
-        throw new UnsupportedOperationException("Pas encore implémentée !");
+    public Map<Resource, Integer> craft(Resource[][] inputResources) {
+        List<Resource> resourceInput = new ArrayList<>();
+        Map<Resource, Integer> produit = new HashMap<>();
+        for (Resource[] inputResource : inputResources) {
+            resourceInput.addAll(Arrays.asList(inputResource));
+        }
+        for(Craft craft : craftList){
+            if(craft.getCraft().equals(resourceInput)){
+                produit.put(craft.getProduct(), craft.getQuantity());
+                return produit;
+            }
+        }
+        controller.displayError("Aucun craft n'a ete trouve");
+        return null;
     }
 
     /**
@@ -426,8 +457,13 @@ public final class FlatcraftGame {
      * @return La ressource produite.
      */
     public Resource cook(Resource fuel, Resource resource) {
-        // TODO Vous devez compléter cette méthode.
-        throw new UnsupportedOperationException("Pas encore implémentée !");
+        for(Cook cook : cookList){
+            if(cook.getIngredient().equals(resource)){
+                return cook.getProduit();
+            }
+        }
+        controller.displayError("Aucune cuisson n'a ete trouvee");
+        return null;
     }
 
     public Player getPlayer() {
