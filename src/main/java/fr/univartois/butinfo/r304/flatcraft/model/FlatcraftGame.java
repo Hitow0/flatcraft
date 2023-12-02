@@ -281,23 +281,18 @@ public final class FlatcraftGame {
         controller.prepare(map);
 
         if(bOrA==0){
-            int i=0;
-            while(map.getAt(i,width*16).getResource() == null){
-                i++;
-            }
+
+
 
             player.setX(width*16);
-            player.setY((i-1)*16);
+            player.setY((map.getSoilHeight()-1)*16);
 
         }
         if(bOrA==1){
-            int i=0;
-            while(map.getAt(i,width).getResource() == null){
-                i++;
-            }
+
             // On crée le joueur, qui se trouve sur le sol à gauche de la carte.
-            player.setX(width*8);
-            player.setY((i-1)*16);
+            player.setX(0);
+            player.setY((map.getSoilHeight()-1)*16);
         }
 
     }
