@@ -257,14 +257,49 @@ public final class FlatcraftGame {
      * @return La carte du jeu créée.
      */
     private GameMap createMap() {
+        IGenMapStrat mapStrat = this.genMapStrat;
+        mapStrat.setHeight(height/spriteStore.getSpriteSize());
+        mapStrat.setWidth(width/ spriteStore.getSpriteSize());
+        mapStrat.setCell(cellFactory);
 
-        IGenMapStrat map = this.genMapStrat;
-        map.genMap(height/spriteStore.getSpriteSize(),width/ spriteStore.getSpriteSize(),cellFactory);
-        DecoSlagHeap slagHeap=new DecoSlagHeap(map);
-        DecoTree tree=new DecoTree(map);
+        DecoSlagHeap slagHeap=new DecoSlagHeap(mapStrat);
+        DecoTree tree=new DecoTree(mapStrat);
         slagHeap.genSlagHeap(cellFactory);
         tree.genTree(cellFactory);
-        return map.getMap();
+        return mapStrat.getMap();
+    }
+
+
+    private void nextMap(int bOrA){
+        if(bOrA==0)
+            genMapStrat.mapMoveLeft();
+        if(bOrA==1)
+            genMapStrat.mapMoveRight();
+
+
+        map=genMapStrat.getMap();
+        controller.prepare(map);
+
+        if(bOrA==0){
+            int i=0;
+            while(map.getAt(i,width*16).getResource() == null){
+                i++;
+            }
+
+            player.setX(width*16);
+            player.setY((i-1)*16);
+
+        }
+        if(bOrA==1){
+            int i=0;
+            while(map.getAt(i,width).getResource() == null){
+                i++;
+            }
+            // On crée le joueur, qui se trouve sur le sol à gauche de la carte.
+            player.setX(width*8);
+            player.setY((i-1)*16);
+        }
+
     }
 
     /**
@@ -297,6 +332,8 @@ public final class FlatcraftGame {
         Cell cellToTravel = null;
         if(!(cell.getColumn()-1 < 0)) {
             cellToTravel = map.getAt(cell.getRow(), cell.getColumn() - 1);
+        }else{
+            nextMap(0);
         }
         if(cellToTravel != null && (cellToTravel.getResource()==null)) {
             player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
@@ -314,6 +351,8 @@ public final class FlatcraftGame {
         Cell cellToTravel = null;
         if(!(cell.getColumn()+1 >= map.getWidth())) {
             cellToTravel = map.getAt(cell.getRow(), cell.getColumn() + 1);
+        }else{
+            nextMap(1);
         }
         if(cellToTravel != null && (cellToTravel.getResource()==null)) {
             player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
