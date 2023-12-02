@@ -69,4 +69,20 @@ public class ListMap {
 
     }
 
+    public SimpleGameMap getBeforeMap(){
+        if(actualMap.before==null) {
+            actualMap.before = new AMap(genMapStrat.genMap());
+            actualMap.before.after=actualMap;
+        }
+        return actualMap.before.getMap();
+    }
+
+    public SimpleGameMap getAfterMap(){
+        if(actualMap.after==null) {
+            actualMap.after = new AMap(genMapStrat.genMap());
+            actualMap.after.before=actualMap;
+        }
+        return actualMap.after.getMap();
+    }
+
 }

@@ -56,6 +56,14 @@ public class GenMapStrat1 implements IGenMapStrat{
         return listMap.getMap();
     }
 
+    public SimpleGameMap getAfterMap(){
+        return listMap.getAfterMap();
+    }
+
+    public SimpleGameMap getBeforeMap(){
+        return listMap.getBeforeMap();
+    }
+
     public void mapMoveLeft(){
         listMap.MoveBefore();
     }

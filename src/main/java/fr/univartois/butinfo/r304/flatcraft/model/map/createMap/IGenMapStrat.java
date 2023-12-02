@@ -9,6 +9,8 @@ public interface IGenMapStrat {
     public void setHeight(int height);
     public SimpleGameMap genMap();
     public SimpleGameMap getMap();
+    public SimpleGameMap getAfterMap();
+    public SimpleGameMap getBeforeMap();
     public void mapMoveLeft();
     public void mapMoveRight();
 }

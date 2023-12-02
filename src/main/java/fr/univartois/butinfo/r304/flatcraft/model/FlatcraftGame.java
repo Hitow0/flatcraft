@@ -270,31 +270,22 @@ public final class FlatcraftGame {
     }
 
 
-    private void nextMap(int bOrA){
-        if(bOrA==0)
+    private void nextMap(int bOrA) {
+        if (bOrA == 0)
             genMapStrat.mapMoveLeft();
-        if(bOrA==1)
+        if (bOrA == 1)
             genMapStrat.mapMoveRight();
+        map = genMapStrat.getMap();
+    }
 
-
-        map=genMapStrat.getMap();
+    private void tpMap(int bOrA){
         controller.prepare(map);
-
         if(bOrA==0){
-
-
-
             player.setX(width*16);
-            player.setY((map.getSoilHeight()-1)*16);
-
         }
         if(bOrA==1){
-
-            // On crée le joueur, qui se trouve sur le sol à gauche de la carte.
             player.setX(0);
-            player.setY((map.getSoilHeight()-1)*16);
         }
-
     }
 
     /**
@@ -328,7 +319,11 @@ public final class FlatcraftGame {
         if(!(cell.getColumn()-1 < 0)) {
             cellToTravel = map.getAt(cell.getRow(), cell.getColumn() - 1);
         }else{
-            nextMap(0);
+            map = genMapStrat.getBeforeMap();
+            if(map.getAt(player.getY()/16, 79).getResource() == null) {
+                tpMap(0);
+                nextMap(0);
+            }
         }
         if(cellToTravel != null && (cellToTravel.getResource()==null)) {
             player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
@@ -346,8 +341,12 @@ public final class FlatcraftGame {
         Cell cellToTravel = null;
         if(!(cell.getColumn()+1 >= map.getWidth())) {
             cellToTravel = map.getAt(cell.getRow(), cell.getColumn() + 1);
-        }else{
-            nextMap(1);
+        }else {
+            map = genMapStrat.getAfterMap();
+            if (map.getAt(player.getY() / 16, 0).getResource() == null){
+                tpMap(1);
+                nextMap(1);
+            }
         }
         if(cellToTravel != null && (cellToTravel.getResource()==null)) {
             player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
@@ -416,9 +415,16 @@ public final class FlatcraftGame {
         Cell cellToDig = null;
         if(!(cell.getColumn()-1 < 0)) {
             cellToDig = map.getAt(cell.getRow(), cell.getColumn() - 1);
-        }
-        if(cellToDig != null && cellToDig.getResource() != null){
-            cellToDig.dig(player);
+            if(cellToDig != null && cellToDig.getResource() != null){
+                cellToDig.dig(player);
+            }
+        } else {
+            map = genMapStrat.getBeforeMap();
+            cellToDig = map.getAt(player.getY() / 16, 79);
+            if(cellToDig != null && cellToDig.getResource() != null){
+                cellToDig.dig(player);
+                map = genMapStrat.getMap();
+            }
         }
     }
 
@@ -430,9 +436,13 @@ public final class FlatcraftGame {
         Cell cellToDig = null;
         if(!(cell.getColumn()+1 >= map.getWidth())) {
             cellToDig = map.getAt(cell.getRow(), cell.getColumn() + 1);
+        } else {
+            map = genMapStrat.getAfterMap();
+            cellToDig = map.getAt(player.getY() / 16, 0);
         }
         if(cellToDig != null && cellToDig.getResource() != null){
             cellToDig.dig(player);
+            map = genMapStrat.getMap();
         }
     }
 
