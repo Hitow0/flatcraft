@@ -64,7 +64,7 @@ public final class Flatcraft extends Application {
         controller.setStage(stage);
 
         // On crée ensuite le jeu, que l'on lie au contrôleur.
-        FlatcraftGame game = FlatcraftGame.getInstance(GAME_WIDTH, GAME_HEIGHT, SpriteStore.getInstance(),OverworldFactory.getInstance());
+        FlatcraftGame game = FlatcraftGame.getInstance(GAME_WIDTH, GAME_HEIGHT, SpriteStore.getInstance(), NetherFactory.getInstance());
         controller.setGame(game);
         game.setController(controller);
         game.setIGenMapStrat(GenMapStrat1.getInstance());

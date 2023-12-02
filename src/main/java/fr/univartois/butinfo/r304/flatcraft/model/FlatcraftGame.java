@@ -24,6 +24,9 @@ import fr.univartois.butinfo.r304.flatcraft.model.craft.Cook;
 import fr.univartois.butinfo.r304.flatcraft.model.craft.Craft;
 import fr.univartois.butinfo.r304.flatcraft.model.craft.ListRecette;
 import fr.univartois.butinfo.r304.flatcraft.model.craft.RuleParser;
+import fr.univartois.butinfo.r304.flatcraft.model.map.EndFactory;
+import fr.univartois.butinfo.r304.flatcraft.model.map.NetherFactory;
+import fr.univartois.butinfo.r304.flatcraft.model.map.OverworldFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
 import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoSlagHeap;
 import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoTree;
@@ -134,8 +137,14 @@ public final class FlatcraftGame {
         this.width = width;
         this.height = height;
         this.spriteStore = spriteStore;
-        cellFactory = factory;
+        setCellFactory(OverworldFactory.getInstance());
         cellFactory.setSpriteStore(spriteStore);
+        setCellFactory(NetherFactory.getInstance());
+        cellFactory.setSpriteStore(spriteStore);
+        setCellFactory(EndFactory.getInstance());
+        cellFactory.setSpriteStore(spriteStore);
+        //Faudra enlever factory dans le contructeur et la ligne en dessous comme ça dans la version final on spawnera tout le temps dans l'overworld
+        cellFactory = factory;
     }
 
     /**
@@ -161,6 +170,11 @@ public final class FlatcraftGame {
      */
     public static CellFactory getCellFactory() {
         return cellFactory;
+    }
+
+
+    public static void setCellFactory(CellFactory cellFactory) {
+        FlatcraftGame.cellFactory = cellFactory;
     }
 
     /**
@@ -203,6 +217,12 @@ public final class FlatcraftGame {
      */
     public void prepare() throws IOException {
         // On crée la carte du jeu.
+       /* setCellFactory(NetherFactory.getInstance());
+        createMap();
+        setCellFactory(EndFactory.getInstance());
+        createMap();
+        */
+        setCellFactory(OverworldFactory.getInstance());
         map = createMap();
         controller.prepare(map);
         int i=0;
@@ -251,6 +271,8 @@ public final class FlatcraftGame {
         animation.start();
     }
 
+
+
     /**
      * Crée la carte du jeu.
      *
@@ -261,7 +283,6 @@ public final class FlatcraftGame {
         mapStrat.setHeight(height/spriteStore.getSpriteSize());
         mapStrat.setWidth(width/ spriteStore.getSpriteSize());
         mapStrat.setCell(cellFactory);
-
         DecoSlagHeap slagHeap=new DecoSlagHeap(mapStrat);
         DecoTree tree=new DecoTree(mapStrat);
         slagHeap.genSlagHeap(cellFactory);
@@ -306,6 +327,35 @@ public final class FlatcraftGame {
     }
 
     /**
+     * Vérifie si la cellule est un portail et change la factory en fonction du type du portail
+     * @param cellToTravel
+     */
+    private void changeFactory(Cell cellToTravel) {
+        Cell cell = getCellOf(player);
+
+        if (cellToTravel != null && "NetherPortal".equals(cellToTravel.getResource().getName())) { //On vérifie si le joueur est dans un portail du Nether
+            //On regarde le type de cellFactory pour savoir dans quelle dimension on est
+            if (cellFactory.equals(OverworldFactory.getInstance())) {
+                setCellFactory(NetherFactory.getInstance());
+            } else if (cellFactory.equals(NetherFactory.getInstance())) {
+                setCellFactory(OverworldFactory.getInstance());
+            }
+
+
+        } else if (cellToTravel != null && "EndPortal".equals(cellToTravel.getResource().getName())) { //On vérifie si le joueur est dans un portail de l'End
+            //On regarde le type de cellFactory pour savoir dans quelle dimension on est
+            if (cellFactory.equals(OverworldFactory.getInstance())) {
+                setCellFactory(EndFactory.getInstance());
+            } else if (cellFactory.equals(EndFactory.getInstance())) {
+                setCellFactory(OverworldFactory.getInstance());
+            }
+        }
+    }
+
+
+
+
+    /**
      * Fait se déplacer le joueur vers le haut.
      */
     public void moveUp() {
@@ -325,6 +375,8 @@ public final class FlatcraftGame {
     public void moveLeft() {
         Cell cell = getCellOf(player);
         Cell cellToTravel = null;
+
+
         if(!(cell.getColumn()-1 < 0)) {
             cellToTravel = map.getAt(cell.getRow(), cell.getColumn() - 1);
         }else{
@@ -334,9 +386,11 @@ public final class FlatcraftGame {
             player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
             move(player);
         } else {
+            changeFactory(cellToTravel);
             player.setHorizontalSpeed(0);
         }
-    }
+        }
+
 
     /**
      * Fait se déplacer le joueur vers la droite.
@@ -353,6 +407,7 @@ public final class FlatcraftGame {
             player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
             move(player);
         } else {
+            changeFactory(cellToTravel);
             player.setHorizontalSpeed(0);
         }
     }
