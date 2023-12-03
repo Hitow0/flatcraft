@@ -35,6 +35,11 @@ public class GenMapStrat1 implements IGenMapStrat{
         this.cell = cell;
     }
 
+    /**
+     * Change la factory de l'instance pour qu'elle soit la même que celle de FlatcraftGame
+     */
+    private void sameFactory(){this.cell = FlatcraftGame.getCellFactory();}
+
     private GenMapStrat1() {
         overworldMaps=new ListMap(this);
         netherMaps = new ListMap(this);
@@ -48,7 +53,8 @@ public class GenMapStrat1 implements IGenMapStrat{
     }
 
     public SimpleGameMap genMap(){
-             SimpleGameMap map = new SimpleGameMap(height, width, height / 2);
+        SimpleGameMap map = new SimpleGameMap(height, width, height / 2);
+        sameFactory();
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     if (i < map.getSoilHeight())

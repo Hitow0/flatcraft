@@ -327,30 +327,47 @@ public final class FlatcraftGame {
     }
 
     /**
-     * Vérifie si la cellule est un portail et change la factory en fonction du type du portail
+     * Vérifie si la cellule est un portail et change la factory et la map en fonction du type du portail
      * @param cellToTravel
      */
-    private void changeFactory(Cell cellToTravel) {
+    private void changeDimension(Cell cellToTravel) {
         Cell cell = getCellOf(player);
 
-        if (cellToTravel != null && "NetherPortal".equals(cellToTravel.getResource().getName())) { //On vérifie si le joueur est dans un portail du Nether
+        if (cellToTravel != null && "nether_portal".equals(cellToTravel.getResource().getName())) { //On vérifie si le joueur est dans un portail du Nether
             //On regarde le type de cellFactory pour savoir dans quelle dimension on est
             if (cellFactory.equals(OverworldFactory.getInstance())) {
                 setCellFactory(NetherFactory.getInstance());
+                map=genMapStrat.getMap();
+                controller.prepare(map);
+                player.setX(0);
+                player.setY((map.getSoilHeight()-1)*16);
             } else if (cellFactory.equals(NetherFactory.getInstance())) {
                 setCellFactory(OverworldFactory.getInstance());
+                map=genMapStrat.getMap();
+                controller.prepare(map);
+                player.setX(0);
+                player.setY((map.getSoilHeight()-1)*16);
             }
 
 
-        } else if (cellToTravel != null && "EndPortal".equals(cellToTravel.getResource().getName())) { //On vérifie si le joueur est dans un portail de l'End
+        } else if (cellToTravel != null && "end_portal".equals(cellToTravel.getResource().getName())) { //On vérifie si le joueur est dans un portail de l'End
             //On regarde le type de cellFactory pour savoir dans quelle dimension on est
             if (cellFactory.equals(OverworldFactory.getInstance())) {
                 setCellFactory(EndFactory.getInstance());
+                map=genMapStrat.getMap();
+                controller.prepare(map);
+                player.setX(0);
+                player.setY((map.getSoilHeight()-1)*16);
             } else if (cellFactory.equals(EndFactory.getInstance())) {
                 setCellFactory(OverworldFactory.getInstance());
+                map=genMapStrat.getMap();
+                controller.prepare(map);
+                player.setX(0);
+                player.setY((map.getSoilHeight()-1)*16);
             }
         }
     }
+
 
 
 
@@ -386,7 +403,7 @@ public final class FlatcraftGame {
             player.setHorizontalSpeed(-4 * spriteStore.getSpriteSize());
             move(player);
         } else {
-            changeFactory(cellToTravel);
+            changeDimension(cellToTravel);
             player.setHorizontalSpeed(0);
         }
         }
@@ -407,7 +424,7 @@ public final class FlatcraftGame {
             player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
             move(player);
         } else {
-            changeFactory(cellToTravel);
+            changeDimension(cellToTravel);
             player.setHorizontalSpeed(0);
         }
     }
