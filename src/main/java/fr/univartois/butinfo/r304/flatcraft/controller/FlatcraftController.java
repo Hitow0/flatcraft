@@ -116,6 +116,8 @@ public final class FlatcraftController implements IFlatcraftController {
      */
     private Map<Resource, ResourceInInventory> resourcesInInventory = new HashMap<>();
 
+    private boolean keyListenerAdded = false;
+
     /**
      * Associe à ce contrôleur la fenêtre dans laquelle se déroule le jeu.
      *
@@ -145,7 +147,9 @@ public final class FlatcraftController implements IFlatcraftController {
     @Override
     public void prepare(GameMap map) {
         createBackground(map);
-        addKeyListeners();
+        if(!this.keyListenerAdded){
+            addKeyListeners();
+        }
     }
 
     /**
@@ -206,6 +210,8 @@ public final class FlatcraftController implements IFlatcraftController {
                 game.stopMoving();
             }
         });
+
+        keyListenerAdded = true;
     }
 
     /*
