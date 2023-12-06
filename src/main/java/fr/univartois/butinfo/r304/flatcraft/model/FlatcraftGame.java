@@ -329,15 +329,28 @@ public final class FlatcraftGame {
      * Fait sauter le joueur.
      */
     public void jump() {
-        // TODO Cette méthode vous sera fournie ultérieurement.
+        // Vérifier si le joueur est au sol (sur une cellule sans objet en dessous).
+        Cell currentCell = getCellOf(player);
+        if (player.getVerticalSpeed()!=0)
+            player.setVerticalSpeed(0);
+        else
+            player.setVerticalSpeed(-4 * spriteStore.getSpriteSize());
     }
+
 
     /**
      * Fait creuser le joueur vers le haut.
      */
     public void digUp() {
-        // TODO Nous reviendrons plus tard sur cette méthode.
-    }
+        Cell cell = getCellOf(player);
+        Cell cellToDig = null;
+        if(cell.getRow()-1 < map.getHeight()) {
+            cellToDig = map.getAt(cell.getRow()-1, cell.getColumn());
+        }
+        if(cellToDig != null && cellToDig.getResource() != null){
+            cellToDig.dig(player);
+            move(player);
+        }    }
 
     /**
      * Fait creuser le joueur vers le bas.
