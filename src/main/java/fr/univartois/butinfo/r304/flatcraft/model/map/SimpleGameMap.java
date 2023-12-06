@@ -117,8 +117,11 @@ public final class SimpleGameMap implements GameMap {
      */
     @Override
     public Cell getAt(int row, int column) {
-        if (((row < 0) || (height <= row)) || ((column < 0) || (width <= column))) {
+        if (((row < 0) || (height <= row))) {
             throw new IllegalArgumentException("Incorrect cell location!");
+        }
+        if(column == 1280){
+            return cells[row][79];
         }
         return cells[row][column];
     }

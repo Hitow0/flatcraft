@@ -19,6 +19,7 @@ package fr.univartois.butinfo.r304.flatcraft.model.craft;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 /**
  * La classe {@link RuleParser} permet de lire un fichier de règles de craft.
@@ -34,6 +35,8 @@ public final class RuleParser {
      */
     private final String fileName;
 
+    private ICraftBuilder builder;
+
     /**
      * Crée une nouvelle instance de RuleParser.
      *
@@ -41,6 +44,11 @@ public final class RuleParser {
      */
     public RuleParser(String fileName) {
         this.fileName = fileName;
+        if ("furnacerules".equals(fileName)){
+            this.builder = new BuildCook();
+        } else if ("craftrules".equals(fileName)) {
+            this.builder = new BuildCraft();
+        }
     }
 
     /**
@@ -50,14 +58,14 @@ public final class RuleParser {
      */
     public void parse() throws IOException {
         try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(getClass().getResourceAsStream(fileName)))) {
+                new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream( fileName + ".txt"))))) {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 String[] splitted = line.split("=");
                 String[] result = splitted[1].split(" ");
                 if (result.length == 1) {
-                    addRule(splitted[0], splitted[1], 1);
+                    addRule(splitted[0], result[0], 1);
                 } else {
-                    addRule(splitted[0], splitted[1], Integer.parseInt(result[1]));
+                    addRule(splitted[0], result[0], Integer.parseInt(result[1]));
                 }
             }
         }
@@ -69,9 +77,12 @@ public final class RuleParser {
      * @param rule La règle à ajouter.
      * @param product Le résultat de l'application de la règle.
      * @param quantity La quantité obtenue pour la ressource produite.
-     * */
+     */
     private void addRule(String rule, String product, int quantity) {
-        // TODO Ajoutez ici le code propre à votre application pour gérer les règles.
+        builder.buildRecette(rule);
+        builder.buildProduit(product,quantity);
+        builder.getResult();
     }
 
 }
+

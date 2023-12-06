@@ -1,13 +1,35 @@
 package fr.univartois.butinfo.r304.flatcraft.model.map.createMap;
 
 import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
+import fr.univartois.butinfo.r304.flatcraft.model.listMap.ListMap;
 import fr.univartois.butinfo.r304.flatcraft.model.map.SimpleGameMap;
 
 public class GenMapStrat1 implements IGenMapStrat{
     private static GenMapStrat1 instance;
-    private SimpleGameMap map;
 
-    private GenMapStrat1() {}
+    private ListMap listMap;
+
+    private int height;
+
+    private int width;
+
+    private CellFactory cell;
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setCell(CellFactory cell) {
+        this.cell = cell;
+    }
+
+    private GenMapStrat1() {
+        listMap=new ListMap(this);
+    }
 
     public static GenMapStrat1 getInstance() {
         if (instance == null)
@@ -15,9 +37,8 @@ public class GenMapStrat1 implements IGenMapStrat{
         return instance;
     }
 
-    public void genMap(int height, int width, CellFactory cell){
-        if(map==null) {
-            map = new SimpleGameMap(height, width, height / 2);
+    public SimpleGameMap genMap(){
+             SimpleGameMap map = new SimpleGameMap(height, width, height / 2);
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     if (i < map.getSoilHeight())
@@ -28,13 +49,26 @@ public class GenMapStrat1 implements IGenMapStrat{
                         map.setAt(i, j, cell.createSubSoil(map.getSoilHeight(),i));
                 }
             }
-        }else {
-            System.out.println("map déja générer");
-        }
-
+            return map;
     }
 
     public SimpleGameMap getMap() {
-        return map;
+        return listMap.getMap();
+    }
+
+    public SimpleGameMap getAfterMap(){
+        return listMap.getAfterMap();
+    }
+
+    public SimpleGameMap getBeforeMap(){
+        return listMap.getBeforeMap();
+    }
+
+    public void mapMoveLeft(){
+        listMap.MoveBefore();
+    }
+
+    public void mapMoveRight(){
+        listMap.MoveAfter();
     }
 }

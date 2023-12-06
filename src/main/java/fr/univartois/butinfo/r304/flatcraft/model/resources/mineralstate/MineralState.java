@@ -9,9 +9,13 @@ public class MineralState implements IStateResource {
 
     @Override
     public IStateResource changeState(Resource resource) {
-        resource.setName(resource.getName().substring(8));
-        if ("coal".equals(resource.getName()) || "iron".equals(resource.getName()) || "gold".equals(resource.getName()))
-            resource.setName(resource.getName()+"_lump");
+        if("stone".equals(resource.getName()))
+            resource.setName("cobble");
+        else {
+            resource.setName(resource.getName().substring(8));
+            if ("coal".equals(resource.getName()) || "iron".equals(resource.getName()) || "gold".equals(resource.getName()))
+                resource.setName(resource.getName() + "_lump");
+        }
         resource.setSprite(SpriteStore.getInstance().getSprite(resource.getName()));
         return new FinalState();
     }

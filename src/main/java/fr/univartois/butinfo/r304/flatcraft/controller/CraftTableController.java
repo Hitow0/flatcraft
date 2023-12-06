@@ -16,6 +16,8 @@
 
 package fr.univartois.butinfo.r304.flatcraft.controller;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
@@ -67,6 +69,10 @@ public final class CraftTableController {
      */
     private Resource product;
 
+    /**
+     * La quantité de produit obtenu à l'issue du craft
+     */
+    private Integer quantity;
     /**
      * La vue représentant la ressource produite à l'issue du craft.
      */
@@ -200,14 +206,20 @@ public final class CraftTableController {
     @FXML
     private void craft() {
         // On crée la nouvelle ressource.
-        product = game.craft(resources);
-        productView.setImage(product.getSprite().getImage());
-
-        // On met à jour les actions disponibles.
-        addButton.setDisable(false);
-        craftGrid.setDisable(true);
-        craftButton.setDisable(true);
-        clearButton.setDisable(true);
+        Map<Resource, Integer> resourceIntegerMap = game.craft(resources);
+        if(resourceIntegerMap != null){
+            for(Resource key : Objects.requireNonNull(game.craft(resources)).keySet()){
+                product = key;
+                quantity = Objects.requireNonNull(game.craft(resources)).get(key);
+            }
+            if(product != null) {
+                productView.setImage(product.getSprite().getImage());
+                addButton.setDisable(false);
+                craftGrid.setDisable(true);
+                craftButton.setDisable(true);
+                clearButton.setDisable(true);
+            }
+        }
     }
 
     /**
@@ -215,7 +227,20 @@ public final class CraftTableController {
      */
     @FXML
     private void addToInventory() {
-        game.getPlayer().addObject(product);
+        game.getPlayer().addObject(product, quantity);
+        for (int i = 0; i < resources.length; i++) {
+            for (int j = 0; j < resources[i].length; j++) {
+                resources[i][j] = null;
+                resourceViews[i][j].setImage(null);
+                resourceViews[i][j].setDisable(false);
+
+                productView.setImage(null);
+                addButton.setDisable(true);
+                craftGrid.setDisable(false);
+                craftButton.setDisable(false);
+                clearButton.setDisable(false);
+            }
+        }
     }
 
     /**

@@ -5,6 +5,7 @@
 # Fichiers de compilation Gradle.
 build
 .gradle
+.idea
 
 # Fichiers d'Eclipse.
 bin
