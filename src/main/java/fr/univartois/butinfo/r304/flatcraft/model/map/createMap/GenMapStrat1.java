@@ -82,11 +82,26 @@ public class GenMapStrat1 implements IGenMapStrat{
     }
 
     public SimpleGameMap getAfterMap(){
-        return listMap.getAfterMap();
+        if (FlatcraftGame.getCellFactory().equals(OverworldFactory.getInstance())) {
+            return overworldMaps.getAfterMap();
+        }
+        if (FlatcraftGame.getCellFactory().equals(NetherFactory.getInstance())){
+            return netherMaps.getAfterMap();
+        }
+        return endMaps.getAfterMap();
+
+
     }
 
     public SimpleGameMap getBeforeMap(){
-        return listMap.getBeforeMap();
+        if (FlatcraftGame.getCellFactory().equals(OverworldFactory.getInstance())) {
+            return overworldMaps.getBeforeMap();
+        }
+        if (FlatcraftGame.getCellFactory().equals(NetherFactory.getInstance())){
+            return netherMaps.getBeforeMap();
+        }
+        return endMaps.getBeforeMap();
+
     }
 
     public void mapMoveLeft(){
