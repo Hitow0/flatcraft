@@ -14,16 +14,16 @@ public class BuildCraft implements  ICraftBuilder{
     @Override
     public void buildRecette(String rule) {
         String[] items = rule.split("-");
-        ArrayList<Resource> recette = new ArrayList<>();
+        ArrayList<Resource> r = new ArrayList<>();
         for (String item : items) {
             if (!"empty".equals(item)) {
-                recette.add(new Resource(item, SpriteStore.getInstance().getSprite(item), null, 0));
+                r.add(new Resource(item, SpriteStore.getInstance().getSprite(item), null, 0));
             }
             else {
-                recette.add(null);
+                r.add(null);
             }
         }
-        this.recette = recette;
+        this.recette = r;
     }
 
     @Override

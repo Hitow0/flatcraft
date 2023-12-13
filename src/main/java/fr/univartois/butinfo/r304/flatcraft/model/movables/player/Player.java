@@ -9,13 +9,14 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Player extends AbstractMovable {
 
-    private IntegerProperty pv;
-    private IntegerProperty xp;
+    private final IntegerProperty pv;
+    private final IntegerProperty xp;
     private ObservableMap<Resource, Integer> inventaire;
 
     public Player(FlatcraftGame game, double xPosition, double yPosition, Sprite sprite) {
@@ -93,5 +94,19 @@ public class Player extends AbstractMovable {
             }
         });
         return result.get();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Player player = (Player) o;
+        return Objects.equals(pv, player.pv) && Objects.equals(xp, player.xp) && Objects.equals(inventaire, player.inventaire);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), pv, xp, inventaire);
     }
 }

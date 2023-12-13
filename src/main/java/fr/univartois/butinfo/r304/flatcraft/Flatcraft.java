@@ -20,10 +20,8 @@ import java.io.IOException;
 
 import fr.univartois.butinfo.r304.flatcraft.controller.FlatcraftController;
 import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
-import fr.univartois.butinfo.r304.flatcraft.model.map.EndFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.NetherFactory;
-import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.GenMapStrat1;
-import fr.univartois.butinfo.r304.flatcraft.model.map.OverworldFactory;
+import fr.univartois.butinfo.r304.flatcraft.model.map.createmap.GenMapStrat1;
 import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

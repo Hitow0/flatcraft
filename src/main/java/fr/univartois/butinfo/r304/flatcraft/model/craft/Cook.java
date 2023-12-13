@@ -6,12 +6,12 @@ public class Cook {
     /**
      * L'objet utilisé lors de la cuisson
      */
-    private Resource ingredient;
+    private final Resource ingredient;
 
     /**
      * Le produit de la cuisson
      */
-    private Resource produit;
+    private final Resource produit;
 
     /**
      * Crée une recette de cuisson

@@ -1,17 +1,14 @@
-package fr.univartois.butinfo.r304.flatcraft.model.listMap;
-
-import java.util.Random;
+package fr.univartois.butinfo.r304.flatcraft.model.listmap;
 
 import fr.univartois.butinfo.r304.flatcraft.model.map.SimpleGameMap;
-import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.GenMapStrat1;
-import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
+import fr.univartois.butinfo.r304.flatcraft.model.map.createmap.IGenMapStrat;
 
 public class ListMap {
-    protected class AMap{
+    protected static class AMap{
 
         private AMap before ;
 
-        private SimpleGameMap map;
+        private final SimpleGameMap map;
 
 
         private AMap after;
@@ -34,7 +31,7 @@ public class ListMap {
     }
 
 
-    private IGenMapStrat genMapStrat;
+    private final IGenMapStrat genMapStrat;
 
     private AMap actualMap;
 
@@ -44,7 +41,7 @@ public class ListMap {
 
 
     }
-    public void MoveBefore(){
+    public void moveBefore(){
         if(actualMap.before==null) {
             actualMap.before = new AMap(genMapStrat.genMap());
             actualMap.before.after=actualMap;
@@ -53,7 +50,7 @@ public class ListMap {
 
     }
 
-    public void MoveAfter(){
+    public void moveAfter(){
         if(actualMap.after==null) {
             actualMap.after = new AMap(genMapStrat.genMap());
             actualMap.after.before=actualMap;
@@ -64,7 +61,7 @@ public class ListMap {
 
     public SimpleGameMap getMap(){
         if(actualMap==null)
-            actualMap=new AMap(genMapStrat.genMap());
+            actualMap= new AMap(genMapStrat.genMap());
         return actualMap.getMap();
 
     }

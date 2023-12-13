@@ -4,15 +4,15 @@ public class LinearMovement implements IMobStrategy{
 
     @Override
     public double mobMovement(double current, double speed, long delta, Mob mob, int limitMin, int limitMax) {
-        mob.setHorizontalSpeed(-3*16);
+        mob.setHorizontalSpeed((double)-3*16);
         double newPos = current + (delta * speed) / 1000;
         if (newPos > limitMax + 32){
             mob.setHorizontalSpeed(0);
-            return limitMax + 32;
+            return (double)limitMax + 32;
         }
         else if (newPos < limitMin - 32){
             mob.setHorizontalSpeed(0);
-            return limitMin - 32;
+            return (double)limitMin - 32;
         }
         return newPos;
 

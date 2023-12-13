@@ -4,7 +4,7 @@ import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.AbstractMovable;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 
-import java.util.Random;
+import java.util.Objects;
 
 public class Mob extends AbstractMovable {
 
@@ -23,12 +23,25 @@ public class Mob extends AbstractMovable {
         this.movement = movement;
     }
 
+    @Override
     public boolean move(long delta){
         int limitMaxX = game.getWidth() - getWidth();
         double newX = movement.mobMovement(xPosition.get(), horizontalSpeed, delta, this, 0, limitMaxX);
         xPosition.set(newX);
-
         return (newX != 0) && (newX != limitMaxX);
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Mob mob = (Mob) o;
+        return Objects.equals(movement, mob.movement);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), movement);
     }
 }

@@ -33,7 +33,7 @@ public final class SimpleGameMap implements GameMap {
     /**
      * Les cellules composant cette carte.
      */
-    private Cell[][] cells;
+    private final Cell[][] cells;
 
     /**
      * La hauteur de cette carte, en nombre de cellules.

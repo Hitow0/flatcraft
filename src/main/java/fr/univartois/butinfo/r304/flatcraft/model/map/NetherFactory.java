@@ -12,7 +12,10 @@ import java.util.Random;
 public class NetherFactory implements CellFactory {
     private ISpriteStore spriteStore;
 
+    private final Random r = new Random();
+
     private static NetherFactory instance;
+    private static final String DESERT_STONE = "desert_stone";
 
     private NetherFactory(){
 
@@ -38,11 +41,11 @@ public class NetherFactory implements CellFactory {
 
     @Override
     public Cell createSoilSurface() {
-        Random r = new Random();
         int n = r.nextInt(5);
+
         if (n<=3) {
-            Sprite sprite = spriteStore.getSprite("desert_stone");
-            Resource resource = new Resource("desert_stone", sprite, ToolType.NO_TOOL, 1);
+            Sprite sprite = spriteStore.getSprite(DESERT_STONE);
+            Resource resource = new Resource(DESERT_STONE, sprite, ToolType.NO_TOOL, 1);
             return new Cellule(resource);
         }
         Sprite sprite = spriteStore.getSprite("lava");
@@ -52,11 +55,10 @@ public class NetherFactory implements CellFactory {
 
     @Override
     public Cell createSubSoil(int surfaceSoilHeight, int j) {
-        Random r = new Random();
         int n = r.nextInt(100);
         if (n<=95) {
-            Sprite sprite = spriteStore.getSprite("desert_stone");
-            Resource resource = new Resource("desert_stone", sprite, ToolType.NO_TOOL, 1);
+            Sprite sprite = spriteStore.getSprite(DESERT_STONE);
+            Resource resource = new Resource(DESERT_STONE, sprite, ToolType.NO_TOOL, 1);
             return new Cellule(resource);
         }
         Sprite sprite = spriteStore.getSprite("lava");
@@ -66,22 +68,12 @@ public class NetherFactory implements CellFactory {
 
     @Override
     public Cell createTrunk() {
-        Random r = new Random();
-        int n = r.nextInt(5);
-        if (n<=3) {
-            Sprite sprite = spriteStore.getSprite("desert_stone");
-            Resource resource = new Resource("desert_stone", sprite, ToolType.NO_TOOL, 1);
-            return new Cellule(resource);
-        }
-        Sprite sprite = spriteStore.getSprite("lava");
-        Resource resource = new Resource("lava", sprite, ToolType.NO_TOOL, 1);
-        return new Cellule(resource);
+        return createSoilSurface();
     }
 
     @Override
     public Cell createLeaves() {
-        Sprite sprite = spriteStore.getSprite("coal_block");
-        return new Cellule(sprite);
+        return createSky();
     }
 
     @Override

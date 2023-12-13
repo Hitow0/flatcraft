@@ -74,7 +74,7 @@ public final class ResourceInInventory {
      */
     private void initialize() {
         // On ajoute l'image de la ressource.
-        Image image = resource.getSprite().getImage();
+        Image image = resource.getSprite().image();
         ImageView resourceView = new ImageView(image);
         resourceView.minWidth(image.getWidth()*2);
         resourceView.maxWidth(image.getWidth()*2);
