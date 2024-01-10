@@ -1,8 +1,8 @@
-package fr.univartois.butinfo.r304.flatcraft.model.map.createMap;
+package fr.univartois.butinfo.r304.flatcraft.model.map.createmap;
 
 import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
-import fr.univartois.butinfo.r304.flatcraft.model.listMap.ListMap;
+import fr.univartois.butinfo.r304.flatcraft.model.listmap.ListMap;
 import fr.univartois.butinfo.r304.flatcraft.model.map.EndFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.NetherFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.OverworldFactory;
@@ -11,11 +11,11 @@ import fr.univartois.butinfo.r304.flatcraft.model.map.SimpleGameMap;
 public class GenMapStrat1 implements IGenMapStrat{
     private static GenMapStrat1 instance;
 
-    private ListMap overworldMaps;
+    private final ListMap overworldMaps;
 
-    private ListMap netherMaps;
+    private final ListMap netherMaps;
 
-    private  ListMap endMaps;
+    private final ListMap endMaps;
 
     private int height;
 
@@ -106,25 +106,25 @@ public class GenMapStrat1 implements IGenMapStrat{
 
     public void mapMoveLeft(){
         if (FlatcraftGame.getCellFactory().equals(OverworldFactory.getInstance())) {
-            overworldMaps.MoveBefore();
+            overworldMaps.moveBefore();
         }
         if (FlatcraftGame.getCellFactory().equals(NetherFactory.getInstance())){
-            netherMaps.MoveBefore();
+            netherMaps.moveBefore();
         }
         if (FlatcraftGame.getCellFactory().equals(EndFactory.getInstance())){
-            endMaps.MoveBefore();
+            endMaps.moveBefore();
         }
     }
 
     public void mapMoveRight(){
         if (FlatcraftGame.getCellFactory().equals(OverworldFactory.getInstance())) {
-            overworldMaps.MoveAfter();
+            overworldMaps.moveAfter();
         }
         if (FlatcraftGame.getCellFactory().equals(NetherFactory.getInstance())){
-            netherMaps.MoveAfter();
+            netherMaps.moveAfter();
         }
         if (FlatcraftGame.getCellFactory().equals(EndFactory.getInstance())){
-            endMaps.MoveAfter();
+            endMaps.moveAfter();
         }
     }
 }

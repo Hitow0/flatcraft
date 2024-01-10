@@ -16,13 +16,11 @@
 
 package fr.univartois.butinfo.r304.flatcraft.controller;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
-import fr.univartois.butinfo.r304.flatcraft.view.ResourceInInventory;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -184,7 +182,7 @@ public final class CraftTableController {
             if (resources[row][column] == null) {
                 imageView.setImage(null);
             } else {
-                imageView.setImage(resources[row][column].getSprite().getImage());
+                imageView.setImage(resources[row][column].getSprite().image());
             }
             imageView.setOpacity(1);
             event.consume();
@@ -206,19 +204,16 @@ public final class CraftTableController {
     @FXML
     private void craft() {
         // On crée la nouvelle ressource.
-        Map<Resource, Integer> resourceIntegerMap = game.craft(resources);
-        if(resourceIntegerMap != null){
-            for(Resource key : Objects.requireNonNull(game.craft(resources)).keySet()){
-                product = key;
-                quantity = Objects.requireNonNull(game.craft(resources)).get(key);
-            }
-            if(product != null) {
-                productView.setImage(product.getSprite().getImage());
-                addButton.setDisable(false);
-                craftGrid.setDisable(true);
-                craftButton.setDisable(true);
-                clearButton.setDisable(true);
-            }
+        for (Resource key : Objects.requireNonNull(game.craft(resources)).keySet()) {
+            product = key;
+            quantity = Objects.requireNonNull(game.craft(resources)).get(key);
+        }
+        if(product != null) {
+            productView.setImage(product.getSprite().image());
+            addButton.setDisable(false);
+            craftGrid.setDisable(true);
+            craftButton.setDisable(true);
+            clearButton.setDisable(true);
         }
     }
 

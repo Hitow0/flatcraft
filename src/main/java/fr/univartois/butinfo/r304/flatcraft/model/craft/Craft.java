@@ -2,7 +2,6 @@ package fr.univartois.butinfo.r304.flatcraft.model.craft;
 
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Craft {
@@ -10,17 +9,17 @@ public class Craft {
     /**
      * Le produit obtenu lors du craft
      */
-    private Resource product;
+    private final Resource product;
 
     /**
      * La quantité de produit obtenue
      */
-    private int quantity;
+    private final int quantity;
 
     /**
      * La liste des crafts possibles pour le produit
      */
-    private List<Resource> craft = new ArrayList<>();
+    private List<Resource> crafts;
 
     /**
      * Création d'un nouveau craft
@@ -28,7 +27,7 @@ public class Craft {
      * @param quantity : quantité de produit
      */
     public Craft(List<Resource> craft, Resource product, int quantity) {
-        this.craft = craft;
+        this.crafts = craft;
         this.product = product;
         this.quantity = quantity;
     }
@@ -53,7 +52,7 @@ public class Craft {
      * Obtenir la liste des crafts possible pour le produit
      * @return la liste des crafts
      */
-    public List<Resource> getCraft() {
-        return craft;
+    public List<Resource> getCrafts() {
+        return crafts;
     }
 }

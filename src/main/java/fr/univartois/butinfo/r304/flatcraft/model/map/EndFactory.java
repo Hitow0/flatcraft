@@ -56,8 +56,7 @@ public class EndFactory implements CellFactory {
 
     @Override
     public Cell createLeaves() {
-        Sprite sprite = spriteStore.getSprite("coal_block");
-        return new Cellule(sprite);
+        return createSky();
     }
 
     @Override

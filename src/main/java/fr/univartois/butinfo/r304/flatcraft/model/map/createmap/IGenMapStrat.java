@@ -1,4 +1,4 @@
-package fr.univartois.butinfo.r304.flatcraft.model.map.createMap;
+package fr.univartois.butinfo.r304.flatcraft.model.map.createmap;
 
 import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.SimpleGameMap;

@@ -1,8 +1,6 @@
 package fr.univartois.butinfo.r304.flatcraft.model.resources.mineralstate;
 
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
-import fr.univartois.butinfo.r304.flatcraft.model.resources.mineralstate.FinalState;
-import fr.univartois.butinfo.r304.flatcraft.model.resources.mineralstate.IStateResource;
 import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 
 public class MineralState implements IStateResource {

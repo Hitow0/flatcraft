@@ -1,29 +1,27 @@
 package fr.univartois.butinfo.r304.flatcraft.model.map.decorator;
 
 import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
-import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
+import fr.univartois.butinfo.r304.flatcraft.model.map.createmap.IGenMapStrat;
 import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
 public class DecoTree extends DecoratorMap{
-    private int NB_TREE=6;
-    private int MAX_TREE_HEIGHT=5;
+    private static final int NB_TREE=6;
+    private static final int MAX_TREE_HEIGHT=5;
 
-    private int nbTree;
+    private final int nbTree;
+    private final Random ran=new Random();
 
     public DecoTree(IGenMapStrat genMapStrat) {
         super(genMapStrat);
-        Random ran=new Random();
         nbTree=ran.nextInt(0,NB_TREE);
     }
 
 
     public void genTree(CellFactory cell){
-
-        Random ran=new Random();
+        String pineTree = "pine_tree";
         int height= getMap().getHeight();
         int width= getMap().getWidth();
 
@@ -39,9 +37,9 @@ public class DecoTree extends DecoratorMap{
                         while (getMap().getAt(l,posX).getResource()!=null){
                             l=l-1;
                         }
-                        if(getMap().getAt(l+1,posX).getResource().getName()!="pine_needles" && getMap().getAt(l+1,posX).getResource().getName()!="pine_tree"){
-                            if(getMap().getAt(l+1,posX+1).getResource()!=null && getMap().getAt(l+1,posX+1).getResource().getName()!="pine_tree"){
-                                if(getMap().getAt(l+1,posX-1).getResource()!=null && getMap().getAt(l+1,posX-1).getResource().getName()!="pine_tree"){
+                        if(!Objects.equals(getMap().getAt(l + 1, posX).getResource().getName(), "pine_needles") && !Objects.equals(getMap().getAt(l + 1, posX).getResource().getName(), pineTree)){
+                            if(getMap().getAt(l+1,posX+1).getResource()!=null && !Objects.equals(getMap().getAt(l + 1, posX + 1).getResource().getName(), pineTree)){
+                                if(getMap().getAt(l+1,posX-1).getResource()!=null && !Objects.equals(getMap().getAt(l + 1, posX - 1).getResource().getName(), pineTree)){
                                     found=true;
                                 }else{
                                     posX=ran.nextInt(1,width-1);

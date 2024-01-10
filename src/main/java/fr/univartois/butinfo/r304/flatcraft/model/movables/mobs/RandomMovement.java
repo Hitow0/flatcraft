@@ -3,11 +3,11 @@ package fr.univartois.butinfo.r304.flatcraft.model.movables.mobs;
 import java.util.Random;
 
 public class RandomMovement implements IMobStrategy{
+    private final Random random = new Random();
 
 
     @Override
     public double mobMovement(double current, double speed, long delta, Mob mob, int limitMin, int limitMax) {
-        Random random = new Random();
         int proba = random.nextInt(100);
         if (proba < 5){
             double newPos = current;

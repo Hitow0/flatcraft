@@ -46,7 +46,7 @@ public final class FurnaceController {
     /**
      * Le combustible et la ressource déposée dans le fourneau.
      */
-    private Resource[] resources = new Resource[2];
+    private final Resource[] resources = new Resource[2];
 
     /**
      * La grille représentant le fourneau dans lequel les ressources sont déposées.
@@ -160,7 +160,7 @@ public final class FurnaceController {
             if (resources[index] == null) {
                 imageView.setImage(null);
             } else {
-                imageView.setImage(resources[index].getSprite().getImage());
+                imageView.setImage(resources[index].getSprite().image());
             }
             imageView.setOpacity(1);
             event.consume();
@@ -184,7 +184,7 @@ public final class FurnaceController {
         // On crée la nouvelle ressource.
         product = game.cook(resources[1], resources[0]);
         if(product != null) {
-            productView.setImage(product.getSprite().getImage());
+            productView.setImage(product.getSprite().image());
 
             // On met à jour les actions disponibles.
             addButton.setDisable(false);

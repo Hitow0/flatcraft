@@ -25,25 +25,11 @@ import javafx.scene.image.Image;
  * De cette manière, il est possible d'utiliser la même instance de {@link Sprite} pour
  * représenter plusieurs éléments similaires en même temps.
  *
+ * @param image L'image associée à cette instance de {@link Sprite}.
  * @author Romain Wallon
- *
  * @version 0.1.0
  */
-public final class Sprite {
-
-    /**
-     * L'image associée à cette instance de {@link Sprite}.
-     */
-    private final Image image;
-
-    /**
-     * Crée une nouvelle instance de {@link Sprite}.
-     *
-     * @param image L'image associée à l'instance de {@link Sprite}.
-     */
-    public Sprite(Image image) {
-        this.image = image;
-    }
+public record Sprite(Image image){
 
     /**
      * Donne la largeur de l'image associée, mesurée en nombre de pixels.
@@ -61,15 +47,6 @@ public final class Sprite {
      */
     public int getHeight() {
         return (int) image.getHeight();
-    }
-
-    /**
-     * Donne l'image associée à cette instance de {@link Sprite}.
-     *
-     * @return L'image associée à cette instance de {@link Sprite}.
-     */
-    public Image getImage() {
-        return image;
     }
 
 }

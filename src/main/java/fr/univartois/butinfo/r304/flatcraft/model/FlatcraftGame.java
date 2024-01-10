@@ -27,7 +27,7 @@ import fr.univartois.butinfo.r304.flatcraft.model.craft.RuleParser;
 import fr.univartois.butinfo.r304.flatcraft.model.map.EndFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.NetherFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.OverworldFactory;
-import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
+import fr.univartois.butinfo.r304.flatcraft.model.map.createmap.IGenMapStrat;
 import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoSlagHeap;
 import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoTree;
 
@@ -37,9 +37,6 @@ import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.Mob;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.RandomMovement;
 
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
-import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
-import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.BasicState;
-import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.IBreakingState;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
@@ -217,11 +214,6 @@ public final class FlatcraftGame {
      */
     public void prepare() throws IOException {
         // On crée la carte du jeu.
-       /* setCellFactory(NetherFactory.getInstance());
-        createMap();
-        setCellFactory(EndFactory.getInstance());
-        createMap();
-        */
         setCellFactory(OverworldFactory.getInstance());
         map = createMap();
         controller.prepare(map);
@@ -319,11 +311,9 @@ public final class FlatcraftGame {
 
     /**
      * Vérifie si la cellule est un portail et change la factory et la map en fonction du type du portail
-     * @param cellToTravel
+     * @param cellToTravel La cellule
      */
     private void changeDimension(Cell cellToTravel) {
-        Cell cell = getCellOf(player);
-
         if (cellToTravel != null && "nether_portal".equals(cellToTravel.getResource().getName())) { //On vérifie si le joueur est dans un portail du Nether
             //On regarde le type de cellFactory pour savoir dans quelle dimension on est
             if (cellFactory.equals(OverworldFactory.getInstance())) {
@@ -385,7 +375,7 @@ public final class FlatcraftGame {
         Cell cellToTravel = null;
 
 
-        if(!(cell.getColumn()-1 < 0)) {
+        if((cell.getColumn()-1 >= 0)) {
             cellToTravel = map.getAt(cell.getRow(), cell.getColumn() - 1);
         }else{
             map = genMapStrat.getBeforeMap();
@@ -410,7 +400,7 @@ public final class FlatcraftGame {
     public void moveRight() {
         Cell cell = getCellOf(player);
         Cell cellToTravel = null;
-        if(!(cell.getColumn()+1 >= map.getWidth())) {
+        if((cell.getColumn()+1 < map.getWidth())) {
             cellToTravel = map.getAt(cell.getRow(), cell.getColumn() + 1);
         }else {
             map = genMapStrat.getAfterMap();
@@ -420,7 +410,7 @@ public final class FlatcraftGame {
             }
         }
         if(cellToTravel != null && (cellToTravel.getResource()==null)) {
-            player.setHorizontalSpeed(4 * spriteStore.getSpriteSize());
+            player.setHorizontalSpeed((double) 4 * spriteStore.getSpriteSize());
             move(player);
         } else {
             changeDimension(cellToTravel);
@@ -455,7 +445,6 @@ public final class FlatcraftGame {
      */
     public void jump() {
         // Vérifier si le joueur est au sol (sur une cellule sans objet en dessous).
-        Cell currentCell = getCellOf(player);
         if (player.getVerticalSpeed()!=0)
             player.setVerticalSpeed(0);
         else
@@ -483,7 +472,7 @@ public final class FlatcraftGame {
     public void digDown() {
         Cell cell = getCellOf(player);
         Cell cellToDig = null;
-        if(!(cell.getRow()+1 >= map.getHeight())) {
+        if((cell.getRow()+1 < map.getHeight())) {
             cellToDig = map.getAt(cell.getRow()+1, cell.getColumn());
         }
         if(cellToDig != null && cellToDig.getResource() != null){
@@ -498,7 +487,7 @@ public final class FlatcraftGame {
     public void digLeft() {
         Cell cell = getCellOf(player);
         Cell cellToDig = null;
-        if(!(cell.getColumn()-1 < 0)) {
+        if((cell.getColumn()-1 >= 0)) {
             cellToDig = map.getAt(cell.getRow(), cell.getColumn() - 1);
             if(cellToDig != null && cellToDig.getResource() != null){
                 cellToDig.dig(player);
@@ -519,7 +508,7 @@ public final class FlatcraftGame {
     public void digRight() {
         Cell cell = getCellOf(player);
         Cell cellToDig = null;
-        if(!(cell.getColumn()+1 >= map.getWidth())) {
+        if((cell.getColumn()+1 < map.getWidth())) {
             cellToDig = map.getAt(cell.getRow(), cell.getColumn() + 1);
         } else {
             map = genMapStrat.getAfterMap();
@@ -567,13 +556,14 @@ public final class FlatcraftGame {
             resourceInput.addAll(Arrays.asList(inputResource));
         }
         for(Craft craft : craftList){
-            if(craft.getCraft().equals(resourceInput)){
+            if(craft.getCrafts().equals(resourceInput)){
                 produit.put(craft.getProduct(), craft.getQuantity());
                 return produit;
             }
         }
         controller.displayError("Aucun craft n'a ete trouve");
-        return null;
+        System.out.println("a");
+        return Collections.emptyMap();
     }
 
     /**

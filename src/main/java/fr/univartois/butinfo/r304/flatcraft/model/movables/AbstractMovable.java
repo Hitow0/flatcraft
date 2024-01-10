@@ -241,48 +241,37 @@ public abstract class AbstractMovable implements IMovable {
     public boolean move(long delta) {
         // On met à jour la position de l'objet sur l'axe x.
         int limitMaxX = game.getWidth() - getWidth();
-        double newX = updatePosition(xPosition.get(), horizontalSpeed, delta, 0, limitMaxX);
+        double newX = updatePosition(xPosition.get(), horizontalSpeed, delta, limitMaxX);
         xPosition.set(newX);
 
         // On met à jour la position de l'objet sur l'axe y.
         int limitMaxY = game.getHeight() - getHeight();
-        double newY = updatePosition(yPosition.get(), verticalSpeed, delta, 0, limitMaxY);
+        double newY = updatePosition(yPosition.get(), verticalSpeed, delta, limitMaxY);
         yPosition.set(newY);
-
-        if ((newX == 0) || (newX == limitMaxX)) {
-            // L'objet a atteint la limite sur l'axe x.
-            return false;
-        }
-
-        if ((newY == 0) || (newY == limitMaxY)) {
-            // L'objet a atteint la limite sur l'axe y.
-            return false;
-        }
+        // L'objet a atteint la limite sur l'axe y.
+        return (newY != 0) && (newY != limitMaxY) && (newX != 0) && (newX != limitMaxX);
 
         // L'objet n'a atteint aucune limite
-        return true;
     }
 
     /**
      * Calcule la nouvelle position d'un objet sur un axe particulier, en fonction de sa
      * position actuelle sur cet axe.
      *
-     * @param current La position courante de l'objet.
-     * @param speed La vitesse actuelle de l'objet.
-     * @param delta Le temps qui s'est écoulé depuis la dernière mise à jour de la
-     *        position de cet objet.
-     * @param limitMin La limite inférieure pour la position de l'objet.
+     * @param current  La position courante de l'objet.
+     * @param speed    La vitesse actuelle de l'objet.
+     * @param delta    Le temps qui s'est écoulé depuis la dernière mise à jour de la
+     *                 position de cet objet.
      * @param limitMax La limite supérieure pour la position de l'objet.
-     *
      * @return La nouvelle position de l'objet après la mise à jour.
      */
     private static double updatePosition(double current, double speed, long delta,
-            int limitMin, int limitMax) {
+                                         int limitMax) {
         double newPosition = current + (delta * speed) / 1000;
 
-        if (newPosition < limitMin) {
+        if (newPosition < 0) {
             // Lorsque la limite inférieure est atteinte, on s'arrête à cette limite.
-            newPosition = limitMin;
+            newPosition = 0;
 
         } else if (newPosition > limitMax) {
             // Lorsque la limite supérieure est atteinte, on s'arrête à cette limite.

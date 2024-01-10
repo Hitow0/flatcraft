@@ -114,7 +114,7 @@ public final class FlatcraftController implements IFlatcraftController {
     /**
      * Les composants affichant les ressources actuellement dans l'inventaire du joueur.
      */
-    private Map<Resource, ResourceInInventory> resourcesInInventory = new HashMap<>();
+    private final Map<Resource, ResourceInInventory> resourcesInInventory = new HashMap<>();
 
     private boolean keyListenerAdded = false;
 
@@ -167,7 +167,7 @@ public final class FlatcraftController implements IFlatcraftController {
             for (int j = 0; j < width; j++) {
                 // On récupère l'image de la cellule.
                 Cell cell = map.getAt(i, j);
-                Image image = cell.getSprite().getImage();
+                Image image = cell.getSprite().image();
 
                 // On crée le composant pour afficher l'image, et on l'ajoute.
                 ImageView view = new ImageView(image);
@@ -175,7 +175,7 @@ public final class FlatcraftController implements IFlatcraftController {
                 background.getChildren().add(view);
 
                 // Tout changement dans la cellule est reporté sur l'affichage.
-                cell.getSpriteProperty().addListener((p, o, n) -> view.setImage(n.getImage()));
+                cell.getSpriteProperty().addListener((p, o, n) -> view.setImage(n.image()));
             }
         }
     }
@@ -294,13 +294,13 @@ public final class FlatcraftController implements IFlatcraftController {
     @Override
     public void addMovable(IMovable movable) {
         // On affiche l'objet au bon endroit.
-        ImageView view = new ImageView(movable.getSprite().getImage());
+        ImageView view = new ImageView(movable.getSprite().image());
         view.xProperty().bind(movable.getXProperty());
         view.yProperty().bind(movable.getYProperty());
         mainPane.getChildren().add(view);
 
         // Lorsque le sprite de l'objet change, son image doit changer également.
-        movable.getSpriteProperty().addListener((p, o, n) -> view.setImage(n.getImage()));
+        movable.getSpriteProperty().addListener((p, o, n) -> view.setImage(n.image()));
     }
 
     /**
@@ -387,7 +387,7 @@ public final class FlatcraftController implements IFlatcraftController {
             Dragboard dragboard = resource.getNode().startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
             content.putString(resource.getResource().getName());
-            content.putImage(resource.getResource().getSprite().getImage());
+            content.putImage(resource.getResource().getSprite().image());
             dragboard.setContent(content);
             event.consume();
         });

@@ -1,6 +1,5 @@
 package fr.univartois.butinfo.r304.flatcraft.model.map;
 
-import fr.univartois.butinfo.r304.flatcraft.model.CellFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
 import fr.univartois.butinfo.r304.flatcraft.model.IMovable;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
@@ -10,7 +9,6 @@ import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.BreakS
 import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.FirstBreakingState;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.IBreakingState;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
-import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 
 public class Cellule extends AbstractCell {
 

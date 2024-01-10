@@ -5,9 +5,9 @@ import java.util.List;
 
 public class ListRecette {
 
-    private List<Craft> craftList;
+    private final List<Craft> craftList;
 
-    private  List<Cook> cookList;
+    private final List<Cook> cookList;
 
     private static ListRecette instance;
 

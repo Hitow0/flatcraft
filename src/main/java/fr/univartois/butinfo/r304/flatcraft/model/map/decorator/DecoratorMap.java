@@ -1,12 +1,12 @@
 package fr.univartois.butinfo.r304.flatcraft.model.map.decorator;
 
 import fr.univartois.butinfo.r304.flatcraft.model.map.SimpleGameMap;
-import fr.univartois.butinfo.r304.flatcraft.model.map.createMap.IGenMapStrat;
+import fr.univartois.butinfo.r304.flatcraft.model.map.createmap.IGenMapStrat;
 
 public abstract class DecoratorMap {
-    private IGenMapStrat genMapStrat;
+    private final IGenMapStrat genMapStrat;
 
-    public DecoratorMap(IGenMapStrat genMapStrat){
+    protected DecoratorMap(IGenMapStrat genMapStrat){
         this.genMapStrat=genMapStrat;
     }
 

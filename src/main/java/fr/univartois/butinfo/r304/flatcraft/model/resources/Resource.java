@@ -17,9 +17,6 @@
 package fr.univartois.butinfo.r304.flatcraft.model.resources;
 
 import java.util.Objects;
-
-import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.BasicState;
-import fr.univartois.butinfo.r304.flatcraft.model.resources.breakingstate.IBreakingState;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.mineralstate.FinalState;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.mineralstate.IStateResource;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.mineralstate.MineralState;
@@ -48,11 +45,6 @@ public final class Resource {
      * L'état de la ressource
      */
     private IStateResource state;
-
-    /**
-     * L'état du cassage
-     */
-    private IBreakingState breakingState;
 
     /**
      * Le sprite représentant cette ressource.
@@ -94,7 +86,6 @@ public final class Resource {
             state = new MineralState();
         else
             state = new FinalState();
-        this.breakingState = new BasicState();
     }
 
     public void setName(String name) {
@@ -170,8 +161,6 @@ public final class Resource {
 
         // Calculer les coordonnées de début et de fin pour le niveau spécifié
         int startY = (niveau-1) * hauteurNiveau;
-        int endY = startY + hauteurNiveau;
-
         // Créer une nouvelle image avec seulement la partie désirée
         return new Sprite(new WritableImage(patronImage.getPixelReader(),
                 0, startY, (int) patronImage.getWidth(), hauteurNiveau));
@@ -218,8 +207,8 @@ public final class Resource {
      * @return le sprite fusionné
      */
     public static Sprite fusionSprite(Sprite image, Sprite spriteToFusion){
-        Image image2 = spriteToFusion.getImage();
-        Image image1 = image.getImage();
+        Image image2 = spriteToFusion.image();
+        Image image1 = image.image();
         double width = Math.max(image1.getWidth(), image2.getWidth());
         double height = Math.max(image1.getHeight(), image2.getHeight());
 
