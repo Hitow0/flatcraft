@@ -45,6 +45,10 @@
                 <ImageView fx:id="productView" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
                            fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true"/>
             </GridPane>
+
+            <padding>
+                <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+            </padding>
         </HBox>
     </center>
     <bottom>
@@ -71,4 +75,3 @@
         </HBox>
     </bottom>
 </BorderPane>
-

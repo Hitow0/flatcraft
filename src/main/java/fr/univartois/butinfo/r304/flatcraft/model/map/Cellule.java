@@ -30,6 +30,16 @@ public class Cellule extends AbstractCell {
     }
 
     @Override
+    public boolean setResource(Resource resource) {
+        return false;
+    }
+
+    @Override
+    public boolean accepts(IMovable movable) {
+        return true;
+    }
+
+    @Override
     public boolean move(IMovable movable) {
         if (this.getResource()==null) {
             movable.setX(this.getColumn()*this.getSprite().getWidth());
@@ -51,5 +61,10 @@ public class Cellule extends AbstractCell {
             }
             this.breakingState = breakingState.changeState(this, FlatcraftGame.getCellFactory());
         }
+    }
+
+    @Override
+    public void execute() {
+
     }
 }
