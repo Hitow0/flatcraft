@@ -46,12 +46,12 @@ public abstract class AbstractCell implements Cell {
      * La propriété contenant le sprite représentant le contenu de cette cellule sur la
      * carte.
      */
-    private final ObjectProperty<Sprite> spriteProperty = new SimpleObjectProperty<>();
+    protected final ObjectProperty<Sprite> spriteProperty = new SimpleObjectProperty<>();
 
     /**
      * La propriété contenant la ressource présente sur cette cellule sur la carte.
      */
-    private final ObjectProperty<Resource> resourceProperty = new SimpleObjectProperty<>();
+    protected final ObjectProperty<Resource> resourceProperty = new SimpleObjectProperty<>();
 
     /**
      * Crée une nouvelle instance de AbstractCell.

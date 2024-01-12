@@ -31,7 +31,12 @@ public class Cellule extends AbstractCell {
 
     @Override
     public boolean setResource(Resource resource) {
-        return false;
+        if (resource.getHardness()==0)
+            return false;
+        resourceProperty.set(resource);
+        spriteProperty.set(resource.getSprite());
+        breakingState=new BasicState();
+        return true;
     }
 
     @Override
@@ -56,6 +61,7 @@ public class Cellule extends AbstractCell {
             if (resource.getHardness()!=0) {
                 resource.dig();
             } else {
+                resource.setHardness(5);
                 ((Player) player).addObject(this.getResource().digBlock());
                 this.breakingState = new BreakState();
             }

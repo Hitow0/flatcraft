@@ -27,7 +27,9 @@ import fr.univartois.butinfo.r304.flatcraft.model.IFlatcraftController;
 import fr.univartois.butinfo.r304.flatcraft.model.IMovable;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Inventoriable;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.ToolType;
 import fr.univartois.butinfo.r304.flatcraft.view.ResourceInInventory;
+import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.collections.MapChangeListener;
@@ -49,6 +51,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import static javafx.scene.input.KeyCode.*;
 
 /**
  * La classe {@link FlatcraftController} fournit le contrôleur permettant de jouer au jeu
@@ -202,9 +206,9 @@ public final class FlatcraftController implements IFlatcraftController {
                 dig(code);
             }
             if (code.isArrowKey()
-            ||"d".equals(e.getCharacter())
-            ||"s".equals(e.getCharacter())
-            ||"x".equals(e.getCharacter())) {
+            ||D.equals(code)
+            ||S.equals(code)
+            ||X.equals(code)) {
                 pressKey(code);
             }
         });
@@ -301,6 +305,9 @@ public final class FlatcraftController implements IFlatcraftController {
                 inventory.getChildren().remove(resource.getNode());
             }
         });
+        Resource pioche = new Resource("tool_woodpick", SpriteStore.getInstance().getSprite("tool_woodpick"), ToolType.MEDIUM_TOOL, 0);
+        game.setInHand(pioche);
+        playerInventory.put(pioche, 1);
     }
 
     /*
@@ -330,7 +337,7 @@ public final class FlatcraftController implements IFlatcraftController {
     private void pressKey(KeyCode code) {
         switch (code) {
             case D -> game.dropResource();
-            //case S -> game.switchResource();
+            case S -> game.switchResource();
             case X -> game.executeResource();
             case UP -> game.moveUp();
             case DOWN -> game.moveDown();

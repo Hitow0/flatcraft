@@ -30,14 +30,12 @@ import fr.univartois.butinfo.r304.flatcraft.model.map.OverworldFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.createmap.IGenMapStrat;
 import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoSlagHeap;
 import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoTree;
-
-
 import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.EndermanMovement;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.Mob;
 import fr.univartois.butinfo.r304.flatcraft.model.movables.mobs.RandomMovement;
-
 import fr.univartois.butinfo.r304.flatcraft.model.movables.player.Player;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.ToolType;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
 import javafx.beans.property.IntegerProperty;
@@ -78,6 +76,8 @@ public final class FlatcraftGame {
      */
     private static CellFactory cellFactory;
 
+    private Resource inHand;
+
     /**
      * La carte du jeu, sur laquelle le joueur évolue.
      */
@@ -100,6 +100,13 @@ public final class FlatcraftGame {
     private IntegerProperty time = new SimpleIntegerProperty(12);
 
     /**
+     * L'iterateur permettant de parcourir les ressources contenues dans l'inventaire du
+     * joueur.
+     */
+    private Iterator<Resource> inventoryIterator;
+
+
+    /**
      * Le niveau actuel de la partie.
      */
     private IntegerProperty level = new SimpleIntegerProperty(1);
@@ -110,14 +117,22 @@ public final class FlatcraftGame {
     private Player player;
 
     /**
+     * La dernière direction suivie par le joueur.
+     * Elle est stockée sous la forme d'un entier, afin d'indiquer s'il avance ou s'il
+     * recule.
+     */
+    private int lastDirection = 1;
+
+
+    /**
      * La liste des objets mobiles du jeu.
      */
-    private List<IMovable> movableObjects = new CopyOnWriteArrayList<>();
+    private final List<IMovable> movableObjects = new CopyOnWriteArrayList<>();
 
     /**
      * L'animation simulant le temps qui passe dans le jeu.
      */
-    private FlatcraftAnimation animation = new FlatcraftAnimation(this, movableObjects);
+    private final FlatcraftAnimation animation = new FlatcraftAnimation(this, movableObjects);
 
     private List<Craft> craftList;
 
@@ -149,6 +164,10 @@ public final class FlatcraftGame {
         cellFactory.setSpriteStore(spriteStore);
         //Faudra enlever factory dans le contructeur et la ligne en dessous comme ça dans la version final on spawnera tout le temps dans l'overworld
         cellFactory = factory;
+    }
+
+    public void setInHand(Resource inHand) {
+        this.inHand = inHand;
     }
 
     /**
@@ -376,6 +395,7 @@ public final class FlatcraftGame {
      * Fait se déplacer le joueur vers la gauche.
      */
     public void moveLeft() {
+        lastDirection = -1;
         Cell cell = getCellOf(player);
         Cell cellToTravel = null;
 
@@ -403,9 +423,10 @@ public final class FlatcraftGame {
      * Fait se déplacer le joueur vers la droite.
      */
     public void moveRight() {
+        lastDirection = 1;
         Cell cell = getCellOf(player);
         Cell cellToTravel = null;
-        if(!(cell.getColumn()+1 >= map.getWidth())) {
+        if(cell.getColumn()+1 < map.getWidth()) {
             cellToTravel = map.getAt(cell.getRow(), cell.getColumn() + 1);
         }else {
             map = genMapStrat.getAfterMap();
@@ -579,7 +600,6 @@ public final class FlatcraftGame {
         if (column < map.getWidth()) {
             return Optional.of(map.getAt(row, column));
         }
-
         return Optional.empty();
     }
 
@@ -604,7 +624,6 @@ public final class FlatcraftGame {
             }
         }
         controller.displayError("Aucun craft n'a ete trouve");
-        System.out.println("a");
         return Collections.emptyMap();
     }
 
@@ -638,34 +657,29 @@ public final class FlatcraftGame {
         // On commence par rechercher la cellule voisine de celle du joueur, si elle
         // existe.
         Optional<Cell> next = getNextCellOf(player);
-        if (next.isEmpty()) {
+        if (next.isPresent() && next.get().getResource()!=null) {
             return;
         }
-
         // Le dépôt ne peut fonctionner que si la cellule ne contient pas de ressource.
         Cell target = next.get();
-        // TODO Récupérer la ressource que le joueur a actuellement en main.
-        Resource inHand = null;
         if (target.setResource(inHand)) {
-            // TODO Retirer la ressource de l'inventaire du joueur.
-            //switchResource();
+            player.removeResource(inHand);
+            switchResource();
         }
     }
 
-//    /**
-//     * Modifie la ressource que l'utilisateur a actuellement en main.
-//     * C'est la prochaine ressource dans l'inventaire qui est choisie.
-//     */
-//    public void switchResource() {
-//        if ((inventoryIterator == null) || (!inventoryIterator.hasNext())) {
-//            // TODO Récupérer l'inventaire du joueur.
-//            ObservableMap<Resource, Integer> inventory = null;
-//            inventoryIterator = inventory.keySet().iterator();
-//        }
-//
-//        Resource inHand = inventoryIterator.next();
-//        // TODO Remplacer l'objet dans la main du joueur par inHand.
-//    }
+    /**
+     * Modifie la ressource que l'utilisateur a actuellement en main.
+     * C'est la prochaine ressource dans l'inventaire qui est choisie.
+     */
+    public void switchResource() {
+        if ((inventoryIterator == null) || (!inventoryIterator.hasNext())) {
+            ObservableMap<Resource, Integer> inventory = player.getInventaire();
+            inventoryIterator = inventory.keySet().iterator();
+        }
+        System.out.println(inHand.toString());
+        inHand = inventoryIterator.next();
+    }
 
     /**
      * Exécute l'action associée à la ressource située sur la cellule voisine de celle du

@@ -88,6 +88,17 @@ public final class Resource implements Inventoriable {
             state = new FinalState();
     }
 
+    @Override
+    public String toString() {
+        return "Resource{" +
+                "name='" + name + '\'' +
+                ", state=" + state +
+                ", sprite=" + sprite +
+                ", toolType=" + toolType +
+                ", hardness=" + hardness +
+                '}';
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -114,6 +125,10 @@ public final class Resource implements Inventoriable {
     @Override
     public Sprite getSprite() {
         return sprite;
+    }
+
+    public void setHardness (int hardness) {
+        this.hardness = hardness;
     }
 
     /*
