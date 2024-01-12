@@ -25,6 +25,7 @@ import fr.univartois.butinfo.r304.flatcraft.model.FlatcraftGame;
 import fr.univartois.butinfo.r304.flatcraft.model.GameMap;
 import fr.univartois.butinfo.r304.flatcraft.model.IFlatcraftController;
 import fr.univartois.butinfo.r304.flatcraft.model.IMovable;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.Inventoriable;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
 import fr.univartois.butinfo.r304.flatcraft.view.ResourceInInventory;
 import javafx.beans.binding.Bindings;
@@ -199,8 +200,12 @@ public final class FlatcraftController implements IFlatcraftController {
             }
             if (code.isArrowKey() && e.isControlDown()) {
                 dig(code);
-            } else if (code.isArrowKey()) {
-                move(code);
+            }
+            if (code.isArrowKey()
+            ||"d".equals(e.getCharacter())
+            ||"s".equals(e.getCharacter())
+            ||"x".equals(e.getCharacter())) {
+                pressKey(code);
             }
         });
 
@@ -212,6 +217,19 @@ public final class FlatcraftController implements IFlatcraftController {
         });
 
         keyListenerAdded = true;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * fr.univartois.butinfo.r304.flatcraft.model.IFlatcraftController#bindLeftAnchor(
+     * javafx.beans.property.IntegerProperty)
+     */
+    @Override
+    public void bindLeftAnchor(IntegerProperty screenAnchor) {
+        background.translateXProperty().bind(screenAnchor);
+        mainPane.translateXProperty().bind(screenAnchor);
     }
 
     /*
@@ -304,13 +322,16 @@ public final class FlatcraftController implements IFlatcraftController {
     }
 
     /**
-     * Permet au joueur de se déplacer en utilisant une flèche directionnelle.
+     * Réagit à l'appui d'une touche unique sur le clavier.
      *
      * @param code Le code de la touche sur laquelle le joueur a appuyé.
      */
     @SuppressWarnings("incomplete-switch")
-    private void move(KeyCode code) {
+    private void pressKey(KeyCode code) {
         switch (code) {
+            case D -> game.dropResource();
+            //case S -> game.switchResource();
+            case X -> game.executeResource();
             case UP -> game.moveUp();
             case DOWN -> game.moveDown();
             case LEFT -> game.moveLeft();

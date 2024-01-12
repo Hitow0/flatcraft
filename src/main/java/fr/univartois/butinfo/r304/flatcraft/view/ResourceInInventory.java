@@ -16,7 +16,7 @@
 
 package fr.univartois.butinfo.r304.flatcraft.view;
 
-import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.Inventoriable;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -45,7 +45,7 @@ public final class ResourceInInventory {
     /**
      * La ressource stockée dans l'inventaire.
      */
-    private final Resource resource;
+    private final Inventoriable resource;
 
     /**
      * Le nombre d'occurence de la ressource dans l'inventaire.
@@ -62,7 +62,7 @@ public final class ResourceInInventory {
      *
      * @param resource La ressource stockée dans l'inventaire.
      */
-    public ResourceInInventory(Resource resource) {
+    public ResourceInInventory(Inventoriable resource) {
         this.resource = resource;
         this.count = new SimpleIntegerProperty(1);
         this.pane = new StackPane();
@@ -97,7 +97,7 @@ public final class ResourceInInventory {
      *
      * @return La ressource stockée dans l'inventaire.
      */
-    public Resource getResource() {
+    public Inventoriable getResource() {
         return resource;
     }
 

@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="fr.univartois.butinfo.r304.flatcraft.controller.FurnaceController">
+            fx:controller="fr.univartois.butinfo.r304.flatcraft.controller.FurnaceController">
     <center>
         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
               spacing="25.0">
@@ -72,3 +72,4 @@
         </HBox>
     </bottom>
 </BorderPane>
+

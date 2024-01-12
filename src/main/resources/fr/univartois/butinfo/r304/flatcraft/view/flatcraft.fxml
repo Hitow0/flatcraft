@@ -13,97 +13,100 @@
 <?import javafx.scene.text.Font?>
 
 <StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-           minHeight="-Infinity" maxHeight="-Infinity" minWidth="-Infinity" maxWidth="-Infinity"
-           fx:controller="fr.univartois.butinfo.r304.flatcraft.controller.FlatcraftController">
-    <Pane fx:id="background" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"/>
-    <Pane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"/>
-    <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-        <top>
-            <GridPane BorderPane.alignment="CENTER">
-                <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES"/>
-                </rowConstraints>
-                <Label text="TIME: " textFill="WHITE" GridPane.columnIndex="0" GridPane.halignment="RIGHT">
-                    <font>
-                        <Font name="Monospaced Bold" size="13.0"/>
-                    </font>
-                </Label>
-                <Label fx:id="time" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="LEFT">
-                    <font>
-                        <Font name="Monospaced Bold" size="13.0"/>
-                    </font>
-                </Label>
-                <Label text="HEALTH: " textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
-                    <font>
-                        <Font name="Monospaced Bold" size="13.0"/>
-                    </font>
-                </Label>
-                <Label fx:id="health" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="LEFT">
-                    <font>
-                        <Font name="Monospaced Bold" size="13.0"/>
-                    </font>
-                </Label>
-                <Label text="XP: " textFill="WHITE" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
-                    <font>
-                        <Font name="Monospaced Bold" size="13.0"/>
-                    </font>
-                </Label>
-                <Label fx:id="xp" textFill="WHITE" GridPane.columnIndex="5" GridPane.halignment="LEFT">
-                    <font>
-                        <Font name="Monospaced Bold" size="13.0"/>
-                    </font>
-                </Label>
-                <Label text="LEVEL: " textFill="WHITE" GridPane.columnIndex="6" GridPane.halignment="RIGHT">
-                    <font>
-                        <Font name="Monospaced Bold" size="13.0"/>
-                    </font>
-                </Label>
-                <Label fx:id="level" textFill="WHITE" GridPane.columnIndex="7" GridPane.halignment="LEFT">
-                    <font>
-                        <Font name="Monospaced Bold" size="13.0"/>
-                    </font>
-                </Label>
-            </GridPane>
-        </top>
-        <bottom>
-            <BorderPane BorderPane.alignment="CENTER">
-                <left>
-                    <Button text="CRAFT" onMouseClicked="#showCraftTable" BorderPane.alignment="CENTER">
-                        <BorderPane.margin>
-                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                        </BorderPane.margin>
-                        <font>
-                            <Font name="Monospaced Regular" size="13.0"/>
-                        </font>
-                    </Button>
-                </left>
-                <center>
-                    <HBox fx:id="inventory" BorderPane.alignment="CENTER" spacing="16.0"
-                          maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                          style="-fx-background-color: white;" opacity="0.5"/>
-                </center>
-                <right>
-                    <Button text="FURNACE" onMouseClicked="#showFurnace" BorderPane.alignment="CENTER">
-                        <BorderPane.margin>
-                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                        </BorderPane.margin>
-                        <font>
-                            <Font name="Monospaced Regular" size="13.0"/>
-                        </font>
-                    </Button>
-                </right>
-            </BorderPane>
-        </bottom>
-    </BorderPane>
+    minHeight="-Infinity" maxHeight="-Infinity" minWidth="-Infinity" maxWidth="-Infinity"
+    fx:controller="fr.univartois.butinfo.r304.flatcraft.controller.FlatcraftController">
+    <children>
+        <Pane fx:id="background" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+        <Pane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <top>
+                <GridPane BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="TIME: " textFill="WHITE" GridPane.columnIndex="0" GridPane.halignment="RIGHT">
+                            <font>
+                                <Font name="Monospaced Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="time" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="LEFT">
+                            <font>
+                                <Font name="Monospaced Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <Label text="HEALTH: " textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                            <font>
+                                <Font name="Monospaced Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="health" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="LEFT">
+                            <font>
+                                <Font name="Monospaced Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <Label text="XP: " textFill="WHITE" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
+                            <font>
+                                <Font name="Monospaced Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="xp" textFill="WHITE" GridPane.columnIndex="5" GridPane.halignment="LEFT">
+                            <font>
+                                <Font name="Monospaced Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <Label text="LEVEL: " textFill="WHITE" GridPane.columnIndex="6" GridPane.halignment="RIGHT">
+                            <font>
+                                <Font name="Monospaced Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="level" textFill="WHITE" GridPane.columnIndex="7" GridPane.halignment="LEFT">
+                            <font>
+                                <Font name="Monospaced Bold" size="13.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </GridPane>
+            </top>
+            <bottom>
+                <BorderPane BorderPane.alignment="CENTER">
+                    <left>
+                        <Button text="CRAFT" onMouseClicked="#showCraftTable" BorderPane.alignment="CENTER">
+                            <BorderPane.margin>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </BorderPane.margin>
+                            <font>
+                                <Font name="Monospaced Regular" size="13.0" />
+                            </font>
+                        </Button>
+                    </left>
+                    <center>
+                        <HBox fx:id="inventory" BorderPane.alignment="CENTER" spacing="16.0"
+                            maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                            style="-fx-background-color: white;" opacity="0.5" />
+                    </center>
+                    <right>
+                        <Button text="FURNACE" onMouseClicked="#showFurnace" BorderPane.alignment="CENTER">
+                            <BorderPane.margin>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </BorderPane.margin>
+                            <font>
+                                <Font name="Monospaced Regular" size="13.0" />
+                            </font>
+                        </Button>
+                    </right>
+                </BorderPane>
+            </bottom>
+        </BorderPane>
+    </children>
 </StackPane>
-
