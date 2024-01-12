@@ -393,6 +393,7 @@ public final class FlatcraftController implements IFlatcraftController {
 
         // On affche la fenêtre.
         Stage furnaceStage = new Stage();
+        furnaceStage.initOwner(stage);
         furnaceStage.setScene(new Scene(viewContent));
         furnaceStage.show();
     }
