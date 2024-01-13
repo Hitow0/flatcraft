@@ -6,6 +6,7 @@ import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.ToolType;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
+import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 
 import java.util.Random;
 
@@ -78,7 +79,7 @@ public class NetherFactory implements CellFactory {
 
     @Override
     public Cell changeBreakingLevel(Cell toDig, int breakingLevel) {
-        Sprite ressource = Resource.fusionSprite(toDig.getSprite(), Resource.obtenirNiveauCassage(breakingLevel));
+        Sprite ressource = SpriteStore.getInstance().fusionSprite(toDig.getSprite(), Resource.obtenirNiveauCassage(breakingLevel));
         Resource resource = new Resource(toDig.getResource().getName(), ressource, toDig.getResource().getToolType(), toDig.getResource().getHardness());
         return new Cellule(resource);
     }

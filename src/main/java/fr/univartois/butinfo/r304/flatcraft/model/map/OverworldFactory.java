@@ -6,6 +6,7 @@ import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.ToolType;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
+import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 
 import java.util.Random;
 
@@ -82,14 +83,14 @@ public class OverworldFactory implements CellFactory {
             if (n<4) {
                 Sprite sprite = spriteStore.getSprite(stone);
                 Sprite spriteCoal = spriteStore.getSprite("mineral_coal");
-                Sprite ressource = Resource.fusionSprite(sprite, spriteCoal);
+                Sprite ressource = SpriteStore.getInstance().fusionSprite(sprite, spriteCoal);
                 Resource resource = new Resource("mineral_coal", ressource, ToolType.MEDIUM_TOOL, 5);
                 return new Cellule(resource);
             }
             if (n<7) {
                 Sprite sprite = spriteStore.getSprite("stone");
                 Sprite spriteIron = spriteStore.getSprite(mineralIron);
-                Sprite ressource = Resource.fusionSprite(sprite, spriteIron);
+                Sprite ressource = SpriteStore.getInstance().fusionSprite(sprite, spriteIron);
                 Resource resource = new Resource(mineralIron, ressource, ToolType.MEDIUM_TOOL, 5);
                 return new Cellule(resource);
             }else {
@@ -102,7 +103,7 @@ public class OverworldFactory implements CellFactory {
             if (n<1) {
                 Sprite sprite = spriteStore.getSprite(stone);
                 Sprite spriteDiamond = spriteStore.getSprite("mineral_diamond");
-                Sprite ressource = Resource.fusionSprite(sprite, spriteDiamond);
+                Sprite ressource = SpriteStore.getInstance().fusionSprite(sprite, spriteDiamond);
                 Resource resource = new Resource("mineral_diamond", ressource, ToolType.NO_TOOL, 5);
                 return new Cellule(resource);
 
@@ -110,7 +111,7 @@ public class OverworldFactory implements CellFactory {
             if (n<7) {
                 Sprite sprite = spriteStore.getSprite(stone);
                 Sprite spriteIron = spriteStore.getSprite(mineralIron);
-                Sprite ressource = Resource.fusionSprite(sprite, spriteIron);
+                Sprite ressource = SpriteStore.getInstance().fusionSprite(sprite, spriteIron);
                 Resource resource = new Resource(mineralIron, ressource, ToolType.MEDIUM_TOOL, 5);
                 return new Cellule(resource);
             }else{
@@ -132,14 +133,14 @@ public class OverworldFactory implements CellFactory {
     public Cell createLeaves() {
         Sprite sprite = spriteStore.getSprite("ice");
         Sprite spriteLeaves = spriteStore.getSprite("pine_needles");
-        Sprite ressource = Resource.fusionSprite(sprite, spriteLeaves);
+        Sprite ressource = SpriteStore.getInstance().fusionSprite(sprite, spriteLeaves);
         Resource resource = new Resource("pine_needles", ressource, ToolType.NO_TOOL, 5);
         return new Cellule(resource);
     }
 
     @Override
     public Cell changeBreakingLevel(Cell toDig, int breakingLevel) {
-        Sprite ressource = Resource.fusionSprite(toDig.getSprite(), Resource.obtenirNiveauCassage(breakingLevel));
+        Sprite ressource = SpriteStore.getInstance().fusionSprite(toDig.getSprite(), Resource.obtenirNiveauCassage(breakingLevel));
         Resource resource = new Resource(toDig.getResource().getName(), ressource, toDig.getResource().getToolType(), toDig.getResource().getHardness());
         return new Cellule(resource);
     }

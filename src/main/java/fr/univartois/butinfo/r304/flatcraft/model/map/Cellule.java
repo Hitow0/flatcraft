@@ -63,6 +63,7 @@ public class Cellule extends AbstractCell {
             } else {
                 resource.setHardness(5);
                 ((Player) player).addObject(this.getResource().digBlock());
+                System.out.println(((Player) player).getInventaire());
                 this.breakingState = new BreakState();
             }
             this.breakingState = breakingState.changeState(this, FlatcraftGame.getCellFactory());

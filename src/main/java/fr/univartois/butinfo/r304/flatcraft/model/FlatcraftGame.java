@@ -38,6 +38,7 @@ import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
 import fr.univartois.butinfo.r304.flatcraft.model.resources.ToolType;
 import fr.univartois.butinfo.r304.flatcraft.view.ISpriteStore;
 import fr.univartois.butinfo.r304.flatcraft.view.Sprite;
+import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableMap;
@@ -490,7 +491,9 @@ public final class FlatcraftGame {
         if(cellToDig != null && cellToDig.getResource() != null){
             cellToDig.dig(player);
             move(player);
-        }    }
+            inventoryIterator = player.getInventaire().keySet().iterator();
+        }
+    }
 
     /**
      * Fait creuser le joueur vers le bas.
@@ -504,6 +507,7 @@ public final class FlatcraftGame {
         if(cellToDig != null && cellToDig.getResource() != null){
             cellToDig.dig(player);
             move(player);
+            inventoryIterator = player.getInventaire().keySet().iterator();
         }
     }
 
@@ -524,6 +528,7 @@ public final class FlatcraftGame {
             if(cellToDig != null && cellToDig.getResource() != null){
                 cellToDig.dig(player);
                 map = genMapStrat.getMap();
+                inventoryIterator = player.getInventaire().keySet().iterator();
             }
         }
     }
@@ -543,6 +548,7 @@ public final class FlatcraftGame {
         if(cellToDig != null && cellToDig.getResource() != null){
             cellToDig.dig(player);
             map = genMapStrat.getMap();
+            inventoryIterator = player.getInventaire().keySet().iterator();
         }
     }
 
@@ -623,6 +629,7 @@ public final class FlatcraftGame {
                 return produit;
             }
         }
+        inventoryIterator = player.getInventaire().keySet().iterator();
         controller.displayError("Aucun craft n'a ete trouve");
         return Collections.emptyMap();
     }
@@ -642,6 +649,7 @@ public final class FlatcraftGame {
                 return cook.getProduit();
             }
         }
+        inventoryIterator = player.getInventaire().keySet().iterator();
         controller.displayError("Aucune cuisson n'a ete trouvee");
         return null;
     }
@@ -664,7 +672,11 @@ public final class FlatcraftGame {
         Cell target = next.get();
         if (target.setResource(inHand)) {
             player.removeResource(inHand);
-            switchResource();
+            inventoryIterator = player.getInventaire().keySet().iterator();
+            if (!player.getInventaire().containsKey(inHand)) {
+                switchResource();
+            }
+            System.out.println(player.getInventaire());
         }
     }
 
@@ -677,8 +689,8 @@ public final class FlatcraftGame {
             ObservableMap<Resource, Integer> inventory = player.getInventaire();
             inventoryIterator = inventory.keySet().iterator();
         }
-        System.out.println(inHand.toString());
         inHand = inventoryIterator.next();
+        player.setSprite(SpriteStore.getInstance().displayItemInHand(SpriteStore.getInstance().getSprite("hemery"),inHand.getSprite()));
     }
 
     /**

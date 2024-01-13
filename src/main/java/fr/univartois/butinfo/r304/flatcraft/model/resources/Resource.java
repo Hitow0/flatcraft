@@ -228,28 +228,4 @@ public final class Resource implements Inventoriable {
         }
         return false;
     }
-
-    /**
-     * Cette fonction permet de fusionner deux sprites.
-     * @param image : le sprite du block
-     * @param spriteToFusion : le sprite à fusionner
-     * @return le sprite fusionné
-     */
-    public static Sprite fusionSprite(Sprite image, Sprite spriteToFusion){
-        Image image2 = spriteToFusion.image();
-        Image image1 = image.image();
-        double width = Math.max(image1.getWidth(), image2.getWidth());
-        double height = Math.max(image1.getHeight(), image2.getHeight());
-
-        // Créer un nouveau canevas
-        Canvas canvas = new Canvas(width, height);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        // Dessiner la première image
-        gc.drawImage(image1, 0, 0);
-        gc.drawImage(image2, 0, 0);
-
-        // Convertir le canevas en image
-        return new Sprite(canvas.snapshot(null, null));
-    }
 }

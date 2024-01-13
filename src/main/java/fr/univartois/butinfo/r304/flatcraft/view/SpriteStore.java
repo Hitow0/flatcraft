@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
@@ -89,4 +91,59 @@ public final class SpriteStore implements ISpriteStore {
     }
 
     private SpriteStore() {}
+
+    /**
+     * Cette fonction permet de fusionner deux sprites.
+     * @param image : le sprite du block
+     * @param spriteToFusion : le sprite à fusionner
+     * @return le sprite fusionné
+     */
+    public Sprite fusionSprite(Sprite image, Sprite spriteToFusion){
+        Image image2 = spriteToFusion.image();
+        Image image1 = image.image();
+        double width = Math.max(image1.getWidth(), image2.getWidth());
+        double height = Math.max(image1.getHeight(), image2.getHeight());
+
+        // Créer un nouveau canevas
+        Canvas canvas = new Canvas(width, height);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        // Dessiner la première image
+        gc.drawImage(image1, 0, 0);
+        gc.drawImage(image2, 0, 0);
+
+        // Convertir le canevas en image
+        return new Sprite(canvas.snapshot(null, null));
+    }
+
+    /**
+     * Cette fonction permet de fusionner le sprite du joueur et l'item en main.
+     * @param playerImage : le sprite du joueur
+     * @param spriteToFusion : le sprite à fusionner
+     * @return le sprite fusionné
+     */
+    public Sprite displayItemInHand(Sprite playerImage, Sprite spriteToFusion) {
+        Image image1 = playerImage.image();
+        Image image2 = spriteToFusion.image();
+
+        double maxWidth = Math.max(image1.getWidth(), image2.getWidth());
+        double maxHeight = Math.max(image1.getHeight(), image2.getHeight());
+
+        Canvas canvas = new Canvas(maxWidth, maxHeight);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        gc.drawImage(image1, 0, 0);
+
+        double scaledWidth = Math.min(image2.getWidth(), maxWidth / 2);
+        double scaledHeight = scaledWidth * (image2.getHeight() / image2.getWidth());
+        double x = maxWidth - scaledWidth;
+        double y = (maxHeight - scaledHeight) / 2;
+        gc.drawImage(image2, x, y, scaledWidth, scaledHeight);
+
+        // Convertir le canevas en image
+        Image combinedImage = canvas.snapshot(null, null);
+
+        // Retourner le Sprite représentant l'image combinée
+        return new Sprite(combinedImage);
+    }
 }
