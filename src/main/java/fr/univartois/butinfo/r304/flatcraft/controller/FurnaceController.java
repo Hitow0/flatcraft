@@ -212,6 +212,8 @@ public final class FurnaceController {
             addButton.setDisable(true);
             cookButton.setDisable(false);
             clearButton.setDisable(false);
+            game.setInventoryIterator(game.getPlayer().getInventaire().keySet().iterator());
+
         }
     }
 

@@ -629,9 +629,16 @@ public final class FlatcraftGame {
                 return produit;
             }
         }
-        inventoryIterator = player.getInventaire().keySet().iterator();
         controller.displayError("Aucun craft n'a ete trouve");
         return Collections.emptyMap();
+    }
+
+    public Iterator<Resource> getInventoryIterator() {
+        return inventoryIterator;
+    }
+
+    public void setInventoryIterator(Iterator<Resource> inventoryIterator) {
+        this.inventoryIterator = inventoryIterator;
     }
 
     /**

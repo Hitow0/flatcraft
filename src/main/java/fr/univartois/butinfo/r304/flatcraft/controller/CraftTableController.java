@@ -234,6 +234,8 @@ public final class CraftTableController {
                 craftGrid.setDisable(false);
                 craftButton.setDisable(false);
                 clearButton.setDisable(false);
+
+                game.setInventoryIterator(game.getPlayer().getInventaire().keySet().iterator());
             }
         }
     }
