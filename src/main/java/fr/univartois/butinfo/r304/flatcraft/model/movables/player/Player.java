@@ -80,7 +80,7 @@ public class Player extends AbstractMovable {
 
     public void removeResource(Resource r){
         if(inventaire.containsKey(r)) {
-            if(inventaire.get(r)==0){
+            if(inventaire.get(r)==1){
                 inventaire.remove(r);
             } else {
                 inventaire.replace(r,inventaire.get(r)-1);
