@@ -19,3 +19,4 @@ cobble-cobble-cobble-empty-stick-empty-empty-stick-empty=tool_stonepick
 cobble-cobble-empty-cobble-stick-empty-empty-stick-empty=tool_stoneaxe
 steel_ingot-steel_ingot-steel_ingot-empty-stick-empty-empty-stick-empty=tool_steelpick
 empty-steel_ingot-empty-empty-diamond-empty-empty-steel_ingot-empty=nether_portal
+empty-steel_ingot-empty-steel_ingot-diamond-steel_ingot-empty-steel_ingot-empty=end_portal
