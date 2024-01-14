@@ -7,6 +7,8 @@ import fr.univartois.butinfo.r304.flatcraft.model.map.EndFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.NetherFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.OverworldFactory;
 import fr.univartois.butinfo.r304.flatcraft.model.map.SimpleGameMap;
+import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoSlagHeap;
+import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoTree;
 
 public class GenMapStrat1 implements IGenMapStrat{
     private static GenMapStrat1 instance;
@@ -55,17 +57,17 @@ public class GenMapStrat1 implements IGenMapStrat{
     public SimpleGameMap genMap(){
         SimpleGameMap map = new SimpleGameMap(height, width, height / 2);
         sameFactory();
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (i < map.getSoilHeight())
-                        map.setAt(i, j, cell.createSky());
-                    if (i == map.getSoilHeight())
-                        map.setAt(i, j, cell.createSoilSurface());
-                    if (i > map.getSoilHeight())
-                        map.setAt(i, j, cell.createSubSoil(map.getSoilHeight(),i));
-                }
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (i < map.getSoilHeight())
+                    map.setAt(i, j, cell.createSky());
+                if (i == map.getSoilHeight())
+                    map.setAt(i, j, cell.createSoilSurface());
+                if (i > map.getSoilHeight())
+                    map.setAt(i, j, cell.createSubSoil(map.getSoilHeight(), i));
             }
-            return map;
+        }
+        return map;
     }
 
     public SimpleGameMap getMap() {
@@ -89,8 +91,26 @@ public class GenMapStrat1 implements IGenMapStrat{
             return netherMaps.getAfterMap();
         }
         return endMaps.getAfterMap();
+    }
 
+    public SimpleGameMap getBeforeAMap(){
+        if (FlatcraftGame.getCellFactory().equals(OverworldFactory.getInstance())) {
+            return overworldMaps.getBeforeAMap();
+        }
+        if (FlatcraftGame.getCellFactory().equals(NetherFactory.getInstance())){
+            return netherMaps.getBeforeAMap();
+        }
+        return endMaps.getBeforeAMap();
+    }
 
+    public SimpleGameMap getAfterAMap(){
+        if (FlatcraftGame.getCellFactory().equals(OverworldFactory.getInstance())) {
+            return overworldMaps.getAfterAMap();
+        }
+        if (FlatcraftGame.getCellFactory().equals(NetherFactory.getInstance())){
+            return netherMaps.getAfterAMap();
+        }
+        return endMaps.getAfterAMap();
     }
 
     public SimpleGameMap getBeforeMap(){

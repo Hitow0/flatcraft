@@ -407,6 +407,15 @@ public final class FlatcraftGame {
         if((cell.getColumn()-1 >= 0)) {
             cellToTravel = map.getAt(cell.getRow(), cell.getColumn() - 1);
         }else{
+            if(genMapStrat.getBeforeAMap() == null){
+                nextMap(0);
+                IGenMapStrat mapStrat = this.genMapStrat;
+                DecoSlagHeap slagHeap=new DecoSlagHeap(mapStrat);
+                DecoTree tree=new DecoTree(mapStrat);
+                slagHeap.genSlagHeap(cellFactory);
+                tree.genTree(cellFactory);
+                nextMap(1);
+            }
             map = genMapStrat.getBeforeMap();
             if(map.getAt(player.getY()/16, 79).getResource() == null) {
                 tpMap(0);
@@ -433,6 +442,15 @@ public final class FlatcraftGame {
         if(cell.getColumn()+1 < map.getWidth()) {
             cellToTravel = map.getAt(cell.getRow(), cell.getColumn() + 1);
         }else {
+            if(genMapStrat.getAfterAMap() == null){
+                nextMap(1);
+                IGenMapStrat mapStrat = this.genMapStrat;
+                DecoSlagHeap slagHeap=new DecoSlagHeap(mapStrat);
+                DecoTree tree=new DecoTree(mapStrat);
+                slagHeap.genSlagHeap(cellFactory);
+                tree.genTree(cellFactory);
+                nextMap(0);
+            }
             map = genMapStrat.getAfterMap();
             if (map.getAt(player.getY() / 16, 0).getResource() == null){
                 tpMap(1);

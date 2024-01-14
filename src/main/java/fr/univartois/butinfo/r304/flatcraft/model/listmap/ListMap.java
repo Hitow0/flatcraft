@@ -2,6 +2,8 @@ package fr.univartois.butinfo.r304.flatcraft.model.listmap;
 
 import fr.univartois.butinfo.r304.flatcraft.model.map.SimpleGameMap;
 import fr.univartois.butinfo.r304.flatcraft.model.map.createmap.IGenMapStrat;
+import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoSlagHeap;
+import fr.univartois.butinfo.r304.flatcraft.model.map.decorator.DecoTree;
 
 public class ListMap {
     protected static class AMap{
@@ -17,7 +19,6 @@ public class ListMap {
             before=null;
             after=null;
             this.map=map;
-
         }
 
         protected SimpleGameMap getMap(){
@@ -64,6 +65,21 @@ public class ListMap {
             actualMap= new AMap(genMapStrat.genMap());
         return actualMap.getMap();
 
+    }
+
+    public SimpleGameMap getBeforeAMap(){
+        System.out.println(actualMap.before);
+        if(actualMap.before != null){
+            return actualMap.before.getMap();
+        }
+        return null;
+    }
+
+    public SimpleGameMap getAfterAMap(){
+        if(actualMap.after != null) {
+            return actualMap.after.getMap();
+        }
+        return null;
     }
 
     public SimpleGameMap getBeforeMap(){

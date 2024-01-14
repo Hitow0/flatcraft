@@ -13,4 +13,6 @@ public interface IGenMapStrat {
     public SimpleGameMap getBeforeMap();
     public void mapMoveLeft();
     public void mapMoveRight();
+    public SimpleGameMap getAfterAMap();
+    public SimpleGameMap getBeforeAMap();
 }
