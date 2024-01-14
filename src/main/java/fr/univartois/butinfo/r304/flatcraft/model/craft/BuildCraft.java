@@ -1,6 +1,7 @@
 package fr.univartois.butinfo.r304.flatcraft.model.craft;
 
 import fr.univartois.butinfo.r304.flatcraft.model.resources.Resource;
+import fr.univartois.butinfo.r304.flatcraft.model.resources.ToolType;
 import fr.univartois.butinfo.r304.flatcraft.view.SpriteStore;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class BuildCraft implements  ICraftBuilder{
 
     @Override
     public void buildProduit(String product, int quantity) {
-        this.produit = new Resource(product, SpriteStore.getInstance().getSprite(product), null, 0);
+        this.produit = new Resource(product, SpriteStore.getInstance().getSprite(product), ToolType.NO_TOOL, 4);
         this.quantity=quantity;
     }
 

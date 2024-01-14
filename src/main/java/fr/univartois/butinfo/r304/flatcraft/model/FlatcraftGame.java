@@ -694,7 +694,6 @@ public final class FlatcraftGame {
             if (!player.getInventaire().containsKey(inHand)) {
                 switchResource();
             }
-            System.out.println(player.getInventaire());
         }
     }
 
