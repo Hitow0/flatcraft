@@ -208,7 +208,8 @@ public final class FlatcraftController implements IFlatcraftController {
             if (code.isArrowKey()
             ||D.equals(code)
             ||S.equals(code)
-            ||X.equals(code)) {
+            ||X.equals(code)
+            ||SPACE.equals(code)){
                 pressKey(code);
             }
         });

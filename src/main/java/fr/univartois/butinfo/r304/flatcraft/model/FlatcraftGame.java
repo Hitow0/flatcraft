@@ -19,6 +19,9 @@ package fr.univartois.butinfo.r304.flatcraft.model;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import fr.univartois.butinfo.r304.flatcraft.model.craft.Cook;
 import fr.univartois.butinfo.r304.flatcraft.model.craft.Craft;
@@ -472,11 +475,20 @@ public final class FlatcraftGame {
      * Fait sauter le joueur.
      */
     public void jump() {
-        // Vérifier si le joueur est au sol (sur une cellule sans objet en dessous).
-        if (player.getVerticalSpeed()!=0)
-            player.setVerticalSpeed(0);
-        else
-            player.setVerticalSpeed(-4 * spriteStore.getSpriteSize());
+        if(player.getVerticalSpeed() == 0) {
+            // Définir la verticalSpeed pour le saut.
+            player.setVerticalSpeed(-5.18225 * spriteStore.getSpriteSize());
+            ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+            System.out.println(getCellAt(player.getX()+ 16, player.getY()).getResource());
+
+            // Programmer l'arrêt du saut après 1 seconde.
+            scheduler.schedule(() -> {
+                // Remettre la verticalSpeed à 0 après 1 seconde.
+                if (getCellAt(player.getX() + (16*lastDirection), player.getY() + (16*lastDirection)).getResource() == null)
+                    move(player);
+                player.setVerticalSpeed(0);
+            }, 200, TimeUnit.MILLISECONDS);
+        }
     }
 
     /**
