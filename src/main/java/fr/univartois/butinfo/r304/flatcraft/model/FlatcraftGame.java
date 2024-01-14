@@ -479,12 +479,11 @@ public final class FlatcraftGame {
             // Définir la verticalSpeed pour le saut.
             player.setVerticalSpeed(-5.18225 * spriteStore.getSpriteSize());
             ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-            System.out.println(getCellAt(player.getX()+ 16, player.getY()).getResource());
 
             // Programmer l'arrêt du saut après 1 seconde.
             scheduler.schedule(() -> {
                 // Remettre la verticalSpeed à 0 après 1 seconde.
-                if (getCellAt(player.getX() + (16*lastDirection), player.getY() + (16*lastDirection)).getResource() == null)
+                if (lastDirection == 1 && player.getX()+(16*lastDirection) <= 80*spriteStore.getSpriteSize() || lastDirection == -1 || player.getX()+(16*lastDirection) > 0 && getCellAt(player.getX() + (16*lastDirection), player.getY() + (16*lastDirection)).getResource() == null)
                     move(player);
                 player.setVerticalSpeed(0);
             }, 200, TimeUnit.MILLISECONDS);
